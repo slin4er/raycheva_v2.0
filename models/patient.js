@@ -21,6 +21,12 @@ const patientSchema = new mongoose.Schema({
     }
 })
 
+patientSchema.methods.toJSON = function() {
+    const obj = this.toObject()
+    delete obj.password
+    return obj
+}
+
 const Patient = mongoose.model('patient', patientSchema)
 
 module.exports = Patient

@@ -1,5 +1,6 @@
 const Patient = require('../models/patient')
 
+//CRUD FOR PATIENTS
 const createPatient = async (req, res) => {
     const patient = await Patient.create(req.body)
     res.status(201).json({patient})

@@ -8,12 +8,14 @@ const errorHandler = require('./middlewares/error-handler')
 const wrongRoute = require('./middlewares/wrongRoute')
 const connectDB = require('./db/connect')
 const patientRoute = require('./routes/patient')
+const adminRoute = require('./routes/admin')
 
 //Middlewares
 app.use(express.json())
 
 //Routes
 app.use('/api/v1', patientRoute)
+app.use('/api/v1/admin', adminRoute)
 
 //Error-handler and not existing routes
 app.use(errorHandler)
