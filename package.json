@@ -1,11 +1,39 @@
 {
-  "name": "raycheva_v_2.0",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon app.js"
+  "name": "raycheva.v.2.0",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@hookform/resolvers": "^2.9.5",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.43",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@types/react-input-mask": "^3.0.1",
+    "@types/styled-components": "^5.1.25",
+    "axios": "^0.27.2",
+    "bulma": "^0.9.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.33.1",
+    "react-input-mask": "^2.0.4",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "styled-components": "^5.3.5",
+    "typescript": "^4.7.4",
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11",
+    "yup-phone": "^1.3.2"
   },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+<<<<<<< HEAD
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,8 +45,24 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.5",
     "nodemailer": "^6.8.0"
+=======
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+>>>>>>> 3b948b1dfc372b621872e40b2d98554cf42ece11
   },
-  "devDependencies": {
-    "nodemon": "^2.0.20"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
