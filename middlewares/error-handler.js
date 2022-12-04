@@ -6,6 +6,7 @@ const errorHandler = (err, req, res, next) => {
     if(err.message === 'Token must be provided') {res.status(401).json({message: err.message})}
     if(err.message === 'Wrong password or login') {res.status(401).json({message: err.message})}
     if(err.message === 'Unauthorized!') {res.status(401).json({message: err.message})}
+    if(err.message === 'Email was not sent') {res.status(400).json({message: err.message})}
     next(err)
 }
 
