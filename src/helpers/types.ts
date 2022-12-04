@@ -1,26 +1,25 @@
 export interface IColumn {
-    classes: string;
-    date: string;
-    value: number;
+	classes: string
+	date: string
+	value: number
 }
 
 export interface ICalendarRows {
-    [id: number]: IColumn[]
+	[id: number]: IColumn[]
 }
 
 export interface IFormInputs {
-	name: string,
-	surname: string,
-    phone: string,
-	email: string,
-    time: string,
+	name: string
+	phone: string
+	email: string
+	appointment: string
 	checkbox?: boolean
 }
 
 export interface IFormRegistrationProps {
-    date?: string
+	date?: string
 }
 
 export interface IDatePickerProps {
-    dateClickHandler: (date: string) => void
+	dateClickHandler: (date: string) => void
 }

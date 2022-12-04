@@ -1,13 +1,13 @@
 .table {
-    margin: 0 auto 20px;
+	margin: 0 auto 20px;
 }
 
 .today {
-    background-color: #009e6c;
-    color: #fff;
+	background-color: #009e6c;
+	color: #fff;
 }
 
 .in-prev-month,
 .in-next-month {
-    opacity: 0.5;
+	opacity: 0.5;
 }

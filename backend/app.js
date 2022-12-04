@@ -9,8 +9,10 @@ const wrongRoute = require('./middlewares/wrongRoute')
 const connectDB = require('./db/connect')
 const patientRoute = require('./routes/patient')
 const adminRoute = require('./routes/admin')
+const cors = require('cors')
 
 //Middlewares
+app.use(cors())
 app.use(express.json())
 
 //Routes
@@ -23,14 +25,14 @@ app.use(wrongRoute)
 
 //Server
 const start = async () => {
-   try {
-       await connectDB(process.env.MONGODB_URI)
-       app.listen(port, () => {
-           console.log(`Application is running on port ${port}`)
-       })
-   } catch (err) {
-       console.log('Server is not running', err.message)
-   }
+	try {
+		await connectDB(process.env.MONGODB_URI)
+		app.listen(port, () => {
+			console.log(`Application is running on port ${port}`)
+		})
+	} catch (err) {
+		console.log('Server is not running', err.message)
+	}
 }
 
 start().then()

@@ -6,88 +6,99 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IFormInputs, IFormRegistrationProps } from '../helpers/types'
 import styled from 'styled-components'
-import axios from "axios";
+import axios from 'axios'
 
 import InputMask from 'react-input-mask'
 
-export const FormRegistration: FC<IFormRegistrationProps> = ({date}) => {
-    const redirect = useNavigate()
-    const redirectOnLayout = () => redirect('/')
-	
-	console.log('Form',date)
+export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
+	const redirect = useNavigate()
+	const redirectOnLayout = () => redirect('/')
+
+	console.log('Form', date)
 
 	const [postFormData, setPostFormData] = useState<boolean>(false)
 	const [succesMessage, showSuccesMessage] = useState<boolean>(false)
 	const [formData, setFormData] = useState({})
 
-    const formShema = Yup.object().shape({
-		name: Yup.string().required('Введите имя'),
-		surname: Yup.string().required('Введите Фамилию'),
+	const formShema = Yup.object().shape({
+		name: Yup.string().required('Введите имя и фамилию'),
 		// phone: Yup.string().phone('MD', true, 'no MOLDOVA tel').required(),
-		phone: Yup.number().required('TELEFONE'),
-		time: Yup.string().required('Введите время'),
-		checkbox: Yup.bool().oneOf([true], 'Вы не согласились!')
+		phone: Yup.string().required('TELEFONE'),
+		email: Yup.string().required('Почта'),
+		appointment: Yup.string(),
+		checkbox: Yup.bool().oneOf([true], 'Вы не согласились!'),
 	})
 
-    const { register, handleSubmit, formState: { errors }, control, reset } = useForm<IFormInputs>({resolver: yupResolver(formShema)})
-    
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		control,
+		reset,
+	} = useForm<IFormInputs>({ resolver: yupResolver(formShema) })
+
 	useEffect(() => {
 		if (postFormData) {
 			const fetchData = async () => {
-				const result = await axios.post('http://localhost:3000/patients/patient/add', formData)
+				const result = await axios.post(
+					'http://localhost:3000/api/v1/',
+					formData
+				)
 				return result
 			}
 			fetchData()
-				.then((res) => {
+				.then(res => {
 					console.log(res.data)
 					console.log(`uspex`)
 					showSuccesMessage(true)
 					// redirect('/')
 				})
-				.catch((err) => console.log('error'))
+				.catch(err => console.log(err.message))
 		}
 	}, [formData, postFormData])
 
-
-    const handlerSubmitDataForm: SubmitHandler<IFormInputs> = (data) => {
+	const handlerSubmitDataForm: SubmitHandler<IFormInputs> = data => {
 		const fullData = {
-			firstName: data.name,
-			lastName: data.surname,
+			name: data.name,
 			phone: data.phone,
-			date,
-			time: data.time
+			email: data.email,
+			appointment: date,
 		}
 		console.log(fullData)
 		setFormData(fullData)
 		setPostFormData(true)
-        // reset()
-    }
+		// reset()
+	}
 
-    return (
-        <Container>
-            <Title>Form Registration</Title>
+	return (
+		<Container>
+			<Title>Form Registration</Title>
 
-            <Form onSubmit={handleSubmit(handlerSubmitDataForm)}>
-                {
-					succesMessage ? <SuccessRegistration>Вы зарегались! всё збс))))))))</SuccessRegistration> : null
-				}
+			<Form onSubmit={handleSubmit(handlerSubmitDataForm)}>
+				{succesMessage ? (
+					<SuccessRegistration>
+						Вы зарегались! всё збс))))))))
+					</SuccessRegistration>
+				) : null}
 
-                <Label>
-					Имя:
-					<Input type={"text"} placeholder={"Ваше Имя"} {...register("name")} />
+				<Label>
+					Имя и Фамилия:
+					<Input
+						type={'text'}
+						placeholder={'Ваше Имя и Фамилия'}
+						{...register('name')}
+					/>
 				</Label>
 				<Error>{errors.name?.message}</Error>
 
-                <Label>
-					Фамилия:
-					<Input type={"text"} placeholder={"Ваша Фамилия"} {...register("surname")} />
-				</Label>
-				<Error>{errors.surname?.message}</Error>
-
-                <Label>
+				<Label>
 					Телефон:
-					<Input type={"string"} placeholder={"Telefon"} {...register("phone")} />
-                    {/* <InputMask
+					<Input
+						type={'string'}
+						placeholder={'Ваш телефон'}
+						{...register('phone')}
+					/>
+					{/* <InputMask
                         mask="(999)99-999"
                         value={tel} 
                         alwaysShowMask
@@ -95,29 +106,42 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({date}) => {
                         >
                         {() => <Input type={"string"} placeholder={"Ваш Телефон"} {...register("phone")} />}
                     </InputMask> */}
-                    
 				</Label>
-                <Error>{errors.phone?.message}</Error>
+				<Error>{errors.phone?.message}</Error>
+
+				<Label>
+					Почта:
+					<Input
+						type={'string'}
+						placeholder={'Ваша почта'}
+						{...register('email')}
+					/>
+				</Label>
+				<Error>{errors.email?.message}</Error>
 
 				<Label>
 					Время:
-					<Input type={"string"} placeholder={"Время записи"} {...register("time")} />
+					<Input
+						type={'string'}
+						placeholder={'Время записи'}
+						{...register('appointment')}
+					/>
 				</Label>
-				<Error>{errors.time?.message}</Error>
+				<Error>{errors.appointment?.message}</Error>
 
-                <CheckboxContainer>
-                    Я согласен(а) с политикой конфиденциальности
-                    <Checkbox {...register("checkbox")} type="checkbox" />
-                    <CheckMark></CheckMark>
-                    <CheckErrorMessage>{errors.checkbox?.message}</CheckErrorMessage>
-                </CheckboxContainer>
+				<CheckboxContainer>
+					Я согласен(а) с политикой конфиденциальности
+					<Checkbox {...register('checkbox')} type='checkbox' />
+					<CheckMark></CheckMark>
+					<CheckErrorMessage>{errors.checkbox?.message}</CheckErrorMessage>
+				</CheckboxContainer>
 
-                <ButtonSubmit type={"submit"}>Записаться на приём</ButtonSubmit>
-            </Form>
+				<ButtonSubmit type={'submit'}>Записаться на приём</ButtonSubmit>
+			</Form>
 
-            <ButtonBack onClick={redirectOnLayout}>Назад</ButtonBack>
-        </Container>
-    )
+			<ButtonBack onClick={redirectOnLayout}>Назад</ButtonBack>
+		</Container>
+	)
 }
 
 const Container = styled.div``
@@ -125,46 +149,44 @@ const Container = styled.div``
 const Title = styled.h1``
 
 const Form = styled.form`
-    display: grid;
+	display: grid;
 	grid-template-rows: 78px 13px 78px 13px 78px 13px 78px 13px 78px 13px 60px 60px 40px;
 	align-items: center;
 	border: none;
 	margin: 0;
-    padding: 0;
+	padding: 0;
 `
 
-const SuccessRegistration = styled.div`
-    
-`
+const SuccessRegistration = styled.div``
 const Label = styled.label`
-    font-weight: 500;
-    font-size: 14px;
-    color: #707070;
+	font-weight: 500;
+	font-size: 14px;
+	color: #707070;
 `
 const Error = styled.span`
 	font-weight: 500;
 	font-size: 13px;
-	color: #FF768E;
+	color: #ff768e;
 `
 const Input = styled.input`
 	margin-top: 5px;
-	background: #F6F6F6;
+	background: #f6f6f6;
 	border-radius: 4px;
 	width: 365px;
 	height: 40px;
 	box-sizing: border-box;
-    padding: 8px 12px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #303030;
+	padding: 8px 12px;
+	font-weight: 500;
+	font-size: 14px;
+	color: #303030;
 `
 
 const Checkbox = styled.input`
 	position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
 `
 const CheckMark = styled.span`
 	position: absolute;
@@ -173,10 +195,10 @@ const CheckMark = styled.span`
 	height: 12px;
 	width: 12px;
 	background-color: #fff;
-	border: solid 2px #9C9C9C;
+	border: solid 2px #9c9c9c;
 	border-radius: 3px;
 	:after {
-		content: "";
+		content: '';
 		position: absolute;
 	}
 `
@@ -197,13 +219,13 @@ const CheckboxContainer = styled.label`
 		border: solid 2px #002569;
 	}
 	${Checkbox}:disabled ~ ${CheckMark} {
-		background-color: #F6F6F6;
-		border: solid 2px #D1D1D1;
-   	}
+		background-color: #f6f6f6;
+		border: solid 2px #d1d1d1;
+	}
 	${Checkbox}:disabled:checked ~ ${Checkbox} {
-    	background-color: #D1D1D1;
-    	border: solid 2px #D1D1D1;
-   	}
+		background-color: #d1d1d1;
+		border: solid 2px #d1d1d1;
+	}
 	:hover ${Checkbox} ~ ${CheckMark} {
 		border: solid 2px #002569;
 	}
@@ -225,9 +247,8 @@ const CheckErrorMessage = styled.span`
 	left: 0px;
 	font-weight: 500;
 	font-size: 12px;
-	color: #FF768E;
+	color: #ff768e;
 `
-
 
 const ButtonSubmit = styled.button``
 
