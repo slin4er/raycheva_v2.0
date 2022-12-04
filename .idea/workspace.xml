@@ -5,47 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Calendar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/DatePicker.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Footer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/FormRegistration.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/NotFound.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Preview.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/configs/DaysShortNames.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/configs/MonthNames.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/helpers/types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/useCalendar.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/raycheva_v_2.0.iml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/raycheva_v_2.0.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/patient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/connect.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/db/connect.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/emails/email.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/emails/email.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middlewares/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlewares/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middlewares/error-handler.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlewares/error-handler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middlewares/wrongRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlewares/wrongRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/patient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/patient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/patient.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +39,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "16.16.0",
     "javascript.nodejs.core.library.typings.version": "16.18.4",
-    "last_opened_file_path": "D:/programing/football_app",
+    "last_opened_file_path": "D:/programing/raycheva_v_2.0",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -103,12 +64,16 @@
       <updated>1670113254375</updated>
       <workItem from="1670113255486" duration="4407000" />
       <workItem from="1670154293676" duration="9118000" />
-      <workItem from="1670165942990" duration="147000" />
+      <workItem from="1670165942990" duration="1130000" />
+      <workItem from="1670197896904" duration="89000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
