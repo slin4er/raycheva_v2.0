@@ -41,10 +41,27 @@ const deletePatient = async (req, res) => {
     res.status(200).json('Deleted')
 }
 
+//DATES
+
+const checkDate = async (req, res) => {
+    const timeAvailable = ['09:00', '09:30', '10:00', '10:30','11:00', '11:30', '12:00', '12:30','13:00', '13:30', '14:00', '14:30','15:00', '15:30', '16:00', '16:30','17:00']
+    const {date} = req.query
+    if(!date) {throw new Error('Date must be provided as a query')}
+    const patients = await Patient.find({appointment: date.toLocaleString()})
+    if(!patients.length) {res.status(200).send('Empty')} else {
+        if(patients.length === timeAvailable.length) {res.status(200).json('Full')} else {
+            const busyTime = patients.map((patient) => patient.time)
+            const result = timeAvailable.filter((time) => !busyTime.includes(time))
+            res.status(200).json({freeHours: result})
+        }
+    }
+}
+
 module.exports = {
     createPatient,
     getPatient,
     getPatients,
     updatePatient,
-    deletePatient
+    deletePatient,
+    checkDate
 }

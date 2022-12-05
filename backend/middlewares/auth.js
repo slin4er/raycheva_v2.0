@@ -12,7 +12,7 @@ const verifyToken = async (req, res, next) => {
         if(admin.token !== token) {throw new Error('Unauthorized!')}
         req.token = token
         req.admin = admin
-        return next()
+        next()
     } catch (err) {
         res.status(401).json({message:'Unauthorized!'})
     }
