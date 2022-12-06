@@ -11,9 +11,19 @@ export interface ICalendarRows {
 export interface IFormInputs {
 	name: string
 	phone: string
-	email: string
+	email?: string
 	appointment: string
+	time: string
 	checkbox?: boolean
+}
+
+export interface IResData {
+	name: string
+	phone: string
+	email?: string
+	appointment: string
+	time: string
+	_id: string
 }
 
 export interface IFormRegistrationProps {

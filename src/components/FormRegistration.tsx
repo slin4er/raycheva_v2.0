@@ -4,7 +4,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 // import "yup-phone";
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IFormInputs, IFormRegistrationProps } from '../helpers/types'
+import { IFormInputs, IFormRegistrationProps, IResData } from '../helpers/types'
 import styled from 'styled-components'
 import axios from 'axios'
 
@@ -18,14 +18,16 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 
 	const [postFormData, setPostFormData] = useState<boolean>(false)
 	const [succesMessage, showSuccesMessage] = useState<boolean>(false)
+	const [noteAboutEmail, askNoteAboutEmail] = useState<boolean>(true)
 	const [formData, setFormData] = useState({})
+	const [resData, setResData] = useState<IResData>()
 
 	const formShema = Yup.object().shape({
 		name: Yup.string().required('Введите имя и фамилию'),
 		// phone: Yup.string().phone('MD', true, 'no MOLDOVA tel').required(),
 		phone: Yup.string().required('TELEFONE'),
-		email: Yup.string().required('Почта'),
-		appointment: Yup.string(),
+		email: Yup.string(),
+		time: Yup.string().required('WREMA'),
 		checkbox: Yup.bool().oneOf([true], 'Вы не согласились!'),
 	})
 
@@ -36,6 +38,9 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 		control,
 		reset,
 	} = useForm<IFormInputs>({ resolver: yupResolver(formShema) })
+
+	// нажал на дату и сделать запрос http://localhost:3000/api/v1/date/available
+	// придет массив свободный часов, если забит то full
 
 	useEffect(() => {
 		if (postFormData) {
@@ -49,6 +54,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 			fetchData()
 				.then(res => {
 					console.log(res.data)
+					setResData(res.data.patient)
 					console.log(`uspex`)
 					showSuccesMessage(true)
 					// redirect('/')
@@ -63,6 +69,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 			phone: data.phone,
 			email: data.email,
 			appointment: date,
+			time: data.time,
 		}
 		console.log(fullData)
 		setFormData(fullData)
@@ -74,13 +81,29 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 		<Container>
 			<Title>Form Registration</Title>
 
-			<Form onSubmit={handleSubmit(handlerSubmitDataForm)}>
-				{succesMessage ? (
-					<SuccessRegistration>
-						Вы зарегались! всё збс))))))))
-					</SuccessRegistration>
-				) : null}
+			{succesMessage ? (
+				<SuccessRegistration>
+					<h2>Запись прошла успешно!</h2>
+					<div>Ваша запись была оформлена на {resData?.appointment} число!</div>
+					<div>При себе обязательно иметь:</div>
+					<ol>
+						<li>Пеленку</li>
+						<li>Перчатки</li>
+					</ol>
+				</SuccessRegistration>
+			) : null}
 
+			{noteAboutEmail ? (
+				<EmailNote>
+					<h2>
+						Запись на прием придет на указанный вами почтовый адрес (если
+						имеется)
+					</h2>
+					<button onClick={() => askNoteAboutEmail(false)}>X</button>
+				</EmailNote>
+			) : null}
+
+			<Form onSubmit={handleSubmit(handlerSubmitDataForm)}>
 				<Label>
 					Имя и Фамилия:
 					<Input
@@ -110,7 +133,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 				<Error>{errors.phone?.message}</Error>
 
 				<Label>
-					Почта:
+					Почта (рекомендуется):
 					<Input
 						type={'string'}
 						placeholder={'Ваша почта'}
@@ -124,10 +147,10 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 					<Input
 						type={'string'}
 						placeholder={'Время записи'}
-						{...register('appointment')}
+						{...register('time')}
 					/>
 				</Label>
-				<Error>{errors.appointment?.message}</Error>
+				<Error>{errors.time?.message}</Error>
 
 				<CheckboxContainer>
 					Я согласен(а) с политикой конфиденциальности
@@ -157,7 +180,12 @@ const Form = styled.form`
 	padding: 0;
 `
 
-const SuccessRegistration = styled.div``
+const SuccessRegistration = styled.div`
+	margin: 50px;
+`
+const EmailNote = styled.div`
+	margin: 50px;
+`
 const Label = styled.label`
 	font-weight: 500;
 	font-size: 14px;
