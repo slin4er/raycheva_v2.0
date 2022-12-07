@@ -33,3 +33,12 @@ export interface IFormRegistrationProps {
 export interface IDatePickerProps {
 	dateClickHandler: (date: string) => void
 }
+
+export interface ISelectProps {
+	times?: string[]
+}
+
+export type IOptions = {
+	value: string
+	label: string
+}

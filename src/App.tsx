@@ -9,7 +9,6 @@ export const App: FC = () => {
 	const [datePick, setDatePick] = useState<string>()
 
 	const dateClickHandler = (date: string) => {
-		console.log('App', date)
 		setDatePick(date)
 		redirect('/registration')
 	}
