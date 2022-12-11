@@ -4,10 +4,15 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import * as Yup from 'yup'
 // import "yup-phone";
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IFormInputs, IFormRegistrationProps, IResData } from '../helpers/types'
+import {
+	IFormInputs,
+	IFormRegistrationProps,
+	IResData,
+	IOptions,
+} from '../helpers/types'
 import styled from 'styled-components'
 import axios from 'axios'
-import { SelectTime } from '../ui/Select'
+import { Select } from '../ui/Select'
 
 import InputMask from 'react-input-mask'
 
@@ -17,20 +22,20 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 
 	// console.log('Form', date)
 
-	const [arrayTimes, getArrayTimes] = useState<string[]>()
 	const [selectDate, postSelectDate] = useState<string | undefined>(date)
 	const [postFormData, setPostFormData] = useState<boolean>(false)
 	const [succesMessage, showSuccesMessage] = useState<boolean>(false)
 	const [noteAboutEmail, askNoteAboutEmail] = useState<boolean>(true)
 	const [formData, setFormData] = useState({})
 	const [resData, setResData] = useState<IResData>()
+	const [optionsSelect, setOptionsSelect] = useState<any>()
 
 	const formShema = Yup.object().shape({
 		name: Yup.string().required('Введите имя и фамилию'),
 		// phone: Yup.string().phone('MD', true, 'no MOLDOVA tel').required(),
 		phone: Yup.string().required('TELEFONE'),
 		email: Yup.string(),
-		time: Yup.string().required('WREMA'),
+		time: Yup.string().required('Вы не выбрали время!'),
 		checkbox: Yup.bool().oneOf([true], 'Вы не согласились!'),
 	})
 
@@ -42,6 +47,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 		reset,
 	} = useForm<IFormInputs>({ resolver: yupResolver(formShema) })
 	console.log(selectDate)
+
 	// нажал на дату и сделать запрос http://localhost:3000/api/v1/date/available
 	// придет массив свободный часов, если забит то full
 	useEffect(() => {
@@ -53,9 +59,6 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 		}
 		fetchData()
 			.then(res => {
-				getArrayTimes(res.data)
-				console.log('FAndrew', res.data)
-				console.log('array', arrayTimes)
 				console.log(`Дату отправил и получил массив времени!`)
 			})
 			.catch(err => console.log(err.message))
@@ -163,16 +166,16 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 				<Error>{errors.email?.message}</Error>
 
 				<Label>
-					Время:
-					<Input
+					Время
+					<Select
+						// @ts-ignore
 						type={'string'}
-						placeholder={'Время записи'}
+						placeholder={'Время'}
 						{...register('time')}
 					/>
 				</Label>
-				<Error>{errors.time?.message}</Error>
 
-				<SelectTime times={arrayTimes} />
+				<Error>{errors.time?.message}</Error>
 
 				<CheckboxContainer>
 					Я согласен(а) с политикой конфиденциальности

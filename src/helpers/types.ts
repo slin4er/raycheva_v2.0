@@ -8,6 +8,10 @@ export interface ICalendarRows {
 	[id: number]: IColumn[]
 }
 
+interface ITime {
+	value: string
+	label: string
+}
 export interface IFormInputs {
 	name: string
 	phone: string
@@ -35,7 +39,7 @@ export interface IDatePickerProps {
 }
 
 export interface ISelectProps {
-	times?: string[]
+	options: any
 }
 
 export type IOptions = {

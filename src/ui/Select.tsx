@@ -1,37 +1,24 @@
-import { FC, SetStateAction, useState } from 'react'
-import Select from 'react-select'
-import { ISelectProps, IOptions } from '../helpers/types'
+import { FC, forwardRef } from 'react'
+import { UseFormRegister } from 'react-hook-form'
+import { IFormInputs } from '../helpers/types'
+import styled from 'styled-components'
 
-// const options = [
-// 	{ value: 'chocolate', label: 'Chocolate' },
-// 	{ value: 'strawberry', label: 'Strawberry' },
-// 	{ value: 'vanilla', label: 'Vanilla' },
-// ]
+//@ts-ignore
+export const Select: FC = forwardRef<
+	HTMLSelectElement,
+	{ label: string } & ReturnType<UseFormRegister<IFormInputs>>
+>(({ onChange, onBlur, name, label }, ref) => (
+	<>
+		<label>{label}</label>
+		<select name={name} ref={ref} onChange={onChange} onBlur={onBlur}>
+			<option value='20'>9:00</option>
+			<option value='30'>10:00</option>
+		</select>
+	</>
+))
 
-export const SelectTime: FC<ISelectProps> = ({ times }) => {
-	const options = times?.map(time => {
-		return {
-			value: time,
-			label: time,
-		}
-	})
-
-	const [currentTime, setCurrentTime] = useState()
-
-	const getValue = () =>
-		currentTime ? options?.find(t => t.value === currentTime) : ''
-	const onChange = (newValue: any) => {
-		setCurrentTime(newValue.value)
-	}
-
-	return (
-		<div>
-			<Select
-				options={options}
-				placeholder='Выберите время'
-				value={getValue()}
-				onChange={onChange}
-			/>
-		</div>
-	)
-}
+const Label = styled.label`
+	font-weight: 500;
+	font-size: 14px;
+	color: #707070;
+`
