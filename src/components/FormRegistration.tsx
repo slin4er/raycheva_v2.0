@@ -1,18 +1,13 @@
 import { FC, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
+import Creatable from 'react-select/creatable'
 import * as Yup from 'yup'
 // import "yup-phone";
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-	IFormInputs,
-	IFormRegistrationProps,
-	IResData,
-	IOptions,
-} from '../helpers/types'
+import { IFormInputs, IFormRegistrationProps, IResData } from '../helpers/types'
 import styled from 'styled-components'
 import axios from 'axios'
-import { Select } from '../ui/Select'
 
 import InputMask from 'react-input-mask'
 
@@ -20,22 +15,26 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 	const redirect = useNavigate()
 	const redirectOnLayout = () => redirect('/')
 
-	// console.log('Form', date)
-
 	const [selectDate, postSelectDate] = useState<string | undefined>(date)
 	const [postFormData, setPostFormData] = useState<boolean>(false)
 	const [succesMessage, showSuccesMessage] = useState<boolean>(false)
 	const [noteAboutEmail, askNoteAboutEmail] = useState<boolean>(true)
 	const [formData, setFormData] = useState({})
 	const [resData, setResData] = useState<IResData>()
-	const [optionsSelect, setOptionsSelect] = useState<any>()
+	const [optionsObj, setOptionsObj] = useState()
 
 	const formShema = Yup.object().shape({
 		name: Yup.string().required('Введите имя и фамилию'),
 		// phone: Yup.string().phone('MD', true, 'no MOLDOVA tel').required(),
 		phone: Yup.string().required('TELEFONE'),
 		email: Yup.string(),
-		time: Yup.string().required('Вы не выбрали время!'),
+		time: Yup.object()
+			.shape({
+				label: Yup.string().required('Вы не выбрали время!'),
+				value: Yup.string().required('Вы не выбрали время!'),
+			})
+			.nullable()
+			.required('Вы не выбрали время!'),
 		checkbox: Yup.bool().oneOf([true], 'Вы не согласились!'),
 	})
 
@@ -44,24 +43,30 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 		handleSubmit,
 		formState: { errors },
 		control,
-		reset,
 	} = useForm<IFormInputs>({ resolver: yupResolver(formShema) })
-	console.log(selectDate)
 
 	// нажал на дату и сделать запрос http://localhost:3000/api/v1/date/available
-	// придет массив свободный часов, если забит то full
+	// придет массив свободный часов
 	useEffect(() => {
-		const fetchData = async () => {
-			const result = await axios.get(
-				`http://localhost:3000/api/v1/date/available?date=${selectDate}`
-			)
-			return result
+		const getData = async () => {
+			//@ts-ignore
+			const arr = []
+			await axios
+				.get(`http://localhost:3000/api/v1/date/available?date=${selectDate}`)
+				.then(res => {
+					console.log(res.data)
+					let result = res.data.freeHours
+					result.map((time: string) => {
+						return arr.push({ value: time, label: time })
+					})
+
+					console.log(`Дату отправил и получил массив времени!`)
+					//@ts-ignore
+					setOptionsObj(arr)
+				})
+				.catch(err => console.log(err.message))
 		}
-		fetchData()
-			.then(res => {
-				console.log(`Дату отправил и получил массив времени!`)
-			})
-			.catch(err => console.log(err.message))
+		getData()
 	}, [selectDate])
 
 	// пост запрос с данными из формы
@@ -80,7 +85,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 					setResData(res.data.patient)
 					console.log(`Данные формы отправились!`)
 					showSuccesMessage(true)
-					// redirect('/')
+					redirect('/')
 				})
 				.catch(err => console.log(err.message))
 		}
@@ -92,12 +97,11 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 			phone: data.phone,
 			email: data.email,
 			appointment: date,
-			time: data.time,
+			time: data.time.value,
 		}
 		console.log(fullData)
 		setFormData(fullData)
 		setPostFormData(true)
-		// reset()
 	}
 
 	return (
@@ -167,15 +171,22 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 
 				<Label>
 					Время
-					<Select
-						// @ts-ignore
-						type={'string'}
-						placeholder={'Время'}
-						{...register('time')}
+					<Controller
+						name='time'
+						control={control}
+						render={({ field }) => {
+							return (
+								<Creatable
+									{...field}
+									options={optionsObj}
+									placeholder='Выберите время'
+									noOptionsMessage={() => 'Все часы заняты'}
+								/>
+							)
+						}}
 					/>
 				</Label>
-
-				<Error>{errors.time?.message}</Error>
+				<Error>{errors.time && <p>{errors.time.label?.message}</p>}</Error>
 
 				<CheckboxContainer>
 					Я согласен(а) с политикой конфиденциальности

@@ -86,10 +86,10 @@ const checkDate = async (req, res) => {
 	}
 	const patients = await Patient.find({ appointment: date })
 	if (!patients.length) {
-		res.status(200).send(timeAvailable)
+		res.status(200).json({ freeHours: timeAvailable })
 	} else {
 		if (patients.length === timeAvailable.length) {
-			res.status(200).json('Full')
+			res.status(200).json({ freeHours: [] })
 		} else {
 			const busyTime = patients.map(patient => patient.time)
 			const result = timeAvailable.filter(time => !busyTime.includes(time))

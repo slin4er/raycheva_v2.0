@@ -8,7 +8,7 @@ export interface ICalendarRows {
 	[id: number]: IColumn[]
 }
 
-interface ITime {
+export interface ITime {
 	value: string
 	label: string
 }
@@ -17,7 +17,7 @@ export interface IFormInputs {
 	phone: string
 	email?: string
 	appointment: string
-	time: string
+	time: ITime
 	checkbox?: boolean
 }
 
@@ -32,6 +32,7 @@ export interface IResData {
 
 export interface IFormRegistrationProps {
 	date?: string
+	successRegistration: (massage: boolean) => void
 }
 
 export interface IDatePickerProps {
@@ -42,7 +43,6 @@ export interface ISelectProps {
 	options: any
 }
 
-export type IOptions = {
-	value: string
-	label: string
+export interface IOptions {
+	freeHours: string[]
 }

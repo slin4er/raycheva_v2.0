@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react'
+import { FC } from 'react'
 import { IDatePickerProps } from '../helpers/types'
 import '../App.css'
 
@@ -6,7 +6,7 @@ import { Calendar } from './Calendar'
 
 export const DatePicker: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 	return (
-		<Fragment>
+		<>
 			<section className='hero is-primary'>
 				<div className='hero-body'>
 					<div className='container'>
@@ -17,6 +17,6 @@ export const DatePicker: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 			<div className='container has-text-centered'>
 				<Calendar dateClickHandler={dateClickHandler} />
 			</div>
-		</Fragment>
+		</>
 	)
 }

@@ -13,6 +13,8 @@ export const App: FC = () => {
 		redirect('/registration')
 	}
 
+	const successRegistration = (massage: boolean) => {}
+
 	return (
 		<Routes>
 			<Route
@@ -21,7 +23,12 @@ export const App: FC = () => {
 			/>
 			<Route
 				path='/registration'
-				element={<FormRegistration date={datePick} />}
+				element={
+					<FormRegistration
+						date={datePick}
+						successRegistration={successRegistration}
+					/>
+				}
 			/>
 			<Route path='*' element={<NotFound />} />
 		</Routes>
