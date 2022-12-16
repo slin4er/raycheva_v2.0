@@ -3,36 +3,33 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
 
-const createAdmin = async (req, res) => {
-    const {login, password} = req.body
-    if(login !== process.env.LOGIN || password !== process.env.PASSWORD) {throw new Error('You are not suppose to be here!')}
-    const hashedPassword = await bcrypt.hash(password,10)
-    const admin = await Admin.create({...req.body, password: hashedPassword})
-    const token = jwt.sign(
-        {id: admin._id},
-        process.env.TOKEN_KEY,
-        {expiresIn: '24h'}
-    )
-    admin.token = token
-    await admin.save()
-    res.status(201).json({token})
-}
-
 const loginAdmin = async (req, res) => {
     const {login, password} = req.body
     if(login !== process.env.LOGIN || password !== process.env.PASSWORD) {throw new Error('You are not suppose to be here!')}
 
-    const admin = await Admin.findOne({login})
-    if(!admin) {throw new Error('You are not suppose to be here!')}
-    if(!await bcrypt.compare(password, admin.password)) {throw new Error('Wrong password or login')}
-    const token = jwt.sign(
-        {id: admin._id},
-        process.env.TOKEN_KEY,
-        {expiresIn: '24h'}
-    )
-    admin.token = token
-    await admin.save()
-    res.status(200).json({token})
+    let admin = await Admin.findOne({login})
+    if(!admin) {
+        const hashedPassword = await bcrypt.hash(password,10)
+        admin = await Admin.create({...req.body, password: hashedPassword})
+        const token = jwt.sign(
+            {id: admin._id},
+            process.env.TOKEN_KEY,
+            {expiresIn: '24h'}
+        )
+        admin.token = token
+        await admin.save()
+        res.status(200).json({token})
+    } else {
+        if(!await bcrypt.compare(password, admin.password)) {throw new Error('Wrong password or login')}
+        const token = jwt.sign(
+            {id: admin._id},
+            process.env.TOKEN_KEY,
+            {expiresIn: '24h'}
+        )
+        admin.token = token
+        await admin.save()
+        res.status(200).json({token})
+    }
 }
 
 const logoutAdmin = async (req, res) => {
@@ -43,7 +40,6 @@ const logoutAdmin = async (req, res) => {
 }
 
 module.exports = {
-    createAdmin,
     loginAdmin,
     logoutAdmin
 }
