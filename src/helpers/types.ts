@@ -46,3 +46,17 @@ export interface ISelectProps {
 export interface IOptions {
 	freeHours: string[]
 }
+
+export type IItem = {
+	appointment: string
+	email?: string
+	name: string
+	phone: string
+	time: string
+	_id: string
+}
+
+export type IItemProp = IItem & {
+	editItem: (id: string) => void
+	deleteItem: (id: string) => void
+}
