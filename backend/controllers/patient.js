@@ -1,6 +1,8 @@
 const Patient = require('../models/patient')
 require('dotenv').config()
 const sendEmail = require('../emails/email')
+const nodeCache = require('node-cache')
+const myCache = new nodeCache()
 
 //CRUD FOR PATIENTS
 const createPatient = async (req, res) => {
@@ -29,6 +31,21 @@ const getPatient = async (req, res) => {
 		throw new Error('Not Found')
 	}
 	res.status(200).send({ patient })
+}
+
+const findPatientByName  = async (req, res) => {
+	const {name: patient_name} = req.query
+	const patientFromCache = myCache.get(patient_name)
+	if(!patientFromCache) {
+		const patient = await Patient.findOne({name: patient_name})
+		if(!patient) {throw new Error('Not Found!')}
+		myCache.set(patient_name, patient)
+		console.log('not From cache')
+		res.status(200).json({patient})
+	} else {
+		console.log('cached')
+		res.status(200).json({patient: patientFromCache})
+	}
 }
 
 const updatePatient = async (req, res) => {
@@ -105,4 +122,5 @@ module.exports = {
 	updatePatient,
 	deletePatient,
 	checkDate,
+	findPatientByName
 }
