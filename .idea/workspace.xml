@@ -7,6 +7,12 @@
     <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/controllers/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/patient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/patient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
+    <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="">
+      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,23 +38,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "javascript.nodejs.core.library.configured.version": "16.16.0",
-    "javascript.nodejs.core.library.typings.version": "16.18.4",
-    "last_opened_file_path": "D:/programing/raycheva_v_2.0",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;16.16.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;16.18.4&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/programing/raycheva_v_2.0&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\programing\\raycheva_v_2.0\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\programing\raycheva_v_2.0\backend" />
@@ -65,7 +72,26 @@
       <workItem from="1670113255486" duration="4407000" />
       <workItem from="1670154293676" duration="9118000" />
       <workItem from="1670165942990" duration="1130000" />
-      <workItem from="1670197896904" duration="89000" />
+      <workItem from="1670197896904" duration="685000" />
+      <workItem from="1670199543211" duration="7000" />
+      <workItem from="1670232085676" duration="8000" />
+      <workItem from="1670232179593" duration="1120000" />
+      <workItem from="1670240121860" duration="32000" />
+      <workItem from="1670242116214" duration="2965000" />
+      <workItem from="1670257286722" duration="594000" />
+      <workItem from="1670264098871" duration="5000" />
+      <workItem from="1670331789110" duration="863000" />
+      <workItem from="1670354467750" duration="612000" />
+      <workItem from="1670360993371" duration="1055000" />
+      <workItem from="1670367292476" duration="5000" />
+      <workItem from="1670428005351" duration="912000" />
+      <workItem from="1670430422997" duration="77000" />
+      <workItem from="1670438884700" duration="759000" />
+      <workItem from="1670439658289" duration="5000" />
+      <workItem from="1670462589586" duration="18000" />
+      <workItem from="1670940491423" duration="661000" />
+      <workItem from="1671027465656" duration="21000" />
+      <workItem from="1671203411074" duration="2090000" />
     </task>
     <servers />
   </component>

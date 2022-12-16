@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import { FormRegistration } from './components/FormRegistration'
 import { Layout } from './components/Layout'
 import { NotFound } from './components/NotFound'
+import {AdminPanel} from "./components/AdminPanel";
 
 export const App: FC = () => {
 	const redirect = useNavigate()
@@ -30,6 +31,7 @@ export const App: FC = () => {
 					/>
 				}
 			/>
+			<Route path='/admin' element={<AdminPanel />} />
 			<Route path='*' element={<NotFound />} />
 		</Routes>
 	)
