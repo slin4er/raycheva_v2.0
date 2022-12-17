@@ -1,26 +1,23 @@
 import { FC } from 'react'
-import { IItemProp } from '../../helpers/types'
+import { IItemProps } from '../../helpers/types'
 import styled from 'styled-components'
 
-export const ItemList: FC<IItemProp> = ({
+export const ItemList: FC<IItemProps> = ({
 	appointment,
 	email,
 	name,
 	phone,
 	time,
 	_id,
-	editItem,
-	deleteItem,
+	handleDetail,
 }) => {
 	return (
-		<Patients>
+		<Patients onClick={() => handleDetail(_id)}>
 			<div>{name}</div>
 			<div>{phone}</div>
 			<div>{email}</div>
 			<div>{appointment}</div>
 			<div>{time}</div>
-			<button onClick={() => editItem(_id)}>редактировать</button>
-			<button onClick={() => deleteItem(_id)}>удалить</button>
 		</Patients>
 	)
 }

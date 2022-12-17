@@ -56,7 +56,12 @@ export type IItem = {
 	_id: string
 }
 
-export type IItemProp = IItem & {
-	editItem: (id: string) => void
-	deleteItem: (id: string) => void
+export type IItemProps = {
+	appointment: string
+	email?: string
+	name: string
+	phone: string
+	time: string
+	_id: string
+	handleDetail: (id: string) => void
 }

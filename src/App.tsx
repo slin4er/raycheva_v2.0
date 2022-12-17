@@ -4,6 +4,7 @@ import { FormRegistration } from './components/FormRegistration'
 import { Layout } from './components/Layout'
 import { NotFound } from './components/NotFound'
 import { AdminPanel } from './components/Admin/AdminPanel'
+import { ItemDetails } from './components/Admin/ItemDetails'
 import { SingIn } from './components/Admin/SingIn'
 
 export const App: FC = () => {
@@ -19,10 +20,11 @@ export const App: FC = () => {
 
 	return (
 		<Routes>
-			<Route
-				path='/'
-				element={<Layout dateClickHandler={dateClickHandler} />}
-			/>
+			<Route path='/' element={<Layout dateClickHandler={dateClickHandler} />}>
+				<Route path='/admin' element={<AdminPanel />}>
+					<Route path='admin/:_id' element={<ItemDetails />} />
+				</Route>
+			</Route>
 			<Route
 				path='/registration'
 				element={
@@ -32,7 +34,7 @@ export const App: FC = () => {
 					/>
 				}
 			/>
-			<Route path='/admin' element={<AdminPanel />} />
+
 			<Route path='/login' element={<SingIn />} />
 			<Route path='*' element={<NotFound />} />
 		</Routes>
