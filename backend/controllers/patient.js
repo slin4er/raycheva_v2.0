@@ -2,6 +2,7 @@ const Patient = require('../models/patient')
 require('dotenv').config()
 const sendEmail = require('../emails/email')
 const nodeCache = require('node-cache')
+const {PassThrough} = require("stream");
 const myCache = new nodeCache()
 
 //CRUD FOR PATIENTS
@@ -52,6 +53,11 @@ const findPatientByName = async (req, res) => {
 
 const updatePatient = async (req, res) => {
 	const { id: patient_id } = req.params
+	const {appointment, time} = req.body
+	const patientExists = await Patient.findOne({appointment, time})
+	if(patientExists) {
+		throw new Error('Already exists')
+	}
 	const patient = await Patient.findByIdAndUpdate(patient_id, req.body, {
 		new: true,
 	})
@@ -74,6 +80,25 @@ const deletePatient = async (req, res) => {
 		throw new Error('Not Found')
 	}
 	res.status(200).json('Deleted')
+}
+
+const deleteOldPatients = async (req, res) => {
+	const today = Date.now()
+	const patients = await Patient.find()
+	if(!patients) {throw new Error('Have not been created yet')}
+	const patientsToDelete = patients.filter((patient) => {
+		const day = patient.appointment.split('-')[0]
+		const month = patient.appointment.split('-')[1]
+		const year = patient.appointment.split('-')[2]
+		console.log(new Date(`${month}/${day}/${year} ${patient.time}:00`))
+		return (new Date(`${month}/${day}/${year} ${patient.time}:00`)).getTime() < today
+	})
+	console.log(patientsToDelete)
+	if(patientsToDelete === []) {throw new Error('No patients to delete')}
+	patientsToDelete.map(async (patient) => {
+		await Patient.deleteOne(patient)
+	})
+	res.status(200).json('OK')
 }
 
 //DATES
@@ -125,4 +150,5 @@ module.exports = {
 	deletePatient,
 	checkDate,
 	findPatientByName,
+	deleteOldPatients
 }
