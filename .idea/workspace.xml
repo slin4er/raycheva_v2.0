@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/controllers/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/patient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middlewares/error-handler.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlewares/error-handler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/FormRegistration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FormRegistration.tsx" afterDir="false" />
     </list>
     <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +42,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "16.16.0",
     "javascript.nodejs.core.library.typings.version": "16.18.4",
-    "last_opened_file_path": "D:/programing/katas",
+    "last_opened_file_path": "D:/programing/raycheva_v_2.0",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -86,6 +89,7 @@
       <workItem from="1670940491423" duration="661000" />
       <workItem from="1671027465656" duration="21000" />
       <workItem from="1671203411074" duration="2090000" />
+      <workItem from="1671476624999" duration="621000" />
     </task>
     <servers />
   </component>

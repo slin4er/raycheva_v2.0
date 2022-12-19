@@ -181,6 +181,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 									options={optionsObj}
 									placeholder='Выберите время'
 									noOptionsMessage={() => 'Все часы заняты'}
+									isSearchable={false}
 								/>
 							)
 						}}

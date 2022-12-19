@@ -3,7 +3,27 @@ require('dotenv').config()
 const sendEmail = require('../emails/email')
 const nodeCache = require('node-cache')
 const {PassThrough} = require("stream");
+const {Error} = require("mongoose");
 const myCache = new nodeCache()
+const timeAvailable = [
+	'09:00',
+	'09:30',
+	'10:00',
+	'10:30',
+	'11:00',
+	'11:30',
+	'12:00',
+	'12:30',
+	'13:00',
+	'13:30',
+	'14:00',
+	'14:30',
+	'15:00',
+	'15:30',
+	'16:00',
+	'16:30',
+	'17:00',
+]
 
 //CRUD FOR PATIENTS
 const createPatient = async (req, res) => {
@@ -55,9 +75,8 @@ const updatePatient = async (req, res) => {
 	const { id: patient_id } = req.params
 	const {appointment, time} = req.body
 	const patientExists = await Patient.findOne({appointment, time})
-	if(patientExists) {
-		throw new Error('Already exists')
-	}
+	if(patientExists) {throw new Error('Already exists')}
+	if(!timeAvailable.includes(time)) {throw new Error('Unavailable time')}
 	const patient = await Patient.findByIdAndUpdate(patient_id, req.body, {
 		new: true,
 	})
@@ -103,25 +122,6 @@ const deleteOldPatients = async (req, res) => {
 
 // date.toLocaleString()
 const checkDate = async (req, res) => {
-	const timeAvailable = [
-		'09:00',
-		'09:30',
-		'10:00',
-		'10:30',
-		'11:00',
-		'11:30',
-		'12:00',
-		'12:30',
-		'13:00',
-		'13:30',
-		'14:00',
-		'14:30',
-		'15:00',
-		'15:30',
-		'16:00',
-		'16:30',
-		'17:00',
-	]
 	const { date } = req.query
 	if (!date) {
 		throw new Error('Date must be provided as a query')
