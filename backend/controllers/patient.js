@@ -10,7 +10,7 @@ const createPatient = async (req, res) => {
 	if (patient.email) {
 		sendEmail(
 			patient,
-			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в здесь будет время`
+			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в ${patient.time}`
 		)
 	}
 	res.status(201).json({ patient })
@@ -33,18 +33,20 @@ const getPatient = async (req, res) => {
 	res.status(200).send({ patient })
 }
 
-const findPatientByName  = async (req, res) => {
-	const {name: patient_name} = req.query
+const findPatientByName = async (req, res) => {
+	const { name: patient_name } = req.query
 	const patientFromCache = myCache.get(patient_name)
-	if(!patientFromCache) {
-		const patient = await Patient.findOne({name: patient_name})
-		if(!patient) {throw new Error('Not Found!')}
+	if (!patientFromCache) {
+		const patient = await Patient.findOne({ name: patient_name })
+		if (!patient) {
+			throw new Error('Not Found!')
+		}
 		myCache.set(patient_name, patient)
 		console.log('not From cache')
-		res.status(200).json({patient})
+		res.status(200).json({ patient })
 	} else {
 		console.log('cached')
-		res.status(200).json({patient: patientFromCache})
+		res.status(200).json({ patient: patientFromCache })
 	}
 }
 
@@ -59,7 +61,7 @@ const updatePatient = async (req, res) => {
 	if (patient.email) {
 		sendEmail(
 			patient,
-			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что ваша запись была перенесена на ${patient.appointment} в здесь будет время`
+			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что ваша запись была перенесена на ${patient.appointment} в ${patient.time}`
 		)
 	}
 	res.status(201).json({ patient })
@@ -122,5 +124,5 @@ module.exports = {
 	updatePatient,
 	deletePatient,
 	checkDate,
-	findPatientByName
+	findPatientByName,
 }

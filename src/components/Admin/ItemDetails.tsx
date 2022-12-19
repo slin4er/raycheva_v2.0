@@ -1,19 +1,15 @@
 import { FC, useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import axios from 'axios'
-import { IItem } from '../../helpers/types'
 
 export const ItemDetails: FC = () => {
-	const [patientName, setPatientName] = useState('')
-	const [patientPhone, setPatientPhone] = useState('')
-	const [patientEmail, setPatientEmail] = useState('')
-	const [patientTime, setPatientTime] = useState('')
-	const [patientAppointment, setPatientAppointment] = useState('')
-	const [refreshPatient, setRefreshPatient] = useState<boolean>(true)
+	const redirect = useNavigate()
+
 	const [patchStatus, setPatchStatus] = useState<boolean>(false)
 	const [deleteStatus, setDeleteStatus] = useState<boolean>(false)
 	const [editStatus, setEditStatus] = useState<boolean>(false)
+
 	const [editData, setEditData] = useState({
 		name: '',
 		phone: '',
@@ -31,29 +27,29 @@ export const ItemDetails: FC = () => {
 	let { _id } = useParams()
 
 	useEffect(() => {
-		if (refreshPatient) {
-			const getData = async () => {
-				const config = {
-					headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-				}
-				const result = await axios.get(
-					`http://localhost:3000/api/v1/${_id}`,
-					config
-				)
-				return result
+		const getData = async () => {
+			const config = {
+				headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
 			}
-			getData()
-				.then(res => {
-					setPatientName(res.data.patient?.name)
-					setPatientPhone(res.data.patient?.phone)
-					setPatientEmail(res.data.patient?.email)
-					setPatientAppointment(res.data.patient?.appointment)
-					setPatientTime(res.data.patient?.time)
-					setRefreshPatient(false)
-				})
-				.catch(e => console.log(e.message))
+			const result = await axios.get(
+				`http://localhost:3000/api/v1/${_id}`,
+				config
+			)
+			return result
 		}
-	}, [_id, refreshPatient])
+		getData()
+			.then(res => {
+				setInputs(state => ({
+					...state,
+					name: res.data.patient.name,
+					phone: res.data.patient.phone,
+					email: res.data.patient.email,
+					appointment: res.data.patient.appointment,
+					time: res.data.patient.time,
+				}))
+			})
+			.catch(e => console.log(e.message))
+	}, [])
 	useEffect(() => {
 		if (patchStatus) {
 			const patchData = async () => {
@@ -71,13 +67,21 @@ export const ItemDetails: FC = () => {
 			}
 			patchData()
 				.then(res => {
-					console.log('Patch item', res.data)
+					console.log(res.data)
+					setInputs(state => ({
+						...state,
+						name: res.data.patient.name,
+						phone: res.data.patient.phone,
+						email: res.data.patient.email,
+						appointment: res.data.patient.appointment,
+						time: res.data.patient.time,
+					}))
 					setEditStatus(false)
 				})
 				.catch(e => console.log(e.message))
 			setPatchStatus(false)
 		}
-	}, [patchStatus, editData, _id])
+	}, [patchStatus, editData, _id, inputs])
 
 	useEffect(() => {
 		if (deleteStatus) {
@@ -96,22 +100,19 @@ export const ItemDetails: FC = () => {
 			deleteData()
 				.then(res => {
 					console.log('Delete item', res.data)
+					redirect(`/admin`)
 				})
 				.catch(e => console.log(e.message))
 			setDeleteStatus(false)
 		}
-	}, [deleteStatus, _id])
+	}, [deleteStatus, _id, redirect])
 
-	const handlerDelete = () => {
-		setDeleteStatus(state => !state)
-	}
-	const handlerEdit = () => {
-		setEditStatus(true)
-		setPatchStatus(state => !state)
-	}
+	const handlerDelete = () => setDeleteStatus(state => !state)
+	const handlerEdit = () => setEditStatus(true)
+
 	const handlerChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		const name = e.target.name
-		const value = e.target.name
+		const value = e.target.value
 		setInputs(values => ({
 			...values,
 			[name]: value,
@@ -127,6 +128,7 @@ export const ItemDetails: FC = () => {
 			appointment: inputs.appointment,
 			time: inputs.time,
 		}))
+		setPatchStatus(state => !state)
 	}
 	return (
 		<div>
@@ -166,11 +168,11 @@ export const ItemDetails: FC = () => {
 				</form>
 			) : (
 				<Patients>
-					<div>{patientName}</div>
-					<div>{patientPhone}</div>
-					<div>{patientEmail}</div>
-					<div>{patientAppointment}</div>
-					<div>{patientTime}</div>
+					<div>{inputs.name}</div>
+					<div>{inputs.phone}</div>
+					<div>{inputs.email}</div>
+					<div>{inputs.appointment}</div>
+					<div>{inputs.time}</div>
 					<button onClick={handlerEdit}>редактировать</button>
 					<button onClick={handlerDelete}>удалить</button>
 				</Patients>

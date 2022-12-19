@@ -20,11 +20,15 @@ export const App: FC = () => {
 
 	return (
 		<Routes>
-			<Route path='/' element={<Layout dateClickHandler={dateClickHandler} />}>
-				<Route path='/admin' element={<AdminPanel />}>
-					<Route path='admin/:_id' element={<ItemDetails />} />
-				</Route>
-			</Route>
+			<Route
+				path='/'
+				element={<Layout dateClickHandler={dateClickHandler} />}
+			></Route>
+
+			<Route path='/admin' element={<AdminPanel />}></Route>
+
+			<Route path='admin/:_id' element={<ItemDetails />} />
+
 			<Route
 				path='/registration'
 				element={
