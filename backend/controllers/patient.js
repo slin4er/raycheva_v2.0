@@ -90,10 +90,8 @@ const deleteOldPatients = async (req, res) => {
 		const day = patient.appointment.split('-')[0]
 		const month = patient.appointment.split('-')[1]
 		const year = patient.appointment.split('-')[2]
-		console.log(new Date(`${month}/${day}/${year} ${patient.time}:00`))
 		return (new Date(`${month}/${day}/${year} ${patient.time}:00`)).getTime() < today
 	})
-	console.log(patientsToDelete)
 	if(patientsToDelete === []) {throw new Error('No patients to delete')}
 	patientsToDelete.map(async (patient) => {
 		await Patient.deleteOne(patient)
