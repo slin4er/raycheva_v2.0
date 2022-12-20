@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const nodemailer = require("nodemailer");
 require('dotenv').config()
 
 const patientSchema = new mongoose.Schema({

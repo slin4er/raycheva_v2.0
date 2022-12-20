@@ -6,9 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/admin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/controllers/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/patient.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/middlewares/error-handler.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlewares/error-handler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/FormRegistration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FormRegistration.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/middlewares/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlewares/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/models/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/models/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/patient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/patient.js" afterDir="false" />
     </list>
     <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +92,10 @@
       <workItem from="1670940491423" duration="661000" />
       <workItem from="1671027465656" duration="21000" />
       <workItem from="1671203411074" duration="2090000" />
-      <workItem from="1671476624999" duration="621000" />
+      <workItem from="1671476624999" duration="717000" />
+      <workItem from="1671477774986" duration="2000" />
+      <workItem from="1671477815791" duration="12000" />
+      <workItem from="1671542218908" duration="4693000" />
     </task>
     <servers />
   </component>
