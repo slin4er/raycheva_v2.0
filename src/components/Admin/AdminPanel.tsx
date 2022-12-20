@@ -6,11 +6,11 @@ import { IItem } from '../../helpers/types'
 import { useNavigate } from 'react-router-dom'
 
 export const AdminPanel: FC = () => {
-	const [patient, setPatient] = useState<IItem[] | undefined>()
+	const [patient, setPatient] = useState<IItem[] | []>()
 	const [inputSearch, setInputSearch] = useState('')
 	const [emptyPatient, setEmptyPatient] = useState<boolean>(false)
 	const [logoutStatus, setLogoutStatus] = useState<boolean>(false)
-	console.log(logoutStatus)
+	const [errorMessage, setErrorMessage] = useState<boolean>(false)
 	const redirect = useNavigate()
 
 	useEffect(() => {
@@ -27,7 +27,12 @@ export const AdminPanel: FC = () => {
 				setPatient(res.data.patients)
 			})
 			.catch(e => {
-				if (e.response.status === 400) {
+				if (
+					e.response.status === 400 ||
+					e.response.status === 401 ||
+					e.response.status === 404 ||
+					e.response.status === 500
+				) {
 					setEmptyPatient(true)
 				} else {
 					setEmptyPatient(false)
@@ -43,7 +48,6 @@ export const AdminPanel: FC = () => {
 						Authorization: `Bearer ${localStorage.getItem('token')}`,
 					},
 				}
-				console.log(config)
 				const result = await axios.post(
 					`http://localhost:3000/api/v1/admin/logout`,
 					null,
@@ -54,11 +58,20 @@ export const AdminPanel: FC = () => {
 			logOut()
 				.then(res => {
 					sessionStorage.removeItem('token')
-					console.log(res.data)
 					setLogoutStatus(false)
+					redirect('/')
 				})
 				.catch(e => {
-					console.log(e.message)
+					if (
+						e.response.status === 400 ||
+						e.response.status === 401 ||
+						e.response.status === 404 ||
+						e.response.status === 500
+					) {
+						setErrorMessage(true)
+					} else {
+						setErrorMessage(false)
+					}
 				})
 		}
 	}, [logoutStatus])
@@ -68,7 +81,7 @@ export const AdminPanel: FC = () => {
 	return (
 		<div>
 			{emptyPatient ? (
-				<div>пациентов нет</div>
+				<div>Что-то пошло не так... (список пациентов не пришел)</div>
 			) : (
 				<div>
 					<div>
@@ -79,32 +92,39 @@ export const AdminPanel: FC = () => {
 								setInputSearch(e.target.value)
 							}
 						/>
-						<button onClick={() => setLogoutStatus(true)}>выйти нахуй!</button>
+						<button onClick={() => setLogoutStatus(true)}>выйти!</button>
+						{errorMessage ? (
+							<div>Что-то пошло не так...(Не удалось выйти с админ панели)</div>
+						) : null}
 					</div>
-					<ItemBlock>
-						{patient
-							?.filter(elem => {
-								if (inputSearch === '') {
-									return elem
-								} else if (
-									elem.name
-										.toLowerCase()
-										.trim()
-										.includes(inputSearch.toLowerCase().trim())
-								) {
-									return elem
-								}
-							})
-							.map((item: IItem) => {
-								return (
-									<ItemList
-										handleDetail={handleDetailPatient}
-										key={item._id}
-										{...item}
-									/>
-								)
-							})}
-					</ItemBlock>
+					{patient?.length === 0 ? (
+						<div>Никто еще не записался</div>
+					) : (
+						<ItemBlock>
+							{patient
+								?.filter(elem => {
+									if (inputSearch === '') {
+										return elem
+									} else if (
+										elem.name
+											.toLowerCase()
+											.trim()
+											.includes(inputSearch.toLowerCase().trim())
+									) {
+										return elem
+									}
+								})
+								.map((item: IItem) => {
+									return (
+										<ItemList
+											handleDetail={handleDetailPatient}
+											key={item._id}
+											{...item}
+										/>
+									)
+								})}
+						</ItemBlock>
+					)}
 				</div>
 			)}
 		</div>

@@ -1,14 +1,17 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 import { DatePicker } from './DatePicker'
 import { Preview } from './Preview'
 import { Footer } from './Footer'
-import { IDatePickerProps } from '../helpers/types'
+import { ILayout } from '../helpers/types'
 
-export const Layout: FC<IDatePickerProps> = ({ dateClickHandler }) => {
+export const Layout: FC<ILayout> = ({ dateClickHandler, sucMes, resData }) => {
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
 	return (
 		<Main>
-			<Preview />
+			<Preview message={sucMes} data={resData} />
 			<DatePicker dateClickHandler={dateClickHandler} />
 			<Footer />
 		</Main>

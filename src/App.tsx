@@ -6,26 +6,37 @@ import { NotFound } from './components/NotFound'
 import { AdminPanel } from './components/Admin/AdminPanel'
 import { ItemDetails } from './components/Admin/ItemDetails'
 import { SingIn } from './components/Admin/SingIn'
+import { IResData } from './helpers/types'
 
 export const App: FC = () => {
 	const redirect = useNavigate()
 	const [datePick, setDatePick] = useState<string>()
+	const [succesMessage, showSuccesMessage] = useState<boolean>()
+	const [resData, setResData] = useState<IResData>()
 
 	const dateClickHandler = (date: string) => {
 		setDatePick(date)
 		redirect('/registration')
 	}
 
-	const successRegistration = (massage: boolean) => {}
+	const successRegistration = (message: boolean): void =>
+		showSuccesMessage(message)
+	const responseData = (data: IResData): void => setResData(data)
 
 	return (
 		<Routes>
 			<Route
 				path='/'
-				element={<Layout dateClickHandler={dateClickHandler} />}
-			></Route>
+				element={
+					<Layout
+						dateClickHandler={dateClickHandler}
+						sucMes={succesMessage}
+						resData={resData}
+					/>
+				}
+			/>
 
-			<Route path='/admin' element={<AdminPanel />}></Route>
+			<Route path='/admin' element={<AdminPanel />} />
 
 			<Route path='admin/:_id' element={<ItemDetails />} />
 
@@ -35,6 +46,7 @@ export const App: FC = () => {
 					<FormRegistration
 						date={datePick}
 						successRegistration={successRegistration}
+						responseData={responseData}
 					/>
 				}
 			/>

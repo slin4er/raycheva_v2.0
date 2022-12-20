@@ -33,6 +33,7 @@ export interface IResData {
 export interface IFormRegistrationProps {
 	date?: string
 	successRegistration: (massage: boolean) => void
+	responseData: (data: IResData) => void
 }
 
 export interface IDatePickerProps {
@@ -64,4 +65,15 @@ export type IItemProps = {
 	time: string
 	_id: string
 	handleDetail: (id: string) => void
+}
+
+export interface ILayout {
+	dateClickHandler: (date: string) => void
+	sucMes?: boolean
+	resData?: IResData
+}
+
+export interface IPropPreview {
+	message?: boolean
+	data?: IResData
 }

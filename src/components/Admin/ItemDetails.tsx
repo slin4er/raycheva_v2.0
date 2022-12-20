@@ -9,6 +9,9 @@ export const ItemDetails: FC = () => {
 	const [patchStatus, setPatchStatus] = useState<boolean>(false)
 	const [deleteStatus, setDeleteStatus] = useState<boolean>(false)
 	const [editStatus, setEditStatus] = useState<boolean>(false)
+	const [errorUpData, setErrorUpData] = useState<boolean>(false)
+	const [errorDelData, setErrorDelData] = useState<boolean>(false)
+	const [errorGetData, setErrorGetData] = useState<boolean>(false)
 
 	const [editData, setEditData] = useState({
 		name: '',
@@ -48,7 +51,18 @@ export const ItemDetails: FC = () => {
 					time: res.data.patient.time,
 				}))
 			})
-			.catch(e => console.log(e.message))
+			.catch(e => {
+				if (
+					e.response.status === 400 ||
+					e.response.status === 401 ||
+					e.response.status === 404 ||
+					e.response.status === 500
+				) {
+					setErrorGetData(true)
+				} else {
+					setErrorGetData(false)
+				}
+			})
 	}, [])
 	useEffect(() => {
 		if (patchStatus) {
@@ -78,7 +92,18 @@ export const ItemDetails: FC = () => {
 					}))
 					setEditStatus(false)
 				})
-				.catch(e => console.log(e.message))
+				.catch(e => {
+					if (
+						e.response.status === 400 ||
+						e.response.status === 401 ||
+						e.response.status === 404 ||
+						e.response.status === 500
+					) {
+						setErrorUpData(true)
+					} else {
+						setErrorUpData(false)
+					}
+				})
 			setPatchStatus(false)
 		}
 	}, [patchStatus, editData, _id, inputs])
@@ -102,7 +127,18 @@ export const ItemDetails: FC = () => {
 					console.log('Delete item', res.data)
 					redirect(`/admin`)
 				})
-				.catch(e => console.log(e.message))
+				.catch(e => {
+					if (
+						e.response.status === 400 ||
+						e.response.status === 401 ||
+						e.response.status === 404 ||
+						e.response.status === 500
+					) {
+						setErrorDelData(true)
+					} else {
+						setErrorDelData(false)
+					}
+				})
 			setDeleteStatus(false)
 		}
 	}, [deleteStatus, _id, redirect])
@@ -132,6 +168,9 @@ export const ItemDetails: FC = () => {
 	}
 	return (
 		<div>
+			{errorGetData ? <div>Не удалось получить данные пациента</div> : null}
+			{errorDelData ? <div>Не удалось удалить пациента</div> : null}
+			{errorUpData ? <div>Не удалось изменить пациента</div> : null}
 			{editStatus ? (
 				<form onSubmit={handlerSubmit}>
 					<input
@@ -175,6 +214,7 @@ export const ItemDetails: FC = () => {
 					<div>{inputs.time}</div>
 					<button onClick={handlerEdit}>редактировать</button>
 					<button onClick={handlerDelete}>удалить</button>
+					<button onClick={() => redirect('/admin')}>назад</button>
 				</Patients>
 			)}
 		</div>

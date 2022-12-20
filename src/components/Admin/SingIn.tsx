@@ -13,6 +13,7 @@ export const SingIn: FC = () => {
 		password: '',
 	})
 	const [postStatus, setPostStatus] = useState(false)
+	const [errorSign, setErrorSign] = useState(false)
 	useEffect(() => {
 		if (postStatus) {
 			const postFormData = async () => {
@@ -28,7 +29,18 @@ export const SingIn: FC = () => {
 					localStorage.setItem('token', token)
 					redirect('/admin')
 				})
-				.catch(e => console.log(e.message))
+				.catch(e => {
+					if (
+						e.response.status === 400 ||
+						e.response.status === 401 ||
+						e.response.status === 404 ||
+						e.response.status === 500
+					) {
+						setErrorSign(true)
+					} else {
+						setErrorSign(false)
+					}
+				})
 			setPostStatus(false)
 		}
 	}, [postData, postStatus, redirect])
@@ -48,6 +60,7 @@ export const SingIn: FC = () => {
 	}
 	return (
 		<form onSubmit={handlerSubmit}>
+			{errorSign ? <div>Не удалось войти в Админ панель</div> : null}
 			<label>
 				Логин:
 				<input

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import Creatable from 'react-select/creatable'
 import * as Yup from 'yup'
-// import "yup-phone";
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IFormInputs, IFormRegistrationProps, IResData } from '../helpers/types'
 import styled from 'styled-components'
@@ -11,22 +10,25 @@ import axios from 'axios'
 
 import InputMask from 'react-input-mask'
 
-export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
+export const FormRegistration: FC<IFormRegistrationProps> = ({
+	date,
+	successRegistration,
+	responseData,
+}) => {
 	const redirect = useNavigate()
 	const redirectOnLayout = () => redirect('/')
 
 	const [selectDate, postSelectDate] = useState<string | undefined>(date)
 	const [postFormData, setPostFormData] = useState<boolean>(false)
-	const [succesMessage, showSuccesMessage] = useState<boolean>(false)
+	const [errorGetData, setErrorGetData] = useState<boolean>(false)
+	const [errorPostData, setErrorPostData] = useState<boolean>(false)
 	const [noteAboutEmail, askNoteAboutEmail] = useState<boolean>(true)
 	const [formData, setFormData] = useState({})
-	const [resData, setResData] = useState<IResData>()
 	const [optionsObj, setOptionsObj] = useState()
 
 	const formShema = Yup.object().shape({
-		name: Yup.string().required('Введите имя и фамилию'),
-		// phone: Yup.string().phone('MD', true, 'no MOLDOVA tel').required(),
-		phone: Yup.string().required('TELEFONE'),
+		name: Yup.string().required('Введите имя и фамилию!'),
+		phone: Yup.string().required('Вы не ввели телефон!'),
 		email: Yup.string(),
 		time: Yup.object()
 			.shape({
@@ -54,17 +56,25 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 			await axios
 				.get(`http://localhost:3000/api/v1/date/available?date=${selectDate}`)
 				.then(res => {
-					console.log(res.data)
 					let result = res.data.freeHours
 					result.map((time: string) => {
 						return arr.push({ value: time, label: time })
 					})
-
-					console.log(`Дату отправил и получил массив времени!`)
 					//@ts-ignore
 					setOptionsObj(arr)
 				})
-				.catch(err => console.log(err.message))
+				.catch(e => {
+					if (
+						e.response.status === 400 ||
+						e.response.status === 401 ||
+						e.response.status === 404 ||
+						e.response.status === 500
+					) {
+						setErrorGetData(true)
+					} else {
+						setErrorGetData(false)
+					}
+				})
 		}
 		getData()
 	}, [selectDate])
@@ -81,17 +91,27 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 			}
 			fetchData()
 				.then(res => {
-					console.log(res.data)
-					setResData(res.data.patient)
-					console.log(`Данные формы отправились!`)
-					showSuccesMessage(true)
+					responseData(res.data.patient)
+					successRegistration(true)
 					redirect('/')
 				})
-				.catch(err => console.log(err.message))
+				.catch(e => {
+					if (
+						e.response.status === 400 ||
+						e.response.status === 401 ||
+						e.response.status === 404 ||
+						e.response.status === 500
+					) {
+						setErrorPostData(true)
+					} else {
+						setErrorPostData(false)
+					}
+				})
 		}
 	}, [formData, postFormData])
 
 	const handlerSubmitDataForm: SubmitHandler<IFormInputs> = data => {
+		console.log(data)
 		const fullData = {
 			name: data.name,
 			phone: data.phone,
@@ -99,7 +119,6 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 			appointment: date,
 			time: data.time.value,
 		}
-		console.log(fullData)
 		setFormData(fullData)
 		setPostFormData(true)
 	}
@@ -108,17 +127,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 		<Container>
 			<Title>Form Registration</Title>
 
-			{succesMessage ? (
-				<SuccessRegistration>
-					<h2>Запись прошла успешно!</h2>
-					<div>Ваша запись была оформлена на {resData?.appointment} число!</div>
-					<div>При себе обязательно иметь:</div>
-					<ol>
-						<li>Пеленку</li>
-						<li>Перчатки</li>
-					</ol>
-				</SuccessRegistration>
-			) : null}
+			{errorGetData || errorPostData ? <div>Не удалось записаться</div> : null}
 
 			{noteAboutEmail ? (
 				<EmailNote>
@@ -148,14 +157,6 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 						placeholder={'Ваш телефон'}
 						{...register('phone')}
 					/>
-					{/* <InputMask
-                        mask="(999)99-999"
-                        value={tel} 
-                        alwaysShowMask
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTel(e.target.value)}
-                        >
-                        {() => <Input type={"string"} placeholder={"Ваш Телефон"} {...register("phone")} />}
-                    </InputMask> */}
 				</Label>
 				<Error>{errors.phone?.message}</Error>
 
@@ -170,7 +171,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({ date }) => {
 				<Error>{errors.email?.message}</Error>
 
 				<Label>
-					Время
+					Время:
 					<Controller
 						name='time'
 						control={control}
