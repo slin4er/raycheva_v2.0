@@ -113,124 +113,125 @@ const deleteOldPatients = async (req, res) => {
 
 //DELETE THIS FUNCTION
 const population = async (req ,res) => {
+	const date = req.query.date || '25-12-2022'
 	await Patient.insertMany([
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "09:00"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "09:30"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "10:00"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "10:30"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "11:00"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "11:30"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "12:00"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "12:30"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "13:00"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "13:30"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "14:00"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "14:30"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "15:00"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "15:30"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "16:00"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "16:30"
 		},
 		{
 			"name": "Raychev Andrey Igorevich",
 			"phone": "+34613120591",
 			"email": "andrew.raychev@gmail.com",
-			"appointment": "21-12-2022",
+			"appointment": `${date}`,
 			"time": "17:00"
 		}
 	])
