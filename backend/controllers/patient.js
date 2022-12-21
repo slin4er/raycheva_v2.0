@@ -37,7 +37,11 @@ const createPatient = async (req, res) => {
 }
 
 const getPatients = async (req, res) => {
-	const patients = (await Patient.find({})) || []
+	let page = req.query.page || 1
+	const limit = req.query.limit || 10
+	if(page <= 0) {page = 1}
+	const skip = (page - 1) * limit
+	const patients = await Patient.find({}).limit(limit).skip(skip) || []
 	if (!patients.length) {
 		return res.status(200).json({ patients: [] })
 	}
