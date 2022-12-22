@@ -10,6 +10,7 @@ const connectDB = require('./db/connect')
 const patientRoute = require('./routes/patient')
 const adminRoute = require('./routes/admin')
 const cors = require('cors')
+require('./telegram/telegrabBot')
 
 //Middlewares
 app.use(cors())
