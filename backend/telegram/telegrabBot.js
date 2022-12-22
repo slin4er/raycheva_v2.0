@@ -4,8 +4,8 @@ require('dotenv').config()
 const {Telegraf} = require('telegraf')
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
-bot.command('Привет', context => {
-    bot.telegram.sendMessage(context.message.chat.id, 'Здравствуйте, для того, чтобы узнать на когда оформлена ваша дата просто напишите номер вашего телефона, указанный при регистрации')
+bot.command('start', context => {
+    bot.telegram.sendMessage(context.message.chat.id, 'Здравствуйте, для того, чтобы узнать на когда оформлена ваша запись просто напишите номер вашего телефона, указанный при регистрации')
 })
 
 bot.on('text', async (ctx) => {
