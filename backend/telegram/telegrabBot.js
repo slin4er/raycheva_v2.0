@@ -18,10 +18,6 @@ bot.on('text', async (ctx) => {
     await ctx.telegram.sendMessage(ctx.message.chat.id, text)
 })
 
-bot.command('Выйти', async (ctx) => {
-    await ctx.leaveChat()
-})
-
 bot.launch()
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
