@@ -12,6 +12,7 @@ const errorHandler = (err, req, res, next) => {
     if(err.message === 'No patients to delete') {res.status(400).json({message: err.message})}
     if(err.message === 'Unavailable time') {res.status(400).json({message: err.message})}
     if(err.message === 'Date must be provided') {res.status(400).json({message: err.message})}
+    if(err.message === 'Invalid data') {res.status(400).json({message: err.message})}
     next(`Error: ${err.message}`)
 }
 
