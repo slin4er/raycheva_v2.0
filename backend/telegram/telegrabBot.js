@@ -19,7 +19,7 @@ const timeAvailable = [
     '16:30',
     '17:00',
 ]
-const {Bot, Keyboard} = require('grammy')
+const {Bot, Keyboard, InlineKeyboard} = require('grammy')
 let name, email, phone, date = undefined
 
 //Create Buttons Function
@@ -132,7 +132,7 @@ bot.command('find', async ctx => {
 })
 
 bot.command('create', async ctx => {
-    await ctx.reply('Укажите имя')
+    await ctx.reply('Укажите телефон')
 })
 
 bot.on('message', async (ctx) => {
@@ -177,15 +177,8 @@ bot.on('message', async (ctx) => {
         // }
         if(ctx.message.text.match(regexPhone)) {
             phone = ctx.message.text
-            const patient = await Patient.findOne({phone: ctx.message.text})
-            let patientExists = false
-            if(patient) {patientExists = true}
-            if(patientExists) {
-                await ctx.reply(`Здравствуйте, ${patient.name}, ваша запись оформлена на ${patient.appointment} в ${patient.time}. Хорошего вам дня!`)
-            } else {
-                phone = ctx.message.text
-                await ctx.reply('Укажите дату, формат даты: 20-01-2022')
-            }
+            const inlineKeyboard = new InlineKeyboard().text("Регистрация", "registration-payload").text('Найти запись', 'find-payload')
+            await ctx.reply('Найти запись или зарегестрироваться?', {reply_markup: inlineKeyboard})
         }else if(ctx.message.text.match(regexDate)) {
             date = ctx.message.date
             const patientsWithThisDate = await Patient.find({appointment: date})
@@ -204,8 +197,23 @@ bot.on('message', async (ctx) => {
             }
         } else {
             name = ctx.message.text
-            await ctx.reply('Укажите телефон')
+            await ctx.reply('Укажите дату. Формат: 20-01-2023')
         }
+    }
+})
+
+bot.callbackQuery("registration-payload", async (ctx) => {
+    await ctx.reply("Укажите имя");
+});
+
+bot.callbackQuery('find-payload', async (ctx) => {
+    const patient = await Patient.findOne({phone})
+    let patientExists = false
+    if(patient) {patientExists = true}
+    if(patientExists) {
+        await ctx.reply(`Здравствуйте, ${patient.name}, ваша запись оформлена на ${patient.appointment} в ${patient.time}. Хорошего вам дня!`)
+    } else {
+        await ctx.reply('Такого пациента не существует, проверьте указанный номер телефона')
     }
 })
 
