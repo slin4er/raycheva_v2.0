@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/middlewares/error-handler.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/middlewares/error-handler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/telegram/telegrabBot.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/telegram/telegrabBot.js" afterDir="false" />
-    </list>
+    <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="" />
     <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +95,7 @@
       <workItem from="1671716802057" duration="15000" />
       <workItem from="1671717032127" duration="199000" />
       <workItem from="1671717312705" duration="996000" />
-      <workItem from="1671796110059" duration="14670000" />
+      <workItem from="1671796110059" duration="14880000" />
     </task>
     <servers />
   </component>
