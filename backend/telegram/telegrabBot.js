@@ -132,7 +132,7 @@ bot.command('find', async ctx => {
 })
 
 bot.command('create', async ctx => {
-    await ctx.reply('Укажите имя, почту, телефон и дату через запятую в таком же порядке, формат даты : 01-01-2023')
+    await ctx.reply('Укажите имя')
 })
 
 bot.on('message', async (ctx) => {
@@ -145,43 +145,66 @@ bot.on('message', async (ctx) => {
             time: ctx.message.text
         })
         await ctx.reply(`${patient.name}, Спасибо за регистрацию на ${patient.appointment} в ${patient.time}`)
-    }
-    else if(ctx.message.text.split(',').length === 1) {
-        const patient = await Patient.findOne({phone: ctx.message.text})
-        let patientExists = true
-        if(!patient) {patientExists = false}
-        const text = patientExists ?
-            `Здравствуйте, ${patient.name}, ваша запись оформлена на ${patient.appointment} в ${patient.time}. Хорошего вам дня!`
-            :`Такого пациента нет, нужен телефон, указанный при регистрации, спасибо!`
-        await ctx.reply(text)
     } else {
-        const regex = /[0-9]{2}-[0-9]{2}-[0-9]{4}/
-        const appointment = ctx.message.text.match(regex)
-        if(ctx.message.text.split(',').length !== 4) {
-            await ctx.reply('Неправильно указаны данные, пример:/n' +
-                'Иван Иванов, ivan@gmail.com, +37377722333, 01-01-2023')
-        } else {
-            if(!appointment) {
-                await ctx.reply('Неправильно указана дата')
+        const regexDate = /[0-9]{2}-[0-9]{2}-[0-9]{4}/
+        const regexPhone = /^\+?[1-9][0-9]{7,14}$/
+        const appointment = ctx.message.text.match(regexDate)
+        // if(ctx.message.text.split(',').length !== 4) {
+        //     await ctx.reply('Неправильно указаны данные, пример:/n' +
+        //         'Иван Иванов, ivan@gmail.com, +37377722333, 20-01-2023')
+        // } else {
+        //     if(!appointment) {
+        //         await ctx.reply('Неправильно указана дата')
+        //     } else {
+        //         name = ctx.message.text.split(',')[0].trim()
+        //         email = ctx.message.text.split(',')[1].trim()
+        //         phone = ctx.message.text.split(',')[2].trim()
+        //         const patientsWithThisDate = await Patient.find({appointment: appointment[0]})
+        //         if (!patientsWithThisDate.length) {
+        //             date = appointment[0]
+        //             const keyboard = createButtons(timeAvailable)
+        //             await ctx.reply('Выберите время', {reply_markup: keyboard})
+        //         }else if (patientsWithThisDate.length === timeAvailable.length) {
+        //             await ctx.reply('Свободного времени нет')
+        //         }else {
+        //             date = appointment[0]
+        //             const busyTime = patientsWithThisDate.map(patient => patient.time)
+        //             const result = timeAvailable.filter(time => !busyTime.includes(time))
+        //             const keyboard = createButtons(result)
+        //             await ctx.reply('Выберите время' , {reply_markup: keyboard})
+        //         }
+        //     }
+        // }
+        if(ctx.message.text.match(regexPhone)) {
+            phone = ctx.message.text
+            const patient = await Patient.findOne({phone: ctx.message.text})
+            let patientExists = false
+            if(patient) {patientExists = true}
+            if(patientExists) {
+                await ctx.reply(`Здравствуйте, ${patient.name}, ваша запись оформлена на ${patient.appointment} в ${patient.time}. Хорошего вам дня!`)
             } else {
-                name = ctx.message.text.split(',')[0].trim()
-                email = ctx.message.text.split(',')[1].trim()
-                phone = ctx.message.text.split(',')[2].trim()
-                const patientsWithThisDate = await Patient.find({appointment: appointment[0]})
-                if (!patientsWithThisDate.length) {
-                    date = appointment[0]
-                    const keyboard = createButtons(timeAvailable)
-                    await ctx.reply('Выберите время', {reply_markup: keyboard})
-                }else if (patientsWithThisDate.length === timeAvailable.length) {
-                    await ctx.reply('Свободного времени нет')
-                }else {
-                    date = appointment[0]
-                    const busyTime = patientsWithThisDate.map(patient => patient.time)
-                    const result = timeAvailable.filter(time => !busyTime.includes(time))
-                    const keyboard = createButtons(result)
-                    await ctx.reply('Выберите время' , {reply_markup: keyboard})
-                }
+                phone = ctx.message.text
+                await ctx.reply('Укажите дату, формат даты: 20-01-2022')
             }
+        }else if(ctx.message.text.match(regexDate)) {
+            date = ctx.message.date
+            const patientsWithThisDate = await Patient.find({appointment: date})
+            if (!patientsWithThisDate.length) {
+                date = appointment[0]
+                const keyboard = createButtons(timeAvailable)
+                await ctx.reply('Выберите время', {reply_markup: keyboard})
+            }else if (patientsWithThisDate.length === timeAvailable.length) {
+                await ctx.reply('Свободного времени нет')
+            }else {
+                date = appointment[0]
+                const busyTime = patientsWithThisDate.map(patient => patient.time)
+                const result = timeAvailable.filter(time => !busyTime.includes(time))
+                const keyboard = createButtons(result)
+                await ctx.reply('Выберите время' , {reply_markup: keyboard})
+            }
+        } else {
+            name = ctx.message.text
+            await ctx.reply('Укажите телефон')
         }
     }
 })
