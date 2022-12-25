@@ -8,7 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/telegram/telegrabBot.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/telegram/telegrabBot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/telegram/telegramBot.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/telegram/telegramBot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +109,9 @@
       <workItem from="1671827559080" duration="473000" />
       <workItem from="1671883552546" duration="10253000" />
       <workItem from="1671896566283" duration="6810000" />
-      <workItem from="1671916028071" duration="2283000" />
+      <workItem from="1671916028071" duration="2418000" />
+      <workItem from="1671926103306" duration="206000" />
+      <workItem from="1671969976397" duration="8829000" />
     </task>
     <servers />
   </component>
