@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/telegram/telegramBotFunctions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/patient.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/telegram/telegramBot.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/telegram/telegramBot.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -111,7 +109,9 @@
       <workItem from="1671896566283" duration="6810000" />
       <workItem from="1671916028071" duration="2418000" />
       <workItem from="1671926103306" duration="206000" />
-      <workItem from="1671969976397" duration="8829000" />
+      <workItem from="1671969976397" duration="9385000" />
+      <workItem from="1671979556367" duration="612000" />
+      <workItem from="1672022871624" duration="2115000" />
     </task>
     <servers />
   </component>

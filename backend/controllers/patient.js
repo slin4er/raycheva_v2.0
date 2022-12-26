@@ -284,4 +284,5 @@ module.exports = {
 	findPatientByName,
 	deleteOldPatients,
 	population,
+	timeAvailable
 }
