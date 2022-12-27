@@ -12,7 +12,7 @@ const loginAdmin = async (req, res) => {
 		const hashedPassword = await bcrypt.hash(password, 10)
 		admin = await Admin.create({ ...req.body, password: hashedPassword })
 		const token = await admin.generateAuthToken()
-		return res.status(200).json({ token })
+		return res.status(201).json({ token })
 	}
 	if (!(await bcrypt.compare(password, admin.password))) {
 		throw new Error('Wrong password or login')
