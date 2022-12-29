@@ -25,15 +25,14 @@ calendar.setDateListener(async (ctx, dateReceived) => {
     if(!freeHours) {
         return ctx.reply('На эту дату все занято, выберите другую', calendar.getCalendar())
     }
-    const freeHoursEachElementIsArray = freeHours.map((el) => [el])
-    const keyboard = createButtons(freeHoursEachElementIsArray)
+    const keyboard = createButtons(freeHours)
     await ctx.reply('Выберите время', keyboard)
 });
 
 bot.start(async (ctx) => {
     name = `${ctx.message.from.first_name} ${ctx.message.from.last_name}`
     await ctx.reply('Здравствуйте, вы хотите записаться или найти свою запись?', Keyboard.make([
-        ['Записаться'], ['Найти запись']
+        ['Записаться','Найти запись']
     ]).oneTime().reply())
 })
 
@@ -43,7 +42,7 @@ bot.hears('Найти запись', async (ctx) => {
         [{
             text: "Показать телефон",
             request_contact: true,
-        }], ['Указать вручную']
+        },'Указать вручную']
     ]).oneTime().reply())
 })
 
@@ -62,6 +61,7 @@ bot.on("contact", async (ctx) => {
     if(makeAnAppointment) {
         const patient = await Patient.findOne({phone})
         if(patient) {
+            makeAnAppointment = false
             return await ctx.reply(`${patient.name}, у вас уже есть запись на ${patient.appointment} в ${patient.time}. Сначала посетите эту запись`)
         }
         await ctx.reply("Выберите дату", calendar.getCalendar())
