@@ -60,10 +60,10 @@ bot.hears('Записаться', async (ctx) => {
 bot.on("contact", async (ctx) => {
     phone = ctx.message.contact.phone_number;
     if(makeAnAppointment) {
-        // const patient = await Patient.findOne({phone})
-        // if(patient) {
-        //     return await ctx.reply(`${patient.name}, у вас уже есть запись на ${patient.appointment} в ${patient.time}. Сначала посетите эту запись`)
-        // }
+        const patient = await Patient.findOne({phone})
+        if(patient) {
+            return await ctx.reply(`${patient.name}, у вас уже есть запись на ${patient.appointment} в ${patient.time}. Сначала посетите эту запись`)
+        }
         await ctx.reply("Выберите дату", calendar.getCalendar())
         makeAnAppointment = false
     } else {
