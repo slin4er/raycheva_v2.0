@@ -8,7 +8,8 @@ const {
     checkDate,
     findPatientByName,
     deleteOldPatients,
-    fullFillTheDate
+    fullFillTheDate,
+    getDisabledDates
 } = require("../controllers/patient");
 const router = express.Router()
 const auth = require('../middlewares/auth')
@@ -18,6 +19,7 @@ router.route('/:id').get(auth, getPatient).patch(auth, updatePatient).delete(aut
 router.route('/date/available').get(checkDate)
 router.route('/patient/data').get(auth, findPatientByName)
 router.route('/delete/patients').post(auth, deleteOldPatients)
-router.route('/insert/patients').post(fullFillTheDate)
+router.route('/insert/patients').post(auth, fullFillTheDate)
+router.route('/disabled/dates').get(getDisabledDates)
 
 module.exports = router
