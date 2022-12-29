@@ -26,11 +26,14 @@ const timeAvailable = [
 
 //CRUD FOR PATIENTS
 const createPatient = async (req, res) => {
+	const {appointment, time} = req.body
+	if(await Patient.findOne({appointment, time})) {throw new Error('Already exists')}
 	const patient = await Patient.create(req.body)
 	if (patient.email) {
 		sendEmail(
 			patient,
-			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в ${patient.time}`
+			`<Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в ${patient.time}\n\n\n`
+			+`Это письмо сформировано автоматически и не требует ответа.`
 		)
 	}
 	res.status(201).json({ patient })
@@ -90,7 +93,8 @@ const updatePatient = async (req, res) => {
 	if (patient.email) {
 		sendEmail(
 			patient,
-			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что ваша запись была перенесена на ${patient.appointment} в ${patient.time}`
+			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что ваша запись была перенесена на ${patient.appointment} в ${patient.time}\n\n\n`
+			+`Это письмо сформировано автоматически и не требует ответа.`
 		)
 	}
 	res.status(201).json({ patient })
