@@ -197,7 +197,9 @@ const fullFillTheDate = async (req, res) => {
 	const busyHours = patientsWithThisDate.map(patient => patient.time)
 	const freeHours = timeAvailable.filter((hour) => !busyHours.includes(hour))
 	await getArrayToDisableSpecialDate(freeHours, date)
-	await DisabledDates.create({date})
+	if(!(await DisabledDates.findOne({date}))) {
+		await DisabledDates.create({date})
+	}
 	return res.status(200).send('OK')
 }
 
