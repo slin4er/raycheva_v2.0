@@ -23,6 +23,18 @@ const timeAvailable = [
 	'16:30',
 	'17:00',
 ]
+//Functions to minimize the code
+const getArrayToDisableSpecialDate = async (arr, appointment) => {
+	const arrToInsert = arr.map((time) => {
+		return {
+			name: 'Занято врачом',
+			phone: 'Занято врачом',
+			appointment,
+			time
+		}
+	})
+	return await Patient.insertMany(arrToInsert)
+}
 
 //CRUD FOR PATIENTS
 const createPatient = async (req, res) => {
@@ -151,131 +163,23 @@ const deleteOldPatients = async (req, res) => {
 	res.status(200).json('OK')
 }
 
-//DELETE THIS FUNCTION
-const population = async (req, res) => {
-	const date = req.query.date || '25-12-2022'
-	await Patient.insertMany([
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '09:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '09:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '10:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '10:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '11:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '11:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '12:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '12:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '13:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '13:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '14:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '14:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '15:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '15:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '16:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '16:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '17:00',
-		},
-	])
-	res.status(200).send('Inserted')
+const fullFillTheDate = async (req, res) => {
+	const {date} = req.body
+	if(!date.match(/[0-3][0-9]-[0-1][0-9]-[0-2]0[2-9][0-9]/gm)) {
+		throw new Error('Date must be provided')
+	}
+	const patientsWithThisDate = await Patient.find({appointment: date})
+	if(!patientsWithThisDate.length) {
+		await getArrayToDisableSpecialDate(timeAvailable, date)
+		return res.status(200).send('OK')
+	}
+	if(patientsWithThisDate.length === timeAvailable.length) {
+		return res.status(200).send('OK')
+	}
+	const busyHours = patientsWithThisDate.map(patient => patient.time)
+	const freeHours = timeAvailable.filter((hour) => !busyHours.includes(hour))
+	await getArrayToDisableSpecialDate(freeHours, date)
+	res.status(200).send('OK')
 }
 
 module.exports = {
@@ -287,6 +191,6 @@ module.exports = {
 	checkDate,
 	findPatientByName,
 	deleteOldPatients,
-	population,
+	fullFillTheDate,
 	timeAvailable
 }
