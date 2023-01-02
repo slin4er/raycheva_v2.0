@@ -4,119 +4,25 @@ const {timeAvailable} = require("../controllers/patient");
 const Calendar = require("telegraf-calendar-telegram");
 
 const createButtons = (buttonsArray) => {
-    if(buttonsArray.length === 1) {
-        return Keyboard.make([
-            [buttonsArray[0]]
-        ]).oneTime().reply()
+    let firstArr = [], secondArr = [], thirdArr = [], fourthArr = [], fifthArr = []
+    for(let i = 0; i < buttonsArray.length; i++) {
+        if(firstArr.length !== 4) {
+            firstArr.push(buttonsArray[i])
+        }else if(secondArr.length !== 4) {
+            secondArr.push(buttonsArray[i])
+        }else if(thirdArr.length !== 4) {
+            thirdArr.push(buttonsArray[i])
+        }else if(fourthArr.length !== 4) {
+            fourthArr.push(buttonsArray[i])
+        }else if(fifthArr.length !== 4) {
+            fifthArr.push(buttonsArray[i])
+        }
     }
-    if(buttonsArray.length === 2) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 3) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 4) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 5) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4]],
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 6) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 7) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 8) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 9) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]],
-            [buttonsArray[8]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 10) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]],
-            [buttonsArray[8], buttonsArray[9]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 11) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]],
-            [buttonsArray[8], buttonsArray[9], buttonsArray[10]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 12) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]],
-            [buttonsArray[8], buttonsArray[9], buttonsArray[10], buttonsArray[11]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 13) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]],
-            [buttonsArray[8], buttonsArray[9], buttonsArray[10], buttonsArray[11]],
-            [buttonsArray[12]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 14) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]],
-            [buttonsArray[8], buttonsArray[9], buttonsArray[10], buttonsArray[11]],
-            [buttonsArray[12], buttonsArray[13]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 15) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]],
-            [buttonsArray[8], buttonsArray[9], buttonsArray[10], buttonsArray[11]],
-            [buttonsArray[12], buttonsArray[13], buttonsArray[14]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 16) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]],
-            [buttonsArray[8], buttonsArray[9], buttonsArray[10], buttonsArray[11]],
-            [buttonsArray[12], buttonsArray[13], buttonsArray[14], buttonsArray[15]]
-        ]).oneTime().reply()
-    }
-    if(buttonsArray.length === 17) {
-        return Keyboard.make([
-            [buttonsArray[0], buttonsArray[1], buttonsArray[2], buttonsArray[3]],
-            [buttonsArray[4], buttonsArray[5], buttonsArray[6], buttonsArray[7]],
-            [buttonsArray[8], buttonsArray[9], buttonsArray[10], buttonsArray[11]],
-            [buttonsArray[12], buttonsArray[13], buttonsArray[14], buttonsArray[15]],
-            [buttonsArray[16]]
-        ]).oneTime().reply()
-    }
+    const checkOnUndefined = [firstArr,secondArr,thirdArr,fourthArr,fifthArr]
+    const buttons = checkOnUndefined.filter((arr) => arr !== [])
+    return Keyboard.make([
+        ...buttons
+    ]).resize().oneTime().reply()
 }
 
 const getArrayOfHours = async (date) => {
