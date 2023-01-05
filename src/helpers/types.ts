@@ -77,3 +77,7 @@ export interface IPropPreview {
 	message?: boolean
 	data?: IResData
 }
+export interface IPropMessage {
+	message?: boolean
+	data?: IResData
+}
