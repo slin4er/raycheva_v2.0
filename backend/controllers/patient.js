@@ -1,4 +1,5 @@
 const Patient = require('../models/patient')
+const DisabledDates = require('../models/disabledDates')
 require('dotenv').config()
 const sendEmail = require('../emails/email')
 const nodeCache = require('node-cache')
@@ -23,17 +24,54 @@ const timeAvailable = [
 	'16:30',
 	'17:00',
 ]
+//Functions to minimize the code
+const getArrayToDisableSpecialDate = async (arr, appointment) => {
+	const arrToInsert = arr.map((time) => {
+		return {
+			name: 'Занято врачом',
+			phone: 'Занято врачом',
+			appointment,
+			time
+		}
+	})
+	return await Patient.insertMany(arrToInsert)
+}
+
+const deleteArrayFromDB = async (value) => {
+	const today = Date.now()
+	return value.filter(element => {
+		const date = element.appointment
+			? element.appointment.split('-')
+			: element.date.split('-')
+		if (new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime() < today)
+		{
+			return element._id
+		}
+	})
+}
 
 //CRUD FOR PATIENTS
 const createPatient = async (req, res) => {
+	const {appointment, time} = req.body
+	if(await Patient.findOne({appointment, time})) {throw new Error('Already exists')}
 	const patient = await Patient.create(req.body)
 	if (patient.email) {
 		sendEmail(
 			patient,
-			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в ${patient.time}`
+			`<Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в ${patient.time}\n\n\n`
+			+`Это письмо сформировано автоматически и не требует ответа.`
 		)
 	}
-	res.status(201).json({ patient })
+	const patientsOnThisDate = await Patient.find({appointment})
+	if(patientsOnThisDate.length === timeAvailable.length) {
+		const disabledDates = await DisabledDates.find() || []
+		const datesToDelete = await deleteArrayFromDB(disabledDates)
+		if(datesToDelete.length) {
+			await DisabledDates.deleteMany({_id: {$in: datesToDelete}})
+		}
+		await DisabledDates.create({date: appointment})
+	}
+	return res.status(201).json({ patient })
 }
 
 const getPatients = async (req, res) => {
@@ -45,7 +83,7 @@ const getPatients = async (req, res) => {
 	if (!patients.length) {
 		return res.status(200).json({ patients: [] })
 	}
-	res.status(200).json({ patients })
+	return res.status(200).json({ patients })
 }
 
 const getPatient = async (req, res) => {
@@ -54,7 +92,7 @@ const getPatient = async (req, res) => {
 	if (!patient) {
 		throw new Error('Not Found')
 	}
-	res.status(200).send({ patient })
+	return res.status(200).send({ patient })
 }
 
 const findPatientByName = async (req, res) => {
@@ -68,7 +106,7 @@ const findPatientByName = async (req, res) => {
 		myCache.set(patient_name, patient)
 		return res.status(200).json({ patient })
 	}
-	res.status(200).json({ patient: patientFromCache })
+	return res.status(200).json({ patient: patientFromCache })
 }
 
 const updatePatient = async (req, res) => {
@@ -90,10 +128,15 @@ const updatePatient = async (req, res) => {
 	if (patient.email) {
 		sendEmail(
 			patient,
-			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что ваша запись была перенесена на ${patient.appointment} в ${patient.time}`
+			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что ваша запись была перенесена на ${patient.appointment} в ${patient.time}\n\n\n`
+			+`Это письмо сформировано автоматически и не требует ответа.`
 		)
 	}
-	res.status(201).json({ patient })
+	const patientsOnThisDate = await Patient.find({appointment: patient.appointment})
+	if(patientsOnThisDate.length === timeAvailable.length) {
+		await DisabledDates.create({date: patient.appointment})
+	}
+	return res.status(201).json({ patient })
 }
 
 const deletePatient = async (req, res) => {
@@ -102,7 +145,7 @@ const deletePatient = async (req, res) => {
 	if (!patient) {
 		throw new Error('Not Found')
 	}
-	res.status(200).json('Deleted')
+	return res.status(200).json('Deleted')
 }
 
 //DATES
@@ -121,157 +164,51 @@ const checkDate = async (req, res) => {
 	}
 	const busyTime = patients.map(patient => patient.time)
 	const result = timeAvailable.filter(time => !busyTime.includes(time))
-	res.status(200).json({ freeHours: result })
+	return res.status(200).json({ freeHours: result })
 }
 
 const deleteOldPatients = async (req, res) => {
-	const today = Date.now()
 	const patients = await Patient.find()
 	if (!patients.length) {
 		return
 	}
-	const patientsToDelete = patients.filter(patient => {
-		const patientDate = patient.appointment.split('-')
-		if (
-			new Date(
-				`${patientDate[1]}/${patientDate[0]}/${patientDate[2]} ${patient.time}:00`
-			).getTime() < today
-		) {
-			return patient._id
-		}
-	})
+	const patientsToDelete = await deleteArrayFromDB(patients)
 	if (!patientsToDelete.length) {
 		return res.status(200).json('OK')
 	}
 	await Patient.deleteMany({ _id: { $in: patientsToDelete } })
-	res.status(200).json('OK')
+	return res.status(200).json('OK')
 }
 
-//DELETE THIS FUNCTION
-const population = async (req, res) => {
-	const date = req.query.date || '25-12-2022'
-	await Patient.insertMany([
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '09:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '09:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '10:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '10:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '11:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '11:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '12:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '12:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '13:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '13:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '14:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '14:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '15:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '15:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '16:00',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '16:30',
-		},
-		{
-			name: 'Raychev Andrey Igorevich',
-			phone: '+34613120591',
-			email: 'andrew.raychev@gmail.com',
-			appointment: `${date}`,
-			time: '17:00',
-		},
-	])
-	res.status(200).send('Inserted')
+const fullFillTheDate = async (req, res) => {
+	const {date} = req.body
+	if(!date.match(/[0-3][0-9]-[0-1][0-9]-[0-2]0[2-9][0-9]/gm)) {
+		throw new Error('Date must be provided')
+	}
+	const patientsWithThisDate = await Patient.find({appointment: date})
+	if(!patientsWithThisDate.length) {
+		await getArrayToDisableSpecialDate(timeAvailable, date)
+		await DisabledDates.create({date})
+		return res.status(200).send('OK')
+	}
+	if(patientsWithThisDate.length === timeAvailable.length) {
+		return res.status(200).send('OK')
+	}
+	const busyHours = patientsWithThisDate.map(patient => patient.time)
+	const freeHours = timeAvailable.filter((hour) => !busyHours.includes(hour))
+	await getArrayToDisableSpecialDate(freeHours, date)
+	if(!(await DisabledDates.findOne({date}))) {
+		await DisabledDates.create({date})
+	}
+	return res.status(200).send('OK')
+}
+
+const getDisabledDates = async (req, res) => {
+	const disabledDates = await DisabledDates.find()
+	if(!disabledDates.length) {
+		return res.status(200).json({message: 'No dates have been found'})
+	}
+	return res.status(200).json({dates: disabledDates})
 }
 
 module.exports = {
@@ -283,5 +220,7 @@ module.exports = {
 	checkDate,
 	findPatientByName,
 	deleteOldPatients,
-	population,
+	fullFillTheDate,
+	getDisabledDates,
+	timeAvailable
 }

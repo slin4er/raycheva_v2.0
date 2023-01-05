@@ -25,6 +25,7 @@
 		"react-scripts": "5.0.1",
 		"react-select": "^5.7.0",
 		"styled-components": "^5.3.5",
+		"telegraf-calendar-telegram": "^2.0.2",
 		"typescript": "^4.7.4",
 		"web-vitals": "^2.1.4",
 		"yup": "^0.32.11"
