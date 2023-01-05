@@ -12,8 +12,8 @@ export const Layout: FC<ILayout> = ({ dateClickHandler, sucMes, resData }) => {
 	return (
 		<Main>
 			<Preview message={sucMes} data={resData} />
-			<DatePicker dateClickHandler={dateClickHandler} />
-			<Footer />
+			{/* <DatePicker dateClickHandler={dateClickHandler} />
+			<Footer /> */}
 		</Main>
 	)
 }
