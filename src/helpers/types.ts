@@ -72,6 +72,11 @@ export interface ILayout {
 	sucMes?: boolean
 	resData?: IResData
 }
+export interface IDash {
+	dateClickHandler: (date: string) => void
+	sucMes?: boolean
+	resData?: IResData
+}
 
 export interface IPropPreview {
 	message?: boolean

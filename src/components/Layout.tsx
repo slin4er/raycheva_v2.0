@@ -5,19 +5,20 @@ import { Header } from './Header'
 import { Message } from './Message'
 import { Preview } from './Preview'
 import { ILayout } from '../helpers/types'
+import { Outlet } from 'react-router-dom'
 
 export const Layout: FC<ILayout> = ({ dateClickHandler, sucMes, resData }) => {
-	useEffect(() => {
-		window.scrollTo(0, 0)
-	}, [])
 	return (
 		<Container>
 			<Header />
-			<Main>
+			<Wrapper>
 				<Preview message={sucMes} data={resData} />
-				{/* <Message data={resData} /> */}
-				<DatePicker dateClickHandler={dateClickHandler} />
-			</Main>
+				<Main>
+					{/* <Message data={resData} /> 
+				<DatePicker dateClickHandler={dateClickHandler} />*/}
+					<Outlet />
+				</Main>
+			</Wrapper>
 		</Container>
 	)
 }
@@ -29,6 +30,8 @@ const Container = styled.div`
 	background: linear-gradient(#e7ebee, #77a6ca);
 `
 const Main = styled.main`
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+	width: 1300px;
+`
+const Wrapper = styled.div`
+	display: flex;
 `

@@ -7,6 +7,7 @@ import { AdminPanel } from './components/Admin/AdminPanel'
 import { ItemDetails } from './components/Admin/ItemDetails'
 import { SingIn } from './components/Admin/SingIn'
 import { IResData } from './helpers/types'
+import { Dash } from './components/Dashboard'
 
 export const App: FC = () => {
 	const redirect = useNavigate()
@@ -34,22 +35,42 @@ export const App: FC = () => {
 						resData={resData}
 					/>
 				}
-			/>
+			>
+				<Route
+					index
+					element={
+						<Dash
+							dateClickHandler={dateClickHandler}
+							sucMes={succesMessage}
+							resData={resData}
+						/>
+					}
+				/>
+				<Route
+					path='dashboard'
+					element={
+						<Dash
+							dateClickHandler={dateClickHandler}
+							sucMes={succesMessage}
+							resData={resData}
+						/>
+					}
+				/>
+				<Route
+					path='registration'
+					element={
+						<FormRegistration
+							date={datePick}
+							successRegistration={successRegistration}
+							responseData={responseData}
+						/>
+					}
+				/>
+			</Route>
 
 			<Route path='/admin' element={<AdminPanel />} />
 
 			<Route path='admin/:_id' element={<ItemDetails />} />
-
-			<Route
-				path='/registration'
-				element={
-					<FormRegistration
-						date={datePick}
-						successRegistration={successRegistration}
-						responseData={responseData}
-					/>
-				}
-			/>
 
 			<Route path='/login' element={<SingIn />} />
 			<Route path='*' element={<NotFound />} />
