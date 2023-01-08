@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="" />
+    <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/patient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/telegram/telegramBotFunctions.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/telegram/telegramBotFunctions.js" afterDir="false" />
+    </list>
     <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +119,10 @@
       <workItem from="1672332618922" duration="5821000" />
       <workItem from="1672340034755" duration="141000" />
       <workItem from="1672341411198" duration="234000" />
-      <workItem from="1672684225785" duration="3046000" />
+      <workItem from="1672684225785" duration="3397000" />
+      <workItem from="1672709355552" duration="456000" />
+      <workItem from="1673114114493" duration="3032000" />
+      <workItem from="1673187234810" duration="767000" />
     </task>
     <servers />
   </component>

@@ -141,10 +141,15 @@ const updatePatient = async (req, res) => {
 
 const deletePatient = async (req, res) => {
 	const { id: patient_id } = req.params
-	const patient = await Patient.findByIdAndDelete(patient_id)
+	const patient = await Patient.findById(patient_id)
 	if (!patient) {
 		throw new Error('Not Found')
 	}
+	const disabledDateExists = await DisabledDates.findOne({date: patient.appointment})
+	if(disabledDateExists) {
+		await DisabledDates.deleteOne(disabledDateExists)
+	}
+	await Patient.deleteOne(patient)
 	return res.status(200).json('Deleted')
 }
 

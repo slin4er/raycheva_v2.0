@@ -1,5 +1,6 @@
 const {Keyboard} = require("telegram-keyboard");
 const Patient = require("../models/patient");
+const DisabledDates = require('../models/disabledDates')
 const {timeAvailable} = require("../controllers/patient");
 const Calendar = require("telegraf-calendar-telegram");
 
@@ -25,6 +26,13 @@ const createButtons = (buttonsArray) => {
     ]).resize().oneTime().reply()
 }
 
+const addThisDateIntoDisabledDates = async (date) => {
+    const patientsOnThisDate = await Patient.find({appointment: date})
+    if(patientsOnThisDate.length === timeAvailable.length) {
+        await DisabledDates.create({date})
+    }
+}
+
 const getArrayOfHours = async (date) => {
     const patients = await Patient.find({appointment: date})
     if(patients.length === timeAvailable.length) {
@@ -38,12 +46,14 @@ const getArrayOfHours = async (date) => {
 }
 
 const createPatient = async (name, phone, appointment, time) => {
-    return await Patient.create({
+    const patient = await Patient.create({
         name,
         phone,
         appointment,
         time
     })
+    await addThisDateIntoDisabledDates(appointment)
+    return patient
 }
 
 const findPatient = async (phone) => {
