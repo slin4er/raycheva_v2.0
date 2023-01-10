@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/telegram/telegramBot.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/telegram/telegramBot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/patient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Admin/AdminPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Admin/AdminPanel.tsx" afterDir="false" />
     </list>
     <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -124,7 +125,10 @@
       <workItem from="1673187234810" duration="1884000" />
       <workItem from="1673208049912" duration="714000" />
       <workItem from="1673356847846" duration="598000" />
-      <workItem from="1673359293073" duration="907000" />
+      <workItem from="1673359293073" duration="1277000" />
+      <workItem from="1673361567896" duration="187000" />
+      <workItem from="1673368605663" duration="616000" />
+      <workItem from="1673379783621" duration="2476000" />
     </task>
     <servers />
   </component>

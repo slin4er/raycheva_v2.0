@@ -79,11 +79,12 @@ const getPatients = async (req, res) => {
 	const limit = req.query.limit || 10
 	if(page <= 0) {page = 1}
 	const skip = (page - 1) * limit
+	const patientCount = await Patient.find().count()
 	const patients = await Patient.find({}).limit(limit).skip(skip) || []
 	if (!patients.length) {
 		return res.status(200).json({ patients: [] })
 	}
-	return res.status(200).json({ patients })
+	return res.status(200).json({ patients, patientCount })
 }
 
 const getPatient = async (req, res) => {

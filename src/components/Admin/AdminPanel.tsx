@@ -12,6 +12,8 @@ const itemsPerPage = 10
 export const AdminPanel: FC = () => {
 	const redirect = useNavigate()
 	const [patient, setPatient] = useState<IItem[] | []>()
+	const [page, setPage] = useState(1)
+	const [pageCount, setPageCount] = useState(0)
 	const [inputSearch, setInputSearch] = useState('')
 	const [emptyPatient, setEmptyPatient] = useState<boolean>(false)
 	const [logoutStatus, setLogoutStatus] = useState<boolean>(false)
@@ -27,11 +29,12 @@ export const AdminPanel: FC = () => {
 
 			await axios
 				.get(
-					`http://localhost:3000/api/v1?page=1&limit=${itemsPerPage}`,
+					`http://localhost:3000/api/v1?page=${page}&limit=${itemsPerPage}`,
 					config
 				)
 				.then(res => {
 					setPatient(res.data.patients)
+					setPageCount(res.data.patientCount)
 					setLoading(false)
 				})
 				.catch(e => {
@@ -48,9 +51,11 @@ export const AdminPanel: FC = () => {
 				})
 		}
 		getData()
-	}, [])
+	}, [page])
 
-	const handlePageClick = (event: any) => {}
+	const handlePageClick = (event: any) => {
+		setPage(event.selected + 1)
+	}
 
 	useEffect(() => {
 		if (logoutStatus) {
@@ -141,7 +146,7 @@ export const AdminPanel: FC = () => {
 						<ReactPaginate
 							previousLabel={'← Previous'}
 							nextLabel={'Next →'}
-							pageCount={5}
+							pageCount={Math.ceil(pageCount / itemsPerPage)}
 							onPageChange={handlePageClick}
 							containerClassName={'pagination'}
 							previousLinkClassName={'pagination__link'}
