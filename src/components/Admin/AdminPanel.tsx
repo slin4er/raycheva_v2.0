@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import ReactPaginate from 'react-paginate'
 import './AdminPanel.css'
 
-const PER_PAGE = 10
+const itemsPerPage = 10
 
 export const AdminPanel: FC = () => {
 	const redirect = useNavigate()
@@ -18,50 +18,56 @@ export const AdminPanel: FC = () => {
 	const [errorMessage, setErrorMessage] = useState<boolean>(false)
 	const [loading, setLoading] = useState(false)
 
-	const [currentPage, setCurrentPage] = useState(0)
+	const [currentItems, setCurrentItems] = useState(null)
 	const [pageCount, setPageCount] = useState(1)
-
-	const getData = async () => {
-		setLoading(true)
-		const config = {
-			headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-		}
-
-		await axios
-			.get(
-				`http://localhost:3000/api/v1?page=${pageCount}&limit=${PER_PAGE}`,
-				config
-			)
-			.then(res => {
-				setPatient(res.data.patients)
-				setLoading(false)
-				setPageCount(Math.ceil(res.data.patients.length / PER_PAGE))
-			})
-			.catch(e => {
-				if (
-					e.response.status === 400 ||
-					e.response.status === 401 ||
-					e.response.status === 404 ||
-					e.response.status === 500
-				) {
-					setEmptyPatient(true)
-				} else {
-					setEmptyPatient(false)
-				}
-			})
-	}
+	const [itemOffset, setItemOffset] = useState(0)
 
 	useEffect(() => {
+		const getData = async () => {
+			setLoading(true)
+			const config = {
+				headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+			}
+
+			await axios
+				.get(
+					`http://localhost:3000/api/v1?page=${pageCount}&limit=${itemsPerPage}`,
+					config
+				)
+				.then(res => {
+					setPatient(res.data.patients)
+					setLoading(false)
+				})
+				.catch(e => {
+					if (
+						e.response.status === 400 ||
+						e.response.status === 401 ||
+						e.response.status === 404 ||
+						e.response.status === 500
+					) {
+						setEmptyPatient(true)
+					} else {
+						setEmptyPatient(false)
+					}
+				})
+		}
 		getData()
+		const endOffset = itemOffset + itemsPerPage
+		console.log(`Loading items from ${itemOffset} to ${endOffset}`)
+		//@ts-ignore
+		setCurrentItems(patient.slice(itemOffset, endOffset))
+		//@ts-ignore
+		setPageCount(Math.ceil(patient.length / itemsPerPage))
 	}, [])
 
-	const handlePageClick = (data: any) => {
-		console.log(data.selected)
-		setCurrentPage(data.selected)
+	const handlePageClick = (event: any) => {
+		//@ts-ignore
+		const newOffset = (event.selected * itemsPerPage) % patient.length
+		console.log(
+			`User requested page number ${event.selected}, which is offset ${newOffset}`
+		)
+		setItemOffset(newOffset)
 	}
-	const offset = currentPage * PER_PAGE
-
-	const currentPageData = patient?.slice(offset, offset + PER_PAGE)
 
 	useEffect(() => {
 		if (logoutStatus) {
@@ -124,7 +130,7 @@ export const AdminPanel: FC = () => {
 						<div>Никто еще не записался</div>
 					) : (
 						<ItemBlock>
-							{currentPageData
+							{currentItems
 								?.filter(elem => {
 									if (inputSearch === '') {
 										return elem
