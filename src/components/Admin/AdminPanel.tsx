@@ -18,10 +18,6 @@ export const AdminPanel: FC = () => {
 	const [errorMessage, setErrorMessage] = useState<boolean>(false)
 	const [loading, setLoading] = useState(false)
 
-	const [currentItems, setCurrentItems] = useState(null)
-	const [pageCount, setPageCount] = useState(1)
-	const [itemOffset, setItemOffset] = useState(0)
-
 	useEffect(() => {
 		const getData = async () => {
 			setLoading(true)
@@ -31,7 +27,7 @@ export const AdminPanel: FC = () => {
 
 			await axios
 				.get(
-					`http://localhost:3000/api/v1?page=${pageCount}&limit=${itemsPerPage}`,
+					`http://localhost:3000/api/v1?page=1&limit=${itemsPerPage}`,
 					config
 				)
 				.then(res => {
@@ -52,22 +48,9 @@ export const AdminPanel: FC = () => {
 				})
 		}
 		getData()
-		const endOffset = itemOffset + itemsPerPage
-		console.log(`Loading items from ${itemOffset} to ${endOffset}`)
-		//@ts-ignore
-		setCurrentItems(patient.slice(itemOffset, endOffset))
-		//@ts-ignore
-		setPageCount(Math.ceil(patient.length / itemsPerPage))
 	}, [])
 
-	const handlePageClick = (event: any) => {
-		//@ts-ignore
-		const newOffset = (event.selected * itemsPerPage) % patient.length
-		console.log(
-			`User requested page number ${event.selected}, which is offset ${newOffset}`
-		)
-		setItemOffset(newOffset)
-	}
+	const handlePageClick = (event: any) => {}
 
 	useEffect(() => {
 		if (logoutStatus) {
@@ -130,7 +113,7 @@ export const AdminPanel: FC = () => {
 						<div>Никто еще не записался</div>
 					) : (
 						<ItemBlock>
-							{currentItems
+							{patient
 								?.filter(elem => {
 									if (inputSearch === '') {
 										return elem
@@ -158,7 +141,7 @@ export const AdminPanel: FC = () => {
 						<ReactPaginate
 							previousLabel={'← Previous'}
 							nextLabel={'Next →'}
-							pageCount={pageCount}
+							pageCount={5}
 							onPageChange={handlePageClick}
 							containerClassName={'pagination'}
 							previousLinkClassName={'pagination__link'}
