@@ -81,6 +81,9 @@ bot.hears('Указать вручную', async (ctx) => {
 })
 
 bot.hears(regexTime, async (ctx) => {
+    if(!name) {
+        name = `${ctx.message.from.first_name} ${ctx.message.from.last_name}`
+    }
     time = ctx.message.text
     const patient = await createPatient(name, phone, date, time)
     return ctx.reply(`${patient.name}, спасибо, что записались ко мне на прием на ${patient.appointment} в ${patient.time}`)
