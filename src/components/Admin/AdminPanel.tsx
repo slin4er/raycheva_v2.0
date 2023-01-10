@@ -4,27 +4,38 @@ import styled from 'styled-components'
 import { ItemList } from './ItemList'
 import { IItem } from '../../helpers/types'
 import { useNavigate } from 'react-router-dom'
+import ReactPaginate from 'react-paginate'
+import './AdminPanel.css'
+
+const PER_PAGE = 10
 
 export const AdminPanel: FC = () => {
+	const redirect = useNavigate()
 	const [patient, setPatient] = useState<IItem[] | []>()
 	const [inputSearch, setInputSearch] = useState('')
 	const [emptyPatient, setEmptyPatient] = useState<boolean>(false)
 	const [logoutStatus, setLogoutStatus] = useState<boolean>(false)
 	const [errorMessage, setErrorMessage] = useState<boolean>(false)
-	const redirect = useNavigate()
+	const [loading, setLoading] = useState(false)
 
-	useEffect(() => {
-		const getData = async () => {
-			const config = {
-				headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-			}
+	const [currentPage, setCurrentPage] = useState(0)
+	const [pageCount, setPageCount] = useState(1)
 
-			const result = await axios.get(`http://localhost:3000/api/v1/`, config)
-			return result
+	const getData = async () => {
+		setLoading(true)
+		const config = {
+			headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
 		}
-		getData()
+
+		await axios
+			.get(
+				`http://localhost:3000/api/v1?page=${pageCount}&limit=${PER_PAGE}`,
+				config
+			)
 			.then(res => {
 				setPatient(res.data.patients)
+				setLoading(false)
+				setPageCount(Math.ceil(res.data.patients.length / PER_PAGE))
 			})
 			.catch(e => {
 				if (
@@ -38,7 +49,19 @@ export const AdminPanel: FC = () => {
 					setEmptyPatient(false)
 				}
 			})
+	}
+
+	useEffect(() => {
+		getData()
 	}, [])
+
+	const handlePageClick = (data: any) => {
+		console.log(data.selected)
+		setCurrentPage(data.selected)
+	}
+	const offset = currentPage * PER_PAGE
+
+	const currentPageData = patient?.slice(offset, offset + PER_PAGE)
 
 	useEffect(() => {
 		if (logoutStatus) {
@@ -101,7 +124,7 @@ export const AdminPanel: FC = () => {
 						<div>Никто еще не записался</div>
 					) : (
 						<ItemBlock>
-							{patient
+							{currentPageData
 								?.filter(elem => {
 									if (inputSearch === '') {
 										return elem
@@ -125,6 +148,19 @@ export const AdminPanel: FC = () => {
 								})}
 						</ItemBlock>
 					)}
+					<div>
+						<ReactPaginate
+							previousLabel={'← Previous'}
+							nextLabel={'Next →'}
+							pageCount={pageCount}
+							onPageChange={handlePageClick}
+							containerClassName={'pagination'}
+							previousLinkClassName={'pagination__link'}
+							nextLinkClassName={'pagination__link'}
+							disabledClassName={'pagination__link--disabled'}
+							activeClassName={'pagination__link--active'}
+						/>
+					</div>
 				</div>
 			)}
 		</div>

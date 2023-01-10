@@ -21,6 +21,7 @@
 		"react-hook-form": "^7.33.1",
 		"react-input-mask": "^3.0.0-alpha.2",
 		"react-input-mask-3.0": "^3.0.0",
+		"react-paginate": "^8.1.4",
 		"react-router-dom": "^6.3.0",
 		"react-scripts": "5.0.1",
 		"react-select": "^5.7.0",
