@@ -13,7 +13,7 @@ export const AdminPanel: FC = () => {
 	const redirect = useNavigate()
 	const [patient, setPatient] = useState<IItem[] | []>()
 	const [page, setPage] = useState(1)
-	const [pageCount, setPageCount] = useState(0)
+	const [patientCount, setPatientCount] = useState(0)
 	const [inputSearch, setInputSearch] = useState('')
 	const [emptyPatient, setEmptyPatient] = useState<boolean>(false)
 	const [logoutStatus, setLogoutStatus] = useState<boolean>(false)
@@ -34,7 +34,7 @@ export const AdminPanel: FC = () => {
 				)
 				.then(res => {
 					setPatient(res.data.patients)
-					setPageCount(res.data.patientCount)
+					setPatientCount(res.data.patientCount)
 					setLoading(false)
 				})
 				.catch(e => {
@@ -146,7 +146,7 @@ export const AdminPanel: FC = () => {
 						<ReactPaginate
 							previousLabel={'← Previous'}
 							nextLabel={'Next →'}
-							pageCount={Math.ceil(pageCount / itemsPerPage)}
+							pageCount={Math.ceil(patientCount / itemsPerPage)}
 							onPageChange={handlePageClick}
 							containerClassName={'pagination'}
 							previousLinkClassName={'pagination__link'}

@@ -112,11 +112,14 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 
 	const handlerSubmitDataForm: SubmitHandler<IFormInputs> = data => {
 		console.log(data)
+		const rightFormatDate = date?.split('-')
+			.map(element => element.length < 2 ? '0'+ element : element)
+			.join('-')
 		const fullData = {
 			name: data.name,
 			phone: data.phone,
 			email: data.email,
-			appointment: date,
+			appointment: rightFormatDate,
 			time: data.time.value,
 		}
 		setFormData(fullData)
