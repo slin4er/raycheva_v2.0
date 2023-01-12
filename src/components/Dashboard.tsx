@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import { DatePicker } from './DatePicker'
+import { MyDatePicker } from './DatePicker'
 import { Message } from './Message'
 import { IDash } from '../helpers/types'
 
@@ -9,7 +9,7 @@ export const Dash: FC<IDash> = ({ dateClickHandler, sucMes, resData }) => {
 		<Container>
 			<Body>
 				{/* <Message data={resData} /> */}
-				<DatePicker dateClickHandler={dateClickHandler} />
+				<MyDatePicker dateClickHandler={dateClickHandler} />
 			</Body>
 		</Container>
 	)

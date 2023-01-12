@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import { DatePicker } from './DatePicker'
+import { MyDatePicker } from './DatePicker'
 import { Header } from './Header'
 import { Message } from './Message'
 import { Preview } from './Preview'
@@ -15,7 +15,7 @@ export const Layout: FC<ILayout> = ({ dateClickHandler, sucMes, resData }) => {
 				<Preview message={sucMes} data={resData} />
 				<Main>
 					{/* <Message data={resData} /> 
-				<DatePicker dateClickHandler={dateClickHandler} />*/}
+				<MyDatePicker dateClickHandler={dateClickHandler} />*/}
 					<Outlet />
 				</Main>
 			</Wrapper>

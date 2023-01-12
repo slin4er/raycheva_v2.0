@@ -4,7 +4,7 @@ import '../App.css'
 
 import { Calendar } from './Calendar'
 
-export const DatePicker: FC<IDatePickerProps> = ({ dateClickHandler }) => {
+export const MyDatePicker: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 	return (
 		<>
 			<section className='hero is-primary'>

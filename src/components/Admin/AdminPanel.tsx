@@ -5,6 +5,8 @@ import { ItemList } from './ItemList'
 import { IItem } from '../../helpers/types'
 import { useNavigate } from 'react-router-dom'
 import ReactPaginate from 'react-paginate'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import './AdminPanel.css'
 
 const itemsPerPage = 10
@@ -15,6 +17,15 @@ export const AdminPanel: FC = () => {
 	const [page, setPage] = useState(1)
 	const [patientCount, setPatientCount] = useState(0)
 	const [inputSearch, setInputSearch] = useState('')
+
+	const [startDate, setStartDate] = useState<Date | null>(new Date())
+	const [myDate, setMyDate] = useState<string>()
+
+	const [dateDoc, setDateDoc] = useState({
+		date: '',
+	})
+	const [postDoc, setPostDoc] = useState(false)
+
 	const [emptyPatient, setEmptyPatient] = useState<boolean>(false)
 	const [logoutStatus, setLogoutStatus] = useState<boolean>(false)
 	const [errorMessage, setErrorMessage] = useState<boolean>(false)
@@ -93,7 +104,37 @@ export const AdminPanel: FC = () => {
 		}
 	}, [logoutStatus])
 
+	useEffect(() => {
+		if (postDoc) {
+			const postDocDate = async () => {
+				const config = {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				}
+				const result = await axios.post(
+					'http://localhost:3000/api/v1/insert/patients',
+					dateDoc,
+					config
+				)
+				return result
+			}
+			postDocDate().then(res => console.log(res))
+		}
+	}, [postDoc])
+
 	const handleDetailPatient = (id: string): void => redirect(`${id}`)
+
+	const handleTakenByDoc = (e: React.SyntheticEvent): void => {
+		e.preventDefault()
+		if (myDate) {
+			setDateDoc(state => ({
+				...state,
+				date: myDate,
+			}))
+			setPostDoc(state => !state)
+		}
+	}
 
 	return (
 		<div>
@@ -109,6 +150,21 @@ export const AdminPanel: FC = () => {
 								setInputSearch(e.target.value)
 							}
 						/>
+						<div>
+							<form onSubmit={handleTakenByDoc}>
+								<label>занять врачом</label>
+								<DatePicker
+									dateFormat='yyyy-MM-dd'
+									selected={startDate}
+									onSelect={date =>
+										setMyDate(date.toLocaleDateString().split('.').join('-'))
+									}
+									onChange={date => setStartDate(date)}
+								/>
+								<button type={'submit'}>занять врачом</button>
+							</form>
+						</div>
+
 						<button onClick={() => setLogoutStatus(true)}>выйти!</button>
 						{errorMessage ? (
 							<div>Что-то пошло не так...(Не удалось выйти с админ панели)</div>

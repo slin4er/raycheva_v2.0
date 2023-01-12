@@ -81,7 +81,6 @@ export const ItemDetails: FC = () => {
 			}
 			patchData()
 				.then(res => {
-					console.log(res.data)
 					setInputs(state => ({
 						...state,
 						name: res.data.patient.name,
