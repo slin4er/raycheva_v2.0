@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import { MyDatePicker } from './DatePicker'
+import { MyDatePicker } from './MyDatePicker'
 import { Header } from './Header'
 import { Message } from './Message'
 import { Preview } from './Preview'
@@ -26,11 +26,11 @@ export const Layout: FC<ILayout> = ({ dateClickHandler, sucMes, resData }) => {
 const Container = styled.div`
 	height: 100vh;
 	width: 100vw;
-	padding: 50px 80px 75px 80px;
+	padding: 50px;
 	background: linear-gradient(#e7ebee, #77a6ca);
 `
 const Main = styled.main`
-	width: 1300px;
+	width: 100%;
 `
 const Wrapper = styled.div`
 	display: flex;

@@ -1,6 +1,8 @@
-import { Fragment, FC } from 'react'
+import { FC } from 'react'
+import styled from 'styled-components'
 import { IColumn, IDatePickerProps } from '../helpers/types'
 import useCalendar from '../hooks/useCalendar'
+import './Calendar.css'
 
 export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 	const {
@@ -14,56 +16,94 @@ export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 	} = useCalendar()
 
 	return (
-		<Fragment>
-			<p>
+		<>
+			<P>
 				Месяц:{' '}
 				{`${
 					monthNames[selectedDate.getMonth()]
 				}, год - ${selectedDate.getFullYear()}`}
-			</p>
-			<table className='table'>
-				<thead>
-					<tr>
+			</P>
+			<Table className='table'>
+				<THead>
+					<Tr>
 						{daysShort.map(day => (
-							<th key={day}>{day}</th>
+							<Th key={day}>{day}</Th>
 						))}
-					</tr>
-				</thead>
-				<tbody>
+					</Tr>
+				</THead>
+				<TBody>
 					{Object.values(calendarRows).map((cols: IColumn[]) => {
 						return (
-							<tr key={cols[0].date}>
+							<Tr key={cols[0].date}>
 								{cols.map(col =>
 									col.date === todayFormatted ? (
-										<td
+										<Td
 											key={col.date}
 											className={`${col.classes} today`}
 											onClick={() => dateClickHandler(col.date)}
 										>
-											{col.value}
-										</td>
+											<button>{col.value}</button>
+										</Td>
 									) : (
-										<td
+										<Td
 											key={col.date}
 											className={col.classes}
 											onClick={() => dateClickHandler(col.date)}
 										>
-											{col.value}
-										</td>
+											<button>{col.value}</button>
+										</Td>
 									)
 								)}
-							</tr>
+							</Tr>
 						)
 					})}
-				</tbody>
-			</table>
+				</TBody>
+			</Table>
 
-			<button className='button' onClick={getPrevMonth}>
+			<BtnPrev className='button' onClick={getPrevMonth}>
 				Назад
-			</button>
-			<button className='button' onClick={getNextMonth}>
+			</BtnPrev>
+			<BtnNext className='button' onClick={getNextMonth}>
 				Вперед
-			</button>
-		</Fragment>
+			</BtnNext>
+		</>
 	)
 }
+
+const P = styled.p`
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 40px;
+	letter-spacing: 0.03em;
+	color: #000000;
+`
+const Table = styled.table`
+	border-collapse: collapse;
+	width: 100%;
+`
+const THead = styled.thead``
+const Th = styled.th`
+	border: 1px solid #ddd;
+	padding: 8px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #04aa6d;
+	color: white;
+`
+const TBody = styled.tbody``
+const Td = styled.td`
+	border: 1px solid #ddd;
+	padding: 8px;
+`
+const Tr = styled.tr`
+	cursor: pointer;
+	:nth-child(even) {
+		background-color: #f2f2f2;
+	}
+	:hover {
+		background-color: #ddd;
+	}
+`
+const BtnPrev = styled.button``
+const BtnNext = styled.button``

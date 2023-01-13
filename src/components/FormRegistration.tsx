@@ -128,7 +128,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 
 	return (
 		<Container>
-			<Title>Form Registration</Title>
+			<Title>Форма регистрации</Title>
 
 			{errorGetData || errorPostData ? <div>Не удалось записаться</div> : null}
 
@@ -208,9 +208,11 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 	)
 }
 
-const Container = styled.div``
+const Container = styled.div`
+	background: violet;
+`
 
-const Title = styled.h1``
+const Title = styled.h2``
 
 const Form = styled.form`
 	display: grid;
@@ -319,6 +321,41 @@ const CheckErrorMessage = styled.span`
 	color: #ff768e;
 `
 
-const ButtonSubmit = styled.button``
+const ButtonSubmit = styled.button`
+	text-decoration: none;
+	display: inline-block;
+	padding: 10px 30px;
+	margin-top: 15px;
+	border: 2px solid #77a7ca;
+	border-radius: 6px;
+	position: relative;
+	overflow: hidden;
+	color: #000000;
+	cursor: pointer;
+	transition: 0.2s ease-in-out;
+	:before {
+		content: '';
+		background: linear-gradient(
+			90deg,
+			rgba(255, 255, 255, 0.1),
+			rgba(255, 255, 255, 0.5)
+		);
+		height: 60px;
+		width: 50px;
+		position: absolute;
+		top: -8px;
+		left: -75px;
+		transform: skewX(-45deg);
+	}
+	:hover {
+		background: #77a7ca;
+		color: #fff;
+		border: 2px solid #fff;
+	}
+	:hover:before {
+		left: 300px;
+		transition: 0.9s ease-in-out;
+	}
+`
 
 const ButtonBack = styled.button``

@@ -22,11 +22,10 @@ export const Preview: FC<IPropPreview> = ({ message, data }) => {
 	return (
 		<PreviewBlock>
 			<Info>
-				Здравствуйте, меня зовут
-				<Name>Райчева Эвелина Николаевна.</Name> Я специалист в области
-				гинекологии, здесь вы можете записаться ко мне на прием
+				Здравствуйте, меня зовут <br />
+				<Name>Райчева Эвелина Николаевна.</Name> <br />Я специалист в области
+				гинекологии, здесь вы можете записаться ко мне на прием.
 			</Info>
-			{/* <Button>Записаться на прием</Button> */}
 			<Contact>
 				<Title>Дополнительная информация</Title>
 				<Block>
@@ -50,67 +49,35 @@ export const Preview: FC<IPropPreview> = ({ message, data }) => {
 
 const PreviewBlock = styled.section`
 	height: 100%;
-	width: 100%;
+	width: 80%;
+	/* height: 575px; */
 	padding: 20px;
+	border-radius: 13px;
+	border: 2px solid #77a7ca;
+	background: #77a7ca;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	align-items: center;
-	background: red;
 `
 
 const Name = styled.span`
 	margin-top: 10px;
 	margin-bottom: 10px;
 	font-weight: 300;
-	font-size: 30px;
+	font-size: 60px;
+	line-height: 70px;
 	color: #000000;
 `
 
 const Info = styled.div`
-	font-size: 24px;
+	font-size: 26px;
 	line-height: 33px;
 	color: #000000;
 	font-weight: 300;
 `
-const Contact = styled.div``
-
-// const Button = styled.a`
-// 	text-decoration: none;
-// 	display: inline-block;
-// 	padding: 10px 30px;
-// 	margin-top: 15px;
-// 	border: 2px solid #77a7ca;
-// 	border-radius: 6px;
-// 	position: relative;
-// 	overflow: hidden;
-// 	color: #000000;
-// 	cursor: pointer;
-// 	transition: 0.2s ease-in-out;
-// 	:before {
-// 		content: '';
-// 		background: linear-gradient(
-// 			90deg,
-// 			rgba(255, 255, 255, 0.1),
-// 			rgba(255, 255, 255, 0.5)
-// 		);
-// 		height: 60px;
-// 		width: 50px;
-// 		position: absolute;
-// 		top: -8px;
-// 		left: -75px;
-// 		transform: skewX(-45deg);
-// 	}
-// 	:hover {
-// 		background: #77a7ca;
-// 		color: #fff;
-// 		border: 2px solid #fff;
-// 	}
-// 	:hover:before {
-// 		left: 300px;
-// 		transition: 0.9s ease-in-out;
-// 	}
-// `
+const Contact = styled.div`
+	margin-top: 33px;
+`
 
 const Title = styled.h2`
 	font-weight: 700;

@@ -5,7 +5,6 @@ export const Header: FC = () => {
 	return (
 		<HeaderBlock>
 			<Label>Райчева Эвелина Николаевна</Label>
-			<Line></Line>
 		</HeaderBlock>
 	)
 }
@@ -13,19 +12,9 @@ export const Header: FC = () => {
 const HeaderBlock = styled.header`
 	display: flex;
 	position: relative;
-	background: green;
 	width: 100%;
 	height: 60px;
-`
-const Line = styled.hr`
-	position: absolute;
-	left: -20px;
-	bottom: -32px;
-	width: 130px;
-	height: 5px;
-	border: none;
-	border-radius: 3px;
-	background: #77a6ca;
+	padding-left: 21px;
 `
 const Label = styled.span`
 	font-weight: 500;
