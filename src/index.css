@@ -6,9 +6,10 @@
 	box-sizing: border-box;
 }
 
-body {
+body,
+html {
 	margin: 0;
-	font-family: 'Poppins';
+	font-family: 'Poppins', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
