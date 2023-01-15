@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { IFormInputs, IFormRegistrationProps, IResData } from '../helpers/types'
 import styled from 'styled-components'
 import axios from 'axios'
+import { Tooltip } from './Tooltip'
 
 import InputMask from 'react-input-mask'
 
@@ -22,7 +23,6 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 	const [postFormData, setPostFormData] = useState<boolean>(false)
 	const [errorGetData, setErrorGetData] = useState<boolean>(false)
 	const [errorPostData, setErrorPostData] = useState<boolean>(false)
-	const [noteAboutEmail, askNoteAboutEmail] = useState<boolean>(true)
 	const [formData, setFormData] = useState({})
 	const [optionsObj, setOptionsObj] = useState()
 
@@ -132,16 +132,6 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 
 			{errorGetData || errorPostData ? <div>Не удалось записаться</div> : null}
 
-			{noteAboutEmail ? (
-				<EmailNote>
-					<h2>
-						Запись на прием придет на указанный вами почтовый адрес (если
-						имеется)
-					</h2>
-					<button onClick={() => askNoteAboutEmail(false)}>X</button>
-				</EmailNote>
-			) : null}
-
 			<Form onSubmit={handleSubmit(handlerSubmitDataForm)}>
 				<Label>
 					Имя и Фамилия:
@@ -164,7 +154,13 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 				<Error>{errors.phone?.message}</Error>
 
 				<Label>
-					Почта (рекомендуется):
+					Почта (рекомендуется)
+					<Tooltip
+						text={'Запись на прием придет на указанный вами почтовый адрес'}
+					>
+						<span>?</span>
+					</Tooltip>
+					:
 					<Input
 						type={'string'}
 						placeholder={'Ваша почта'}
@@ -216,7 +212,7 @@ const Title = styled.h2``
 
 const Form = styled.form`
 	display: grid;
-	grid-template-rows: 78px 13px 78px 13px 78px 13px 78px 13px 78px 13px 60px 60px 40px;
+	grid-template-rows: 78px 13px 78px 13px 78px 13px 78px 13px 78px 13px 60px;
 	align-items: center;
 	border: none;
 	margin: 0;

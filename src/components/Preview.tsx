@@ -22,9 +22,8 @@ export const Preview: FC<IPropPreview> = ({ message, data }) => {
 	return (
 		<PreviewBlock>
 			<Info>
-				Здравствуйте, меня зовут <br />
-				<Name>Райчева Эвелина Николаевна.</Name> <br />Я специалист в области
-				гинекологии, здесь вы можете записаться ко мне на прием.
+				Я специалист в области гинекологии, здесь вы можете записаться ко мне на
+				прием.
 			</Info>
 			<Contact>
 				<Title>Дополнительная информация</Title>
@@ -53,8 +52,6 @@ const PreviewBlock = styled.section`
 	/* height: 575px; */
 	padding: 20px;
 	border-radius: 13px;
-	border: 2px solid #77a7ca;
-	background: #77a7ca;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -63,13 +60,15 @@ const PreviewBlock = styled.section`
 const Name = styled.span`
 	margin-top: 10px;
 	margin-bottom: 10px;
-	font-weight: 300;
-	font-size: 60px;
+	font-weight: 500;
+	font-size: 30px;
+	font-style: italic;
 	line-height: 70px;
 	color: #000000;
 `
 
 const Info = styled.div`
+	font-style: italic;
 	font-size: 26px;
 	line-height: 33px;
 	color: #000000;
@@ -80,6 +79,7 @@ const Contact = styled.div`
 `
 
 const Title = styled.h2`
+	font-style: italic;
 	font-weight: 700;
 	font-size: 28px;
 	letter-spacing: 0.03em;
@@ -119,6 +119,7 @@ const TelBlock = styled.div`
 	border-radius: 6px;
 `
 const Location = styled.div`
+	font-style: italic;
 	padding-left: 10px;
 	font-weight: 500;
 	font-size: 20px;
@@ -127,6 +128,7 @@ const Location = styled.div`
 	color: #000000;
 `
 const Tel = styled.span`
+	font-style: italic;
 	padding-left: 10px;
 	font-weight: 500;
 	font-size: 20px;

@@ -17,6 +17,7 @@ const HeaderBlock = styled.header`
 	padding-left: 21px;
 `
 const Label = styled.span`
+	font-style: italic;
 	font-weight: 500;
 	font-size: 25px;
 	line-height: 25px;
