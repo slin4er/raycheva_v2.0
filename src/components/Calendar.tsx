@@ -42,7 +42,7 @@ export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 											className={`${col.classes} today`}
 											onClick={() => dateClickHandler(col.date)}
 										>
-											<button>{col.value}</button>
+											<BtnTd>{col.value}</BtnTd>
 										</Td>
 									) : (
 										<Td
@@ -50,7 +50,7 @@ export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 											className={col.classes}
 											onClick={() => dateClickHandler(col.date)}
 										>
-											<button>{col.value}</button>
+											<BtnTd>{col.value}</BtnTd>
 										</Td>
 									)
 								)}
@@ -60,18 +60,21 @@ export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 				</TBody>
 			</Table>
 
-			<BtnPrev className='button' onClick={getPrevMonth}>
-				Назад
-			</BtnPrev>
-			<BtnNext className='button' onClick={getNextMonth}>
-				Вперед
-			</BtnNext>
+			<BtnBlock>
+				<BtnPrev className='button' onClick={getPrevMonth}>
+					Назад
+				</BtnPrev>
+				<BtnNext className='button' onClick={getNextMonth}>
+					Вперед
+				</BtnNext>
+			</BtnBlock>
 		</>
 	)
 }
 
 const P = styled.p`
 	font-weight: 500;
+	font-style: italic;
 	font-size: 20px;
 	line-height: 40px;
 	letter-spacing: 0.03em;
@@ -84,26 +87,66 @@ const Table = styled.table`
 const THead = styled.thead``
 const Th = styled.th`
 	border: 1px solid #ddd;
-	padding: 8px;
+	padding: 18px;
 	padding-top: 12px;
 	padding-bottom: 12px;
 	text-align: left;
-	background-color: #04aa6d;
+	background-color: #77a6ca;
 	color: white;
 `
 const TBody = styled.tbody``
 const Td = styled.td`
 	border: 1px solid #ddd;
-	padding: 8px;
-`
-const Tr = styled.tr`
 	cursor: pointer;
-	:nth-child(even) {
-		background-color: #f2f2f2;
-	}
-	:hover {
-		background-color: #ddd;
+	height: 30px;
+`
+const Tr = styled.tr``
+
+const BtnBlock = styled.div`
+	margin-top: 5px;
+	width: 100%;
+	padding: 0 110px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`
+const BtnTd = styled.button`
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	background: inherit;
+	border: none;
+	color: inherit;
+	font-size: 15px;
+	font-weight: 500;
+	&:hover {
+		background: #77a6ca;
+		color: #fff;
 	}
 `
-const BtnPrev = styled.button``
-const BtnNext = styled.button``
+const BtnPrev = styled.button`
+	width: 70px;
+	height: 30px;
+	border: 2px solid #77a6ca;
+	border-radius: 4px;
+	color: #000;
+	font-weight: 500;
+	cursor: pointer;
+	&:hover {
+		color: #fff;
+		background: #77a6ca;
+	}
+`
+const BtnNext = styled.button`
+	width: 70px;
+	height: 30px;
+	border: 2px solid #77a6ca;
+	border-radius: 4px;
+	color: #000;
+	font-weight: 500;
+	cursor: pointer;
+	&:hover {
+		color: #fff;
+		background: #77a6ca;
+	}
+`

@@ -47,36 +47,23 @@ export const Preview: FC<IPropPreview> = ({ message, data }) => {
 }
 
 const PreviewBlock = styled.section`
-	height: 100%;
 	width: 80%;
-	/* height: 575px; */
+	height: 500px;
 	padding: 20px;
 	border-radius: 13px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 `
-
-const Name = styled.span`
-	margin-top: 10px;
-	margin-bottom: 10px;
-	font-weight: 500;
-	font-size: 30px;
-	font-style: italic;
-	line-height: 70px;
-	color: #000000;
-`
-
 const Info = styled.div`
+	margin-top: 30px;
 	font-style: italic;
 	font-size: 26px;
 	line-height: 33px;
 	color: #000000;
 	font-weight: 300;
 `
-const Contact = styled.div`
-	margin-top: 33px;
-`
+const Contact = styled.div``
 
 const Title = styled.h2`
 	font-style: italic;

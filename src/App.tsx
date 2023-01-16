@@ -8,6 +8,7 @@ import { ItemDetails } from './components/Admin/ItemDetails'
 import { SingIn } from './components/Admin/SingIn'
 import { IResData } from './helpers/types'
 import { Dash } from './components/Dashboard'
+import { Policy } from './components/Policy'
 
 export const App: FC = () => {
 	const redirect = useNavigate()
@@ -73,6 +74,7 @@ export const App: FC = () => {
 			<Route path='admin/:_id' element={<ItemDetails />} />
 
 			<Route path='/login' element={<SingIn />} />
+			<Route path='/policy' element={<Policy />} />
 			<Route path='*' element={<NotFound />} />
 		</Routes>
 	)

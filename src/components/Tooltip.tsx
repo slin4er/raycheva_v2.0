@@ -10,13 +10,12 @@ export const Tooltip: FC<ITooltip> = ({ children, text, ...rest }) => {
 
 	return (
 		<>
-			<Text show={show}>{text}</Text>
 			<HOC
 				{...rest}
 				onMouseEnter={() => setShow(true)}
 				onMouseLeave={() => setShow(false)}
 			>
-				{children}
+				{children} <Text show={show}>{text}</Text>
 			</HOC>
 		</>
 	)
@@ -24,5 +23,10 @@ export const Tooltip: FC<ITooltip> = ({ children, text, ...rest }) => {
 
 const Text = styled.div.attrs((props: { show: boolean }) => props)`
 	visibility: ${props => (props.show ? 'visible' : 'hidden')};
+	font-weight: 500;
+	font-size: 13px;
+	color: #707070;
 `
-const HOC = styled.div``
+const HOC = styled.div`
+	display: flex;
+`

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { daysShortArr } from '../configs/DaysShortNames'
 import { monthNamesArr } from '../configs/MonthNames'
 import { ICalendarRows } from '../helpers/types'
+import '../components/Calendar.css'
 
 const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
 	const today = new Date()
@@ -46,7 +47,7 @@ const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
 					calendarRows[i] = [
 						...calendarRows[i],
 						{
-							classes: 'in-prev-month',
+							classes: 'prev',
 							date: `${prevMonthStartingPoint}-${
 								selectedDate.getMonth() === 0 ? 12 : selectedDate.getMonth()
 							}-${
@@ -62,7 +63,7 @@ const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
 					calendarRows[i] = [
 						...calendarRows[i],
 						{
-							classes: '',
+							classes: 'current',
 							date: `${currentMonthCounter}-${
 								selectedDate.getMonth() + 1
 							}-${selectedDate.getFullYear()}`,
@@ -75,7 +76,7 @@ const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
 				calendarRows[i] = [
 					...calendarRows[i],
 					{
-						classes: '',
+						classes: 'current',
 						date: `${currentMonthCounter}-${
 							selectedDate.getMonth() + 1
 						}-${selectedDate.getFullYear()}`,
@@ -87,7 +88,7 @@ const useCalendar = (daysShort = daysShortArr, monthNames = monthNamesArr) => {
 				calendarRows[i] = [
 					...calendarRows[i],
 					{
-						classes: 'in-next-month',
+						classes: 'next',
 						date: `${nextMonthCounter}-${
 							selectedDate.getMonth() + 2 === 13
 								? 1

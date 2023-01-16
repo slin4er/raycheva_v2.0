@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import Creatable from 'react-select/creatable'
 import * as Yup from 'yup'
@@ -29,7 +29,6 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 	const formShema = Yup.object().shape({
 		name: Yup.string().required('Введите имя и фамилию!'),
 		phone: Yup.string().required('Вы не ввели телефон!'),
-		email: Yup.string(),
 		time: Yup.object()
 			.shape({
 				label: Yup.string().required('Вы не выбрали время!'),
@@ -45,8 +44,23 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 		handleSubmit,
 		formState: { errors },
 		control,
+		setFocus,
 	} = useForm<IFormInputs>({ resolver: yupResolver(formShema) })
 
+	const selectStyles = {
+		control: (styles: any, state: any) => ({
+			...styles,
+			border: 'none',
+			boxShadow: state.isFocused ? '0 0 2px 2px #77a7ca;' : '',
+			fontWeight: '500',
+			fontSize: '14px',
+			color: '#303030',
+		}),
+	}
+
+	useEffect(() => {
+		setFocus('name')
+	}, [setFocus])
 	// нажал на дату и сделать запрос http://localhost:3000/api/v1/date/available
 	// придет массив свободный часов
 	useEffect(() => {
@@ -128,7 +142,10 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 
 	return (
 		<Container>
-			<Title>Форма регистрации</Title>
+			<Flex>
+				<ButtonBack onClick={redirectOnLayout}>← Назад</ButtonBack>
+				<Title>Форма регистрации</Title>
+			</Flex>
 
 			{errorGetData || errorPostData ? <div>Не удалось записаться</div> : null}
 
@@ -154,20 +171,16 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 				<Error>{errors.phone?.message}</Error>
 
 				<Label>
-					Почта (рекомендуется)
-					<Tooltip
-						text={'Запись на прием придет на указанный вами почтовый адрес'}
-					>
-						<span>?</span>
-					</Tooltip>
-					:
+					Почта (рекомендуется):
 					<Input
 						type={'string'}
 						placeholder={'Ваша почта'}
 						{...register('email')}
 					/>
 				</Label>
-				<Error>{errors.email?.message}</Error>
+				<Tooltip text={'Запись на прием придет на адрес Вашей почты'}>
+					<SpanEmail>(?)</SpanEmail>
+				</Tooltip>
 
 				<Label>
 					Время:
@@ -182,6 +195,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 									placeholder='Выберите время'
 									noOptionsMessage={() => 'Все часы заняты'}
 									isSearchable={false}
+									styles={selectStyles}
 								/>
 							)
 						}}
@@ -190,7 +204,10 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 				<Error>{errors.time && <p>{errors.time.label?.message}</p>}</Error>
 
 				<CheckboxContainer>
-					Я согласен(а) с политикой конфиденциальности
+					Я согласен(а) с {''}
+					<Link to={'/policy'} target={'_blank'}>
+						политикой конфиденциальности
+					</Link>
 					<Checkbox {...register('checkbox')} type='checkbox' />
 					<CheckMark></CheckMark>
 					<CheckErrorMessage>{errors.checkbox?.message}</CheckErrorMessage>
@@ -198,22 +215,46 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 
 				<ButtonSubmit type={'submit'}>Записаться на приём</ButtonSubmit>
 			</Form>
-
-			<ButtonBack onClick={redirectOnLayout}>Назад</ButtonBack>
 		</Container>
 	)
 }
 
 const Container = styled.div`
-	background: violet;
+	padding: 0 211px;
+	height: 500px;
+`
+const Flex = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid silver;
+	height: 30px;
+`
+const ButtonBack = styled.button`
+	width: 70px;
+	height: 20px;
+	border: none;
+	border-radius: 4px;
+	color: #000;
+	font-weight: 500;
+	cursor: pointer;
+	&:hover {
+		color: #fff;
+		background: #77a6ca;
+	}
+`
+const Title = styled.h2`
+	font-style: italic;
+	font-weight: 500;
+	font-size: 25px;
+	letter-spacing: 0.02em;
+	color: #000000;
 `
 
-const Title = styled.h2``
-
 const Form = styled.form`
-	display: grid;
-	grid-template-rows: 78px 13px 78px 13px 78px 13px 78px 13px 78px 13px 60px;
-	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	border: none;
 	margin: 0;
 	padding: 0;
@@ -222,12 +263,10 @@ const Form = styled.form`
 const SuccessRegistration = styled.div`
 	margin: 50px;
 `
-const EmailNote = styled.div`
-	margin: 50px;
-`
 const Label = styled.label`
 	font-weight: 500;
 	font-size: 14px;
+	margin-top: 5px;
 	color: #707070;
 `
 const Error = styled.span`
@@ -241,11 +280,15 @@ const Input = styled.input`
 	border-radius: 4px;
 	width: 365px;
 	height: 40px;
-	box-sizing: border-box;
 	padding: 8px 12px;
 	font-weight: 500;
 	font-size: 14px;
 	color: #303030;
+	border: none;
+	outline: none;
+	&:focus {
+		box-shadow: 0 0 2px 2px #77a7ca;
+	}
 `
 
 const Checkbox = styled.input`
@@ -257,19 +300,20 @@ const Checkbox = styled.input`
 `
 const CheckMark = styled.span`
 	position: absolute;
-	top: 3px;
+	top: 5px;
 	left: 0;
 	height: 12px;
 	width: 12px;
 	background-color: #fff;
 	border: solid 2px #9c9c9c;
 	border-radius: 3px;
-	:after {
+	&:after {
 		content: '';
 		position: absolute;
 	}
 `
 const CheckboxContainer = styled.label`
+	margin-top: 5px;
 	position: relative;
 	padding-left: 24px;
 	cursor: pointer;
@@ -297,10 +341,10 @@ const CheckboxContainer = styled.label`
 		border: solid 2px #002569;
 	}
 	${CheckMark}:after {
-		left: 3.5px;
-		top: 0.5px;
-		width: 3px;
-		height: 7px;
+		left: 2.5px;
+		top: -0.5px;
+		width: 2px;
+		height: 5px;
 		border: solid white;
 		border-width: 0 2px 2px 0;
 		-webkit-transform: rotate(45deg);
@@ -320,16 +364,20 @@ const CheckErrorMessage = styled.span`
 const ButtonSubmit = styled.button`
 	text-decoration: none;
 	display: inline-block;
+	height: 45px;
 	padding: 10px 30px;
-	margin-top: 15px;
+	margin-top: 23px;
 	border: 2px solid #77a7ca;
 	border-radius: 6px;
 	position: relative;
 	overflow: hidden;
+	font-size: 17px;
+	text-transform: uppercase;
+	font-weight: 300;
 	color: #000000;
 	cursor: pointer;
 	transition: 0.2s ease-in-out;
-	:before {
+	&:before {
 		content: '';
 		background: linear-gradient(
 			90deg,
@@ -343,15 +391,20 @@ const ButtonSubmit = styled.button`
 		left: -75px;
 		transform: skewX(-45deg);
 	}
-	:hover {
+	&:hover {
 		background: #77a7ca;
 		color: #fff;
 		border: 2px solid #fff;
 	}
-	:hover:before {
-		left: 300px;
+	&:hover:before {
+		left: 380px;
 		transition: 0.9s ease-in-out;
 	}
 `
-
-const ButtonBack = styled.button``
+const SpanEmail = styled.span`
+	margin-right: 5px;
+	font-weight: 500;
+	font-size: 13px;
+	color: #707070;
+	cursor: pointer;
+`

@@ -25,7 +25,7 @@ const Label = styled.span`
 	color: #000000;
 	position: relative;
 	z-index: 1;
-	:before {
+	&:before {
 		content: '';
 		width: 50px;
 		height: 50px;

@@ -1,0 +1,17 @@
+.next {
+	background: rgb(225, 220, 220);
+	color: rgb(182, 170, 170);
+}
+
+.prev {
+	background: rgb(225, 220, 220);
+	color: rgb(182, 170, 170);
+}
+
+.current {
+	background: #fff;
+}
+
+.today {
+	background: #77a6ca;
+}

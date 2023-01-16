@@ -127,7 +127,7 @@ const Label = styled.label`
 	transition: 0.5s;
 `
 const Span = styled.span`
-	::before {
+	&::before {
 		content: '';
 		position: absolute;
 		top: 40px;
@@ -146,18 +146,22 @@ const Input = styled.input`
 	border: none;
 	background: none;
 	outline: none;
-	&:focus ~ ${Label} {
+	/* &:focus ~ ${Label} {
 		top: -5px;
 		color: #2691d9;
 	}
 	&:focus ~ ${Span}::before {
 		width: 100%;
-	}
+	} */
 `
 const Block = styled.div`
 	position: relative;
 	border-bottom: 2px solid #adadad;
 	margin: 30px 0;
+	input:focus ~ ${Label}, input:valid ~ ${Label} {
+		top: -5px;
+		color: #2691d9;
+	}
 `
 const Error = styled.div``
 const Button = styled.button`
@@ -171,7 +175,7 @@ const Button = styled.button`
 	font-weight: 700;
 	cursor: pointer;
 	outline: none;
-	:hover {
+	&:hover {
 		border-color: #2691d9;
 		transition: 0.5s;
 	}
