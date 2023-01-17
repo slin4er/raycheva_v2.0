@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Admin/AdminPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Admin/AdminPanel.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/FormRegistration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/FormRegistration.tsx" afterDir="false" />
     </list>
     <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="" />
@@ -34,24 +33,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;16.16.0&quot;,
-    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;16.18.4&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/programing/raycheva_v_2.0&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\programing\\raycheva_v_2.0\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "javascript.nodejs.core.library.configured.version": "16.16.0",
+    "javascript.nodejs.core.library.typings.version": "16.18.4",
+    "last_opened_file_path": "D:/programing/raycheva_v_2.0",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "D:\\programing\\raycheva_v_2.0\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\programing\raycheva_v_2.0\backend" />
@@ -129,7 +128,14 @@
       <workItem from="1673361567896" duration="187000" />
       <workItem from="1673368605663" duration="616000" />
       <workItem from="1673379783621" duration="3219000" />
-      <workItem from="1673396093848" duration="702000" />
+      <workItem from="1673396093848" duration="807000" />
+      <workItem from="1673398562356" duration="5000" />
+      <workItem from="1673478459840" duration="5000" />
+      <workItem from="1673538272899" duration="42000" />
+      <workItem from="1673544070553" duration="1000" />
+      <workItem from="1673545221818" duration="722000" />
+      <workItem from="1673747453970" duration="13000" />
+      <workItem from="1673916963533" duration="945000" />
     </task>
     <servers />
   </component>

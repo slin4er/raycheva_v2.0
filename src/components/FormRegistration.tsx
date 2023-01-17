@@ -25,6 +25,10 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 	const [errorPostData, setErrorPostData] = useState<boolean>(false)
 	const [formData, setFormData] = useState({})
 	const [optionsObj, setOptionsObj] = useState()
+	const rightFormatDate = date
+		?.split('-')
+		.map(element => (element.length < 2 ? '0' + element : element))
+		.join('-')
 
 	const formShema = Yup.object().shape({
 		name: Yup.string().required('Введите имя и фамилию!'),
@@ -68,7 +72,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 			//@ts-ignore
 			const arr = []
 			await axios
-				.get(`http://localhost:3000/api/v1/date/available?date=${selectDate}`)
+				.get(`http://localhost:3000/api/v1/date/available?date=${rightFormatDate}`)
 				.then(res => {
 					let result = res.data.freeHours
 					result.map((time: string) => {
@@ -125,10 +129,6 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 	}, [formData, postFormData])
 
 	const handlerSubmitDataForm: SubmitHandler<IFormInputs> = data => {
-		const rightFormatDate = date
-			?.split('-')
-			.map(element => (element.length < 2 ? '0' + element : element))
-			.join('-')
 		const fullData = {
 			name: data.name,
 			phone: data.phone,
