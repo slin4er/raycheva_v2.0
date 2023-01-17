@@ -156,8 +156,12 @@ export const AdminPanel: FC = () => {
 								<DatePicker
 									dateFormat='yyyy-MM-dd'
 									selected={startDate}
-									onSelect={date =>
-										setMyDate(date.toLocaleDateString().split('.').join('-'))
+									onSelect={date =>{
+											const rightFormatDate = date.toLocaleDateString().split('/')
+												.map((eachDateElement) => eachDateElement.length < 2 ? '0' + eachDateElement : eachDateElement)
+												.join('-')
+											setMyDate(rightFormatDate)
+										}
 									}
 									onChange={date => setStartDate(date)}
 								/>
