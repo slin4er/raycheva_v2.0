@@ -58,7 +58,7 @@ const createPatient = async (req, res) => {
 	if (patient.email) {
 		sendEmail(
 			patient,
-			`<Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в ${patient.time}\n\n\n`
+			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в ${patient.time}\n\n\n`
 			+`Это письмо сформировано автоматически и не требует ответа.`
 		)
 	}
