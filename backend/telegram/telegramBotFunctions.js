@@ -46,11 +46,13 @@ const getArrayOfHours = async (date) => {
 }
 
 const createPatient = async (name, phone, appointment, time) => {
+    const date = appointment.split('-')
     const patient = await Patient.create({
         name,
         phone,
         appointment,
-        time
+        time,
+        dateInSeconds: new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime()
     })
     await addThisDateIntoDisabledDates(appointment)
     return patient

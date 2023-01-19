@@ -23,6 +23,9 @@ const patientSchema = new mongoose.Schema({
     time: {
         type: String,
         required: true
+    },
+    dateInSeconds: {
+        type: Number
     }
 })
 

@@ -53,8 +53,9 @@ const deleteArrayFromDB = async (value) => {
 //CRUD FOR PATIENTS
 const createPatient = async (req, res) => {
 	const {appointment, time} = req.body
+	const date = appointment.split('-')
 	if(await Patient.findOne({appointment, time})) {throw new Error('Already exists')}
-	const patient = await Patient.create(req.body)
+	const patient = await Patient.create({...req.body, dateInSeconds: new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime()})
 	if (patient.email) {
 		sendEmail(
 			patient,
@@ -113,16 +114,20 @@ const findPatientByName = async (req, res) => {
 const updatePatient = async (req, res) => {
 	const { id: patient_id } = req.params
 	const { appointment, time } = req.body
-	const patientExists = await Patient.findOne({ appointment, time })
-	if (patientExists) {
-		throw new Error('Already exists')
-	}
+	let patient
 	if (!timeAvailable.includes(time)) {
 		throw new Error('Unavailable time')
 	}
-	const patient = await Patient.findByIdAndUpdate(patient_id, req.body, {
-		new: true,
-	})
+	if(appointment) {
+		const date = appointment.split('-')
+		patient = await Patient.findByIdAndUpdate(patient_id, {...req.body, dateInSeconds: new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime()}, {
+			new: true,
+		})
+	} else {
+		patient = await Patient.findByIdAndUpdate(patient_id, req.body, {
+			new: true,
+		})
+	}
 	if (!patient) {
 		throw new Error('Not Found')
 	}
@@ -174,15 +179,7 @@ const checkDate = async (req, res) => {
 }
 
 const deleteOldPatients = async (req, res) => {
-	const patients = await Patient.find()
-	if (!patients.length) {
-		return
-	}
-	const patientsToDelete = await deleteArrayFromDB(patients)
-	if (!patientsToDelete.length) {
-		return res.status(200).json('OK')
-	}
-	await Patient.deleteMany({ _id: { $in: patientsToDelete } })
+	await Patient.deleteMany({dateInSeconds: {$lt: Date.now()}})
 	return res.status(200).json('OK')
 }
 
