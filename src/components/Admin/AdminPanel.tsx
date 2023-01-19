@@ -137,43 +137,50 @@ export const AdminPanel: FC = () => {
 	}
 
 	return (
-		<div>
+		<Container>
 			{emptyPatient ? (
 				<div>Что-то пошло не так... (список пациентов не пришел)</div>
 			) : (
 				<div>
-					<div>
-						<label>поиск пациента</label>
-						<input
-							value={inputSearch}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-								setInputSearch(e.target.value)
-							}
-						/>
-						<div>
-							<form onSubmit={handleTakenByDoc}>
+					<Header>
+						<SearchBlock>
+							<label>поиск пациента:</label>
+							<Input
+								value={inputSearch}
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+									setInputSearch(e.target.value)
+								}
+							/>
+						</SearchBlock>
+						<TakenDoc>
+							<Form onSubmit={handleTakenByDoc}>
 								<label>занять врачом</label>
 								<DatePicker
 									dateFormat='yyyy-MM-dd'
 									selected={startDate}
-									onSelect={date =>{
-											const rightFormatDate = date.toLocaleDateString().split('/')
-												.map((eachDateElement) => eachDateElement.length < 2 ? '0' + eachDateElement : eachDateElement)
-												.join('-')
-											setMyDate(rightFormatDate)
-										}
-									}
+									onSelect={date => {
+										const rightFormatDate = date
+											.toLocaleDateString()
+											.split('/')
+											.map(eachDateElement =>
+												eachDateElement.length < 2
+													? '0' + eachDateElement
+													: eachDateElement
+											)
+											.join('-')
+										setMyDate(rightFormatDate)
+									}}
 									onChange={date => setStartDate(date)}
 								/>
 								<button type={'submit'}>занять врачом</button>
-							</form>
-						</div>
+							</Form>
+						</TakenDoc>
 
-						<button onClick={() => setLogoutStatus(true)}>выйти!</button>
+						<ButtonOut onClick={() => setLogoutStatus(true)}>выйти!</ButtonOut>
 						{errorMessage ? (
 							<div>Что-то пошло не так...(Не удалось выйти с админ панели)</div>
 						) : null}
-					</div>
+					</Header>
 					{patient?.length === 0 ? (
 						<div>Никто еще не записался</div>
 					) : (
@@ -202,7 +209,7 @@ export const AdminPanel: FC = () => {
 								})}
 						</ItemBlock>
 					)}
-					<div>
+					<Paginate>
 						<ReactPaginate
 							previousLabel={'← Previous'}
 							nextLabel={'Next →'}
@@ -214,18 +221,64 @@ export const AdminPanel: FC = () => {
 							disabledClassName={'pagination__link--disabled'}
 							activeClassName={'pagination__link--active'}
 						/>
-					</div>
+					</Paginate>
 				</div>
 			)}
-		</div>
+		</Container>
 	)
 }
 
 const ItemBlock = styled.div`
 	display: grid;
-	grid-template-columns: repeat(4, 200px);
-	grid-template-rows: repeat(4, 200px);
+	grid-template-columns: repeat(5, 200px);
+	grid-template-rows: repeat(2, 200px);
 	grid-auto-rows: 200px;
-	gap: 10px;
+	gap: 35px;
 	box-sizing: border-box;
+`
+const Header = styled.header`
+	display: flex;
+	justify-content: space-between;
+	height: 72px;
+	margin-bottom: 20px;
+`
+const Container = styled.div`
+	width: 1140px;
+	margin: 0 auto;
+`
+const Paginate = styled.div`
+	margin: 20px auto 0 auto;
+	width: 700px;
+	height: 45px;
+`
+const ButtonOut = styled.button`
+	width: 200px;
+	height: 72px;
+`
+const TakenDoc = styled.div`
+	width: 300px;
+	height: 72px;
+`
+const SearchBlock = styled.div`
+	margin-top: 20px;
+`
+const Input = styled.input`
+	margin-top: 5px;
+	margin-left: 5px;
+	background: #f6f6f6;
+	border-radius: 4px;
+	width: 280px;
+	height: 40px;
+	padding: 8px 12px;
+	font-weight: 500;
+	font-size: 14px;
+	color: #303030;
+	border: none;
+	outline: none;
+	&:focus {
+		box-shadow: 0 0 2px 2px #77a7ca;
+	}
+`
+const Form = styled.form`
+	padding: 0 10px;
 `

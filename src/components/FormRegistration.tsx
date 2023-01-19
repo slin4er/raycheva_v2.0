@@ -72,7 +72,9 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 			//@ts-ignore
 			const arr = []
 			await axios
-				.get(`http://localhost:3000/api/v1/date/available?date=${rightFormatDate}`)
+				.get(
+					`http://localhost:3000/api/v1/date/available?date=${rightFormatDate}`
+				)
 				.then(res => {
 					let result = res.data.freeHours
 					result.map((time: string) => {
@@ -220,8 +222,9 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 }
 
 const Container = styled.div`
-	padding: 0 211px;
+	padding: 0 200px;
 	height: 500px;
+	width: 765px;
 `
 const Flex = styled.div`
 	display: flex;

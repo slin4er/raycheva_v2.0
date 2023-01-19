@@ -211,9 +211,11 @@ export const ItemDetails: FC = () => {
 					<div>{inputs.email}</div>
 					<div>{inputs.appointment}</div>
 					<div>{inputs.time}</div>
-					<button onClick={handlerEdit}>редактировать</button>
-					<button onClick={handlerDelete}>удалить</button>
-					<button onClick={() => redirect('/admin')}>назад</button>
+					<ButtonBlock>
+						<button onClick={handlerEdit}>редактировать</button>
+						<button onClick={handlerDelete}>удалить</button>
+						<button onClick={() => redirect('/admin')}>назад</button>
+					</ButtonBlock>
 				</Patients>
 			)}
 		</div>
@@ -223,4 +225,13 @@ export const ItemDetails: FC = () => {
 const Patients = styled.div`
 	border: 2px solid black;
 	padding: 10px;
+	height: 200px;
+	width: 300px;
+`
+const ButtonBlock = styled.div`
+	width: 100px;
+	height: 80px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 `
