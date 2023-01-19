@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="01988851-d82b-4c97-8c79-a3d3a43acf84" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/models/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/patient.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/controllers/patient.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/patient.js" afterDir="false" />
     </list>
     <list id="b137f550-b53e-43f5-a660-16726e0cde11" name="Changes by GyRra" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -144,7 +144,7 @@
       <workItem from="1674053623481" duration="289000" />
       <workItem from="1674131517000" duration="1870000" />
       <workItem from="1674134431114" duration="154000" />
-      <workItem from="1674150135869" duration="403000" />
+      <workItem from="1674150135869" duration="1557000" />
     </task>
     <servers />
   </component>

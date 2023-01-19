@@ -27,11 +27,13 @@ const timeAvailable = [
 //Functions to minimize the code
 const getArrayToDisableSpecialDate = async (arr, appointment) => {
 	const arrToInsert = arr.map((time) => {
+		const date = appointment.split('-')
 		return {
 			name: 'Занято врачом',
 			phone: 'Занято врачом',
 			appointment,
-			time
+			time,
+			dateInSeconds: new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime()
 		}
 	})
 	return await Patient.insertMany(arrToInsert)
