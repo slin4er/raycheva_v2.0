@@ -31,7 +31,7 @@ const patientSchema = new mongoose.Schema({
 
 patientSchema.methods.toJSON = function() {
     const obj = this.toObject()
-    delete obj.password
+    delete obj.dateInSeconds
     return obj
 }
 
