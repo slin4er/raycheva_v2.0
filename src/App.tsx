@@ -12,12 +12,11 @@ import { Policy } from './components/Policy'
 
 export const App: FC = () => {
 	const redirect = useNavigate()
-	const [datePick, setDatePick] = useState<string>()
 	const [succesMessage, showSuccesMessage] = useState<boolean>()
 	const [resData, setResData] = useState<IResData>()
 
 	const dateClickHandler = (date: string) => {
-		setDatePick(date)
+		localStorage.setItem('nowDate', date)
 		redirect('/registration')
 	}
 
@@ -61,7 +60,6 @@ export const App: FC = () => {
 					path='registration'
 					element={
 						<FormRegistration
-							date={datePick}
 							successRegistration={successRegistration}
 							responseData={responseData}
 						/>

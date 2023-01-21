@@ -12,19 +12,21 @@ import { Tooltip } from './Tooltip'
 import InputMask from 'react-input-mask'
 
 export const FormRegistration: FC<IFormRegistrationProps> = ({
-	date,
 	successRegistration,
 	responseData,
 }) => {
 	const redirect = useNavigate()
-	const redirectOnLayout = () => redirect('/')
+	const redirectOnLayout = () => {
+		redirect('/')
+		localStorage.removeItem('nowDate')
+	}
 
-	const [selectDate, postSelectDate] = useState<string | undefined>(date)
 	const [postFormData, setPostFormData] = useState<boolean>(false)
 	const [errorGetData, setErrorGetData] = useState<boolean>(false)
 	const [errorPostData, setErrorPostData] = useState<boolean>(false)
 	const [formData, setFormData] = useState({})
 	const [optionsObj, setOptionsObj] = useState()
+	const date = localStorage.getItem('nowDate')
 	const rightFormatDate = date
 		?.split('-')
 		.map(element => (element.length < 2 ? '0' + element : element))
@@ -97,7 +99,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 				})
 		}
 		getData()
-	}, [selectDate])
+	}, [rightFormatDate])
 
 	// пост запрос с данными из формы
 	useEffect(() => {
