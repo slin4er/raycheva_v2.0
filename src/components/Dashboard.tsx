@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { MyDatePicker } from './MyDatePicker'
 import { Message } from './Message'
@@ -13,12 +13,12 @@ export const Dash: FC<IDash> = ({ dateClickHandler, sucMes, resData }) => {
 	)
 }
 
-const Container = styled.div`
-	width: 100%;
-	height: 100%;
+const Container = styled.section`
+	width: 800px;
+	height: 500px;
 	padding: 20px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background: green;
 `
-const Body = styled.div``

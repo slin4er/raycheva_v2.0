@@ -11,6 +11,7 @@ export const Header: FC = () => {
 
 const HeaderBlock = styled.header`
 	display: flex;
+	align-items: center;
 	position: relative;
 	width: 100%;
 	height: 60px;

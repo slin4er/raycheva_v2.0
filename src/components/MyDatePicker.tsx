@@ -6,19 +6,19 @@ import { Calendar } from './Calendar'
 
 export const MyDatePicker: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 	return (
-		<Section>
+		<Container>
 			<H2>Выберите дату</H2>
 			<Div>
 				<Calendar dateClickHandler={dateClickHandler} />
 			</Div>
-		</Section>
+		</Container>
 	)
 }
 
-const Section = styled.section`
-	width: 400px;
-	height: 400px;
-	padding: 10px;
+const Container = styled.div`
+	width: 700px;
+	height: 460px;
+	background: red;
 `
 const H2 = styled.h2`
 	text-align: center;

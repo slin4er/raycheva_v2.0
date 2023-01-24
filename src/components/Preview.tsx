@@ -47,10 +47,9 @@ export const Preview: FC<IPropPreview> = ({ message, data }) => {
 }
 
 const PreviewBlock = styled.section`
-	width: 80%;
+	width: 700px;
 	height: 500px;
-	padding: 20px;
-	border-radius: 13px;
+	padding: 50px 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
