@@ -4,7 +4,7 @@ import styled from 'styled-components'
 export const Header: FC = () => {
 	return (
 		<HeaderBlock>
-			<Label>Райчева Эвелина Николаевна</Label>
+			<Label>Райчева Эвелина Николаевна NEW LAPTOP</Label>
 		</HeaderBlock>
 	)
 }
