@@ -7,7 +7,7 @@ import { AdminPanel } from './components/Admin/AdminPanel'
 import { ItemDetails } from './components/Admin/ItemDetails'
 import { SingIn } from './components/Admin/SingIn'
 import { IResData } from './helpers/types'
-import { Dash } from './components/Dashboard'
+import { MyDatePicker } from './components/MyDatePicker'
 import { Policy } from './components/Policy'
 
 export const App: FC = () => {
@@ -38,23 +38,11 @@ export const App: FC = () => {
 			>
 				<Route
 					index
-					element={
-						<Dash
-							dateClickHandler={dateClickHandler}
-							sucMes={succesMessage}
-							resData={resData}
-						/>
-					}
+					element={<MyDatePicker dateClickHandler={dateClickHandler} />}
 				/>
 				<Route
 					path='dashboard'
-					element={
-						<Dash
-							dateClickHandler={dateClickHandler}
-							sucMes={succesMessage}
-							resData={resData}
-						/>
-					}
+					element={<MyDatePicker dateClickHandler={dateClickHandler} />}
 				/>
 				<Route
 					path='registration'

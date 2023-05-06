@@ -2,6 +2,8 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import { IColumn, IDatePickerProps } from '../helpers/types'
 import useCalendar from '../hooks/useCalendar'
+import { ReactComponent as SVGChevronRight } from '../assets/chevron-right.svg'
+import { ReactComponent as SVGChevronLeft } from '../assets/chevron-left.svg'
 import './Calendar.css'
 
 export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
@@ -17,12 +19,21 @@ export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 
 	return (
 		<>
-			<P>
-				Месяц:{' '}
-				{`${
-					monthNames[selectedDate.getMonth()]
-				}, год - ${selectedDate.getFullYear()}`}
-			</P>
+			<Header>
+				<BtnPrev className='button' onClick={getPrevMonth}>
+					<SVGChevronLeft />
+				</BtnPrev>
+				<P>
+					Месяц:{' '}
+					{`${
+						monthNames[selectedDate.getMonth()]
+					}, год - ${selectedDate.getFullYear()}`}
+				</P>
+				<BtnNext className='button' onClick={getNextMonth}>
+					<SVGChevronRight />
+				</BtnNext>
+			</Header>
+
 			<Table className='table'>
 				<THead>
 					<Tr>
@@ -59,20 +70,11 @@ export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 					})}
 				</TBody>
 			</Table>
-
-			<BtnBlock>
-				<BtnPrev className='button' onClick={getPrevMonth}>
-					Назад
-				</BtnPrev>
-				<BtnNext className='button' onClick={getNextMonth}>
-					Вперед
-				</BtnNext>
-			</BtnBlock>
 		</>
 	)
 }
 
-const P = styled.p`
+const P = styled.div`
 	font-weight: 500;
 	font-style: italic;
 	font-size: 20px;
@@ -81,40 +83,37 @@ const P = styled.p`
 	color: #000000;
 `
 const Table = styled.table`
-	border-collapse: collapse;
+	border-collapse: separate;
 	width: 100%;
+	border-spacing: 20px 4px;
 `
 const THead = styled.thead``
 const Th = styled.th`
-	border: 1px solid #ddd;
-	padding: 18px;
-	padding-top: 12px;
-	padding-bottom: 12px;
-	text-align: left;
-	background-color: #77a6ca;
-	color: white;
+	border-bottom: 1px solid #ddd;
+	color: #000000;
+	font-weight: 500;
 `
 const TBody = styled.tbody``
 const Td = styled.td`
-	border: 1px solid #ddd;
+	border: none;
 	cursor: pointer;
 	height: 30px;
 `
 const Tr = styled.tr``
 
-const BtnBlock = styled.div`
-	margin-top: 5px;
-	width: 100%;
-	padding: 0 110px;
+const Header = styled.header`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	width: 100%;
+	margin: 30px 0;
 `
 const BtnTd = styled.button`
 	width: 100%;
 	height: 100%;
 	cursor: pointer;
 	background: inherit;
+	border-radius: 6px;
 	border: none;
 	color: inherit;
 	font-size: 15px;
@@ -125,28 +124,18 @@ const BtnTd = styled.button`
 	}
 `
 const BtnPrev = styled.button`
-	width: 70px;
-	height: 30px;
-	border: 2px solid #77a6ca;
-	border-radius: 4px;
-	color: #000;
+	width: 40px;
+	height: 40px;
 	font-weight: 500;
+	border: none;
+	background: none;
 	cursor: pointer;
-	&:hover {
-		color: #fff;
-		background: #77a6ca;
-	}
 `
 const BtnNext = styled.button`
-	width: 70px;
-	height: 30px;
-	border: 2px solid #77a6ca;
-	border-radius: 4px;
-	color: #000;
+	width: 40px;
+	height: 40px;
 	font-weight: 500;
+	border: none;
+	background: none;
 	cursor: pointer;
-	&:hover {
-		color: #fff;
-		background: #77a6ca;
-	}
 `

@@ -26,27 +26,28 @@ const timeAvailable = [
 ]
 //Functions to minimize the code
 const getArrayToDisableSpecialDate = async (arr, appointment) => {
-	const arrToInsert = arr.map((time) => {
+	const arrToInsert = arr.map(time => {
 		const date = appointment.split('-')
 		return {
 			name: 'Занято врачом',
 			phone: 'Занято врачом',
 			appointment,
 			time,
-			dateInSeconds: new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime()
+			dateInSeconds: new Date(
+				`${date[1]}/${date[0]}/${date[2]} 23:00`
+			).getTime(),
 		}
 	})
 	return await Patient.insertMany(arrToInsert)
 }
 
-const deleteArrayFromDB = async (value) => {
+const deleteArrayFromDB = async value => {
 	const today = Date.now()
 	return value.filter(element => {
 		const date = element.appointment
 			? element.appointment.split('-')
 			: element.date.split('-')
-		if (new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime() < today)
-		{
+		if (new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime() < today) {
 			return element._id
 		}
 	})
@@ -54,25 +55,30 @@ const deleteArrayFromDB = async (value) => {
 
 //CRUD FOR PATIENTS
 const createPatient = async (req, res) => {
-	const {appointment, time} = req.body
+	const { appointment, time } = req.body
 	const date = appointment.split('-')
-	if(await Patient.findOne({appointment, time})) {throw new Error('Already exists')}
-	const patient = await Patient.create({...req.body, dateInSeconds: new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime()})
+	if (await Patient.findOne({ appointment, time })) {
+		throw new Error('Already exists')
+	}
+	const patient = await Patient.create({
+		...req.body,
+		dateInSeconds: new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime(),
+	})
 	if (patient.email) {
 		sendEmail(
 			patient,
-			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в ${patient.time}\n\n\n`
-			+`Это письмо сформировано автоматически и не требует ответа.`
+			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что вы должны прийти ${patient.appointment} в ${patient.time}\n\n\n` +
+				`Это письмо сформировано автоматически и не требует ответа.`
 		)
 	}
-	const patientsOnThisDate = await Patient.find({appointment})
-	if(patientsOnThisDate.length === timeAvailable.length) {
-		const disabledDates = await DisabledDates.find() || []
+	const patientsOnThisDate = await Patient.find({ appointment })
+	if (patientsOnThisDate.length === timeAvailable.length) {
+		const disabledDates = (await DisabledDates.find()) || []
 		const datesToDelete = await deleteArrayFromDB(disabledDates)
-		if(datesToDelete.length) {
-			await DisabledDates.deleteMany({_id: {$in: datesToDelete}})
+		if (datesToDelete.length) {
+			await DisabledDates.deleteMany({ _id: { $in: datesToDelete } })
 		}
-		await DisabledDates.create({date: appointment})
+		await DisabledDates.create({ date: appointment })
 	}
 	return res.status(201).json({ patient })
 }
@@ -80,10 +86,12 @@ const createPatient = async (req, res) => {
 const getPatients = async (req, res) => {
 	let page = req.query.page || 1
 	const limit = req.query.limit || 10
-	if(page <= 0) {page = 1}
+	if (page <= 0) {
+		page = 1
+	}
 	const skip = (page - 1) * limit
 	const patientCount = await Patient.find().count()
-	const patients = await Patient.find({}).limit(limit).skip(skip) || []
+	const patients = (await Patient.find({}).limit(limit).skip(skip)) || []
 	if (!patients.length) {
 		return res.status(200).json({ patients: [] })
 	}
@@ -102,8 +110,11 @@ const getPatient = async (req, res) => {
 const findPatientByName = async (req, res) => {
 	const { name: patient_name } = req.query
 	const patientFromCache = myCache.get(patient_name)
+	console.log(patient_name)
 	if (!patientFromCache) {
-		const patient = await Patient.findOne({ name: patient_name })
+		const patient = await Patient.find({
+			name: { $regex: patient_name, $options: 'i' },
+		})
 		if (!patient) {
 			throw new Error('Not Found!')
 		}
@@ -120,11 +131,20 @@ const updatePatient = async (req, res) => {
 	if (!timeAvailable.includes(time)) {
 		throw new Error('Unavailable time')
 	}
-	if(appointment) {
+	if (appointment) {
 		const date = appointment.split('-')
-		patient = await Patient.findByIdAndUpdate(patient_id, {...req.body, dateInSeconds: new Date(`${date[1]}/${date[0]}/${date[2]} 23:00`).getTime()}, {
-			new: true,
-		})
+		patient = await Patient.findByIdAndUpdate(
+			patient_id,
+			{
+				...req.body,
+				dateInSeconds: new Date(
+					`${date[1]}/${date[0]}/${date[2]} 23:00`
+				).getTime(),
+			},
+			{
+				new: true,
+			}
+		)
 	} else {
 		patient = await Patient.findByIdAndUpdate(patient_id, req.body, {
 			new: true,
@@ -136,13 +156,15 @@ const updatePatient = async (req, res) => {
 	if (patient.email) {
 		sendEmail(
 			patient,
-			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что ваша запись была перенесена на ${patient.appointment} в ${patient.time}\n\n\n`
-			+`Это письмо сформировано автоматически и не требует ответа.`
+			`Спасибо, ${patient.name}, что записались ко мне на прием, напоминаю, что ваша запись была перенесена на ${patient.appointment} в ${patient.time}\n\n\n` +
+				`Это письмо сформировано автоматически и не требует ответа.`
 		)
 	}
-	const patientsOnThisDate = await Patient.find({appointment: patient.appointment})
-	if(patientsOnThisDate.length === timeAvailable.length) {
-		await DisabledDates.create({date: patient.appointment})
+	const patientsOnThisDate = await Patient.find({
+		appointment: patient.appointment,
+	})
+	if (patientsOnThisDate.length === timeAvailable.length) {
+		await DisabledDates.create({ date: patient.appointment })
 	}
 	return res.status(201).json({ patient })
 }
@@ -153,8 +175,10 @@ const deletePatient = async (req, res) => {
 	if (!patient) {
 		throw new Error('Not Found')
 	}
-	const disabledDateExists = await DisabledDates.findOne({date: patient.appointment})
-	if(disabledDateExists) {
+	const disabledDateExists = await DisabledDates.findOne({
+		date: patient.appointment,
+	})
+	if (disabledDateExists) {
 		await DisabledDates.deleteOne(disabledDateExists)
 	}
 	await Patient.deleteOne(patient)
@@ -181,39 +205,39 @@ const checkDate = async (req, res) => {
 }
 
 const deleteOldPatients = async (req, res) => {
-	await Patient.deleteMany({dateInSeconds: {$lt: Date.now()}})
+	await Patient.deleteMany({ dateInSeconds: { $lt: Date.now() } })
 	return res.status(200).json('OK')
 }
 
 const fullFillTheDate = async (req, res) => {
-	const {date} = req.body
-	if(!date.match(/[0-3][0-9]-[0-1][0-9]-[0-2]0[2-9][0-9]/gm)) {
+	const { date } = req.body
+	if (!date.match(/[0-3][0-9].[0-1][0-9].[0-2]0[2-9][0-9]/gm)) {
 		throw new Error('Date must be provided')
 	}
-	const patientsWithThisDate = await Patient.find({appointment: date})
-	if(!patientsWithThisDate.length) {
+	const patientsWithThisDate = await Patient.find({ appointment: date })
+	if (!patientsWithThisDate.length) {
 		await getArrayToDisableSpecialDate(timeAvailable, date)
-		await DisabledDates.create({date})
+		await DisabledDates.create({ date })
 		return res.status(200).send('OK')
 	}
-	if(patientsWithThisDate.length === timeAvailable.length) {
+	if (patientsWithThisDate.length === timeAvailable.length) {
 		return res.status(200).send('OK')
 	}
 	const busyHours = patientsWithThisDate.map(patient => patient.time)
-	const freeHours = timeAvailable.filter((hour) => !busyHours.includes(hour))
+	const freeHours = timeAvailable.filter(hour => !busyHours.includes(hour))
 	await getArrayToDisableSpecialDate(freeHours, date)
-	if(!(await DisabledDates.findOne({date}))) {
-		await DisabledDates.create({date})
+	if (!(await DisabledDates.findOne({ date }))) {
+		await DisabledDates.create({ date })
 	}
 	return res.status(200).send('OK')
 }
 
 const getDisabledDates = async (req, res) => {
 	const disabledDates = await DisabledDates.find()
-	if(!disabledDates.length) {
-		return res.status(200).json({message: 'No dates have been found'})
+	if (!disabledDates.length) {
+		return res.status(200).json({ message: 'No dates have been found' })
 	}
-	return res.status(200).json({dates: disabledDates})
+	return res.status(200).json({ dates: disabledDates })
 }
 
 module.exports = {
@@ -227,5 +251,5 @@ module.exports = {
 	deleteOldPatients,
 	fullFillTheDate,
 	getDisabledDates,
-	timeAvailable
+	timeAvailable,
 }

@@ -154,7 +154,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 			{errorGetData || errorPostData ? <div>Не удалось записаться</div> : null}
 
 			<Form onSubmit={handleSubmit(handlerSubmitDataForm)}>
-				<Label>
+				{/* <Label>
 					Имя и Фамилия:
 					<Input
 						type={'text'}
@@ -172,7 +172,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 						{...register('phone')}
 					/>
 				</Label>
-				<Error>{errors.phone?.message}</Error>
+				<Error>{errors.phone?.message}</Error> */}
 
 				<Label>
 					Почта (рекомендуется):
@@ -207,7 +207,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 				</Label>
 				<Error>{errors.time && <p>{errors.time.label?.message}</p>}</Error>
 
-				<CheckboxContainer>
+				{/* <CheckboxContainer>
 					Я согласен(а) с {''}
 					<Link to={'/policy'} target={'_blank'}>
 						политикой конфиденциальности
@@ -215,25 +215,30 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 					<Checkbox {...register('checkbox')} type='checkbox' />
 					<CheckMark></CheckMark>
 					<CheckErrorMessage>{errors.checkbox?.message}</CheckErrorMessage>
-				</CheckboxContainer>
+				</CheckboxContainer> */}
 
-				<ButtonSubmit type={'submit'}>Записаться на приём</ButtonSubmit>
+				{/* <ButtonSubmit type={'submit'}>Записаться на приём</ButtonSubmit> */}
 			</Form>
 		</Container>
 	)
 }
 
-const Container = styled.div`
-	padding: 0 200px;
-	height: 500px;
-	width: 765px;
+const Container = styled.section`
+	width: 700px;
+	height: 460px;
+	background: white;
+	border-radius: 13px;
+	box-shadow: 0 0 0 1px rgba(53, 72, 91, 0.07), 0 2px 2px rgba(0, 0, 0, 0.01),
+		0 4px 4px rgba(0, 0, 0, 0.02), 0 10px 8px rgba(0, 0, 0, 0.03),
+		0 15px 15px rgba(0, 0, 0, 0.03), 0 30px 30px rgba(0, 0, 0, 0.04),
+		0 70px 65px rgba(0, 0, 0, 0.05);
 `
 const Flex = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-bottom: 1px solid silver;
-	height: 30px;
+	height: 35px;
 `
 const ButtonBack = styled.button`
 	width: 70px;
@@ -271,7 +276,6 @@ const SuccessRegistration = styled.div`
 const Label = styled.label`
 	font-weight: 500;
 	font-size: 14px;
-	margin-top: 5px;
 	color: #707070;
 `
 const Error = styled.span`
@@ -280,7 +284,6 @@ const Error = styled.span`
 	color: #ff768e;
 `
 const Input = styled.input`
-	margin-top: 5px;
 	background: #f6f6f6;
 	border-radius: 4px;
 	width: 365px;
@@ -318,7 +321,6 @@ const CheckMark = styled.span`
 	}
 `
 const CheckboxContainer = styled.label`
-	margin-top: 5px;
 	position: relative;
 	padding-left: 24px;
 	cursor: pointer;
@@ -371,7 +373,6 @@ const ButtonSubmit = styled.button`
 	display: inline-block;
 	height: 45px;
 	padding: 10px 30px;
-	margin-top: 23px;
 	border: 2px solid #77a7ca;
 	border-radius: 6px;
 	position: relative;

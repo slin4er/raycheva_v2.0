@@ -24,11 +24,13 @@ export const AdminPanel: FC = () => {
 	const [dateDoc, setDateDoc] = useState({
 		date: '',
 	})
+
 	const [postDoc, setPostDoc] = useState(false)
 
 	const [emptyPatient, setEmptyPatient] = useState<boolean>(false)
 	const [logoutStatus, setLogoutStatus] = useState<boolean>(false)
 	const [errorMessage, setErrorMessage] = useState<boolean>(false)
+	const [searchStatus, setSearchStatus] = useState<boolean>(false)
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
@@ -127,6 +129,7 @@ export const AdminPanel: FC = () => {
 
 	const handleTakenByDoc = (e: React.SyntheticEvent): void => {
 		e.preventDefault()
+		console.log(myDate)
 		if (myDate) {
 			setDateDoc(state => ({
 				...state,
@@ -134,6 +137,46 @@ export const AdminPanel: FC = () => {
 			}))
 			setPostDoc(state => !state)
 		}
+	}
+
+	useEffect(() => {
+		if (searchStatus) {
+			const searchGet = async () => {
+				const config = {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				}
+
+				const result = await axios.get(
+					`http://localhost:3000/api/v1/patient/data?name=${inputSearch}`,
+					config
+				)
+				return result
+			}
+			searchGet()
+				.then(res => {
+					setPatient(res.data.patient)
+					setSearchStatus(false)
+				})
+				.catch(e => {
+					if (
+						e.response.status === 400 ||
+						e.response.status === 401 ||
+						e.response.status === 404 ||
+						e.response.status === 500
+					) {
+						setErrorMessage(true)
+					} else {
+						setErrorMessage(false)
+					}
+				})
+		}
+	}, [searchStatus])
+
+	const handleSearchBar = (e: React.SyntheticEvent): void => {
+		e.preventDefault()
+		setSearchStatus(state => !state)
 	}
 
 	return (
@@ -144,13 +187,16 @@ export const AdminPanel: FC = () => {
 				<div>
 					<Header>
 						<SearchBlock>
-							<label>поиск пациента:</label>
-							<Input
-								value={inputSearch}
-								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-									setInputSearch(e.target.value)
-								}
-							/>
+							<form onSubmit={handleSearchBar}>
+								<label>поиск пациента:</label>
+								<Input
+									value={inputSearch}
+									onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+										setInputSearch(e.target.value)
+									}
+								/>
+								<button type={'submit'}>поиск</button>
+							</form>
 						</SearchBlock>
 						<TakenDoc>
 							<Form onSubmit={handleTakenByDoc}>
@@ -185,28 +231,15 @@ export const AdminPanel: FC = () => {
 						<div>Никто еще не записался</div>
 					) : (
 						<ItemBlock>
-							{patient
-								?.filter(elem => {
-									if (inputSearch === '') {
-										return elem
-									} else if (
-										elem.name
-											.toLowerCase()
-											.trim()
-											.includes(inputSearch.toLowerCase().trim())
-									) {
-										return elem
-									}
-								})
-								.map((item: IItem) => {
-									return (
-										<ItemList
-											handleDetail={handleDetailPatient}
-											key={item._id}
-											{...item}
-										/>
-									)
-								})}
+							{patient?.map((item: IItem) => {
+								return (
+									<ItemList
+										handleDetail={handleDetailPatient}
+										key={item._id}
+										{...item}
+									/>
+								)
+							})}
 						</ItemBlock>
 					)}
 					<Paginate>

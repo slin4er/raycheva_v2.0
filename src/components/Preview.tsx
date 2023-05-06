@@ -22,7 +22,7 @@ export const Preview: FC<IPropPreview> = ({ message, data }) => {
 	return (
 		<PreviewBlock>
 			<Info>
-				Я специалист в области гинекологии, здесь вы можете записаться ко мне на
+				Я специалист в области гинекологии, здесь Вы можете записаться ко мне на
 				прием.
 			</Info>
 			<Contact>
@@ -55,12 +55,20 @@ const PreviewBlock = styled.section`
 	justify-content: space-between;
 `
 const Info = styled.div`
-	margin-top: 30px;
 	font-style: italic;
-	font-size: 26px;
+	padding: 40px 15px;
+	font-size: 23px;
 	line-height: 33px;
 	color: #000000;
 	font-weight: 300;
+	background: white;
+	border-radius: 13px;
+	width: 100%;
+	height: 150px;
+	box-shadow: 0 0 0 1px rgba(53, 72, 91, 0.07), 0 2px 2px rgba(0, 0, 0, 0.01),
+		0 4px 4px rgba(0, 0, 0, 0.02), 0 10px 8px rgba(0, 0, 0, 0.03),
+		0 15px 15px rgba(0, 0, 0, 0.03), 0 30px 30px rgba(0, 0, 0, 0.04),
+		0 70px 65px rgba(0, 0, 0, 0.05);
 `
 const Contact = styled.div``
 
@@ -80,9 +88,14 @@ const Block = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: flex-start;
-	background: #cfd7dd;
+	background: white;
 	border-radius: 13px;
+	box-shadow: 0 0 0 1px rgba(53, 72, 91, 0.07), 0 2px 2px rgba(0, 0, 0, 0.01),
+		0 4px 4px rgba(0, 0, 0, 0.02), 0 10px 8px rgba(0, 0, 0, 0.03),
+		0 15px 15px rgba(0, 0, 0, 0.03), 0 30px 30px rgba(0, 0, 0, 0.04),
+		0 70px 65px rgba(0, 0, 0, 0.05);
 `
+
 const LockBlock = styled.div`
 	display: flex;
 	justify-content: center;

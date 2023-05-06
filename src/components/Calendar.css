@@ -1,17 +1,26 @@
 .next {
 	background: rgb(225, 220, 220);
 	color: rgb(182, 170, 170);
+	border-radius: 6px;
 }
 
 .prev {
 	background: rgb(225, 220, 220);
 	color: rgb(182, 170, 170);
+	border-radius: 6px;
 }
 
 .current {
 	background: #fff;
+	border-radius: 6px;
 }
 
 .today {
 	background: #77a6ca;
+	border-radius: 6px;
+	color: #fff;
+}
+
+.today > button {
+	text-decoration: underline;
 }

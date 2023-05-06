@@ -4,7 +4,10 @@ import styled from 'styled-components'
 export const Header: FC = () => {
 	return (
 		<HeaderBlock>
-			<Label>Райчева Эвелина Николаевна NEW LAPTOP</Label>
+			<div>
+				<Label>Райчева Эвелина Николаевна</Label>
+				<HR />
+			</div>
 		</HeaderBlock>
 	)
 }
@@ -16,6 +19,7 @@ const HeaderBlock = styled.header`
 	width: 100%;
 	height: 60px;
 	padding-left: 21px;
+	margin-bottom: 50px;
 `
 const Label = styled.span`
 	font-style: italic;
@@ -34,7 +38,21 @@ const Label = styled.span`
 		position: absolute;
 		top: -12px;
 		left: -21px;
-		background: #77a6ca;
+		background: white;
 		z-index: -1;
+		box-shadow: 0 0 0 1px rgba(53, 72, 91, 0.07), 0 2px 2px rgba(0, 0, 0, 0.01),
+			0 4px 4px rgba(0, 0, 0, 0.02), 0 10px 8px rgba(0, 0, 0, 0.03),
+			0 15px 15px rgba(0, 0, 0, 0.03), 0 30px 30px rgba(0, 0, 0, 0.04),
+			0 70px 65px rgba(0, 0, 0, 0.05);
 	}
+`
+const HR = styled.hr`
+	width: 365px;
+	height: 3px;
+	background: white;
+	border: none;
+	box-shadow: 0 0 0 1px rgba(53, 72, 91, 0.07), 0 2px 2px rgba(0, 0, 0, 0.01),
+		0 4px 4px rgba(0, 0, 0, 0.02), 0 10px 8px rgba(0, 0, 0, 0.03),
+		0 15px 15px rgba(0, 0, 0, 0.03), 0 30px 30px rgba(0, 0, 0, 0.04),
+		0 70px 65px rgba(0, 0, 0, 0.05);
 `

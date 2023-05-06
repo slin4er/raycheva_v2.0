@@ -13,9 +13,9 @@ export const Layout: FC<ILayout> = ({ dateClickHandler, sucMes, resData }) => {
 			<Header />
 			<Main>
 				<Preview message={sucMes} data={resData} />
-				{/* <Message data={resData} /> 
-				<MyDatePicker dateClickHandler={dateClickHandler} />*/}
-				<Outlet />
+				<Dash>
+					<Outlet />
+				</Dash>
 			</Main>
 		</Container>
 	)
@@ -25,10 +25,15 @@ const Container = styled.div`
 	height: 100vh;
 	width: 100vw;
 	padding: 30px;
-	background: linear-gradient(#e7ebee, #77a6ca);
+	background: #cfd7dd;
 `
 const Main = styled.main`
 	display: flex;
-	width: 1500px;
 	height: 500px;
+	width: 100%;
+	justify-content: space-around;
+`
+const Dash = styled.section`
+	display: flex;
+	align-items: center;
 `
