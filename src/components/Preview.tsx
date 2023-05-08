@@ -21,10 +21,13 @@ export const Preview: FC<IPropPreview> = ({ message, data }) => {
 	}, [message])
 	return (
 		<PreviewBlock>
-			<Info>
-				Я специалист в области гинекологии, здесь Вы можете записаться ко мне на
-				прием.
-			</Info>
+			<About>
+				<Title>Обо мне</Title>
+				<Info>
+					Я специалист в области гинекологии, здесь Вы можете записаться ко мне
+					на прием. <br /> Принимаю по будням с 9:00 до 17:00.
+				</Info>
+			</About>
 			<Contact>
 				<Title>Дополнительная информация</Title>
 				<Block>
@@ -49,19 +52,21 @@ export const Preview: FC<IPropPreview> = ({ message, data }) => {
 const PreviewBlock = styled.section`
 	width: 700px;
 	height: 500px;
-	padding: 50px 20px;
+	padding: 20px 20px 40px 20px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 `
 const Info = styled.div`
 	font-style: italic;
-	padding: 40px 15px;
-	font-size: 23px;
-	line-height: 33px;
+	padding: 15px;
+	margin-top: 10px;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 40px;
+	letter-spacing: 0.03em;
 	color: #000000;
-	font-weight: 300;
-	background: white;
+	background: #fff;
 	border-radius: 13px;
 	width: 100%;
 	height: 150px;
@@ -71,6 +76,7 @@ const Info = styled.div`
 		0 70px 65px rgba(0, 0, 0, 0.05);
 `
 const Contact = styled.div``
+const About = styled.div``
 
 const Title = styled.h2`
 	font-style: italic;

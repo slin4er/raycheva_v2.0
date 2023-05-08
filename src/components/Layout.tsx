@@ -1,11 +1,11 @@
 import { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import { MyDatePicker } from './MyDatePicker'
 import { Header } from './Header'
 import { Message } from './Message'
 import { Preview } from './Preview'
 import { ILayout } from '../helpers/types'
 import { Outlet } from 'react-router-dom'
+import { Footer } from './Footer'
 
 export const Layout: FC<ILayout> = ({ dateClickHandler, sucMes, resData }) => {
 	return (
@@ -17,15 +17,19 @@ export const Layout: FC<ILayout> = ({ dateClickHandler, sucMes, resData }) => {
 					<Outlet />
 				</Dash>
 			</Main>
+			<Footer />
 		</Container>
 	)
 }
 
 const Container = styled.div`
-	height: 100vh;
+	min-height: 100vh;
 	width: 100vw;
 	padding: 30px;
 	background: #cfd7dd;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 `
 const Main = styled.main`
 	display: flex;

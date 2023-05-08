@@ -7,9 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { IFormInputs, IFormRegistrationProps, IResData } from '../helpers/types'
 import styled from 'styled-components'
 import axios from 'axios'
-import { Tooltip } from './Tooltip'
-
-import InputMask from 'react-input-mask'
 
 export const FormRegistration: FC<IFormRegistrationProps> = ({
 	successRegistration,
@@ -57,10 +54,14 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 		control: (styles: any, state: any) => ({
 			...styles,
 			border: 'none',
-			boxShadow: state.isFocused ? '0 0 2px 2px #77a7ca;' : '',
+			boxShadow: state.isFocused ? '0 0 2px 2px #77a6ca;' : '',
 			fontWeight: '500',
 			fontSize: '14px',
 			color: '#303030',
+			width: '365px',
+			height: '40px',
+			background: '#f6f6f6',
+			paddingLeft: '2px',
 		}),
 	}
 
@@ -148,46 +149,45 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 		<Container>
 			<Flex>
 				<ButtonBack onClick={redirectOnLayout}>← Назад</ButtonBack>
-				<Title>Форма регистрации</Title>
 			</Flex>
 
 			{errorGetData || errorPostData ? <div>Не удалось записаться</div> : null}
 
 			<Form onSubmit={handleSubmit(handlerSubmitDataForm)}>
-				{/* <Label>
-					Имя и Фамилия:
+				<SpaceBetween>
+					<Label htmlFor={'name'}>Имя и Фамилия:</Label>
 					<Input
+						id={'name'}
 						type={'text'}
 						placeholder={'Ваше Имя и Фамилия'}
 						{...register('name')}
 					/>
-				</Label>
+				</SpaceBetween>
 				<Error>{errors.name?.message}</Error>
 
-				<Label>
-					Телефон:
+				<SpaceBetween>
+					<Label htmlFor={'phone'}>Телефон:</Label>
 					<Input
+						id={'phone'}
 						type={'string'}
 						placeholder={'Ваш телефон'}
 						{...register('phone')}
 					/>
-				</Label>
-				<Error>{errors.phone?.message}</Error> */}
+				</SpaceBetween>
+				<Error>{errors.phone?.message}</Error>
 
-				<Label>
-					Почта (рекомендуется):
+				<SpaceBetween>
+					<Label htmlFor={'email'}>Почта (рекомендуется):</Label>
 					<Input
+						id={'email'}
 						type={'string'}
 						placeholder={'Ваша почта'}
 						{...register('email')}
 					/>
-				</Label>
-				<Tooltip text={'Запись на прием придет на адрес Вашей почты'}>
-					<SpanEmail>(?)</SpanEmail>
-				</Tooltip>
+				</SpaceBetween>
 
-				<Label>
-					Время:
+				<SpaceBetween>
+					<Label>Время:</Label>
 					<Controller
 						name='time'
 						control={control}
@@ -204,20 +204,24 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 							)
 						}}
 					/>
-				</Label>
+				</SpaceBetween>
 				<Error>{errors.time && <p>{errors.time.label?.message}</p>}</Error>
 
-				{/* <CheckboxContainer>
+				<CheckboxContainer>
 					Я согласен(а) с {''}
-					<Link to={'/policy'} target={'_blank'}>
-						политикой конфиденциальности
+					<Link
+						to={'/policy'}
+						target={'_blank'}
+						style={{ textDecoration: 'none' }}
+					>
+						<LinkText>политикой конфиденциальности</LinkText>
 					</Link>
 					<Checkbox {...register('checkbox')} type='checkbox' />
 					<CheckMark></CheckMark>
 					<CheckErrorMessage>{errors.checkbox?.message}</CheckErrorMessage>
-				</CheckboxContainer> */}
+				</CheckboxContainer>
 
-				{/* <ButtonSubmit type={'submit'}>Записаться на приём</ButtonSubmit> */}
+				<ButtonSubmit type={'submit'}>Записаться на приём</ButtonSubmit>
 			</Form>
 		</Container>
 	)
@@ -235,30 +239,31 @@ const Container = styled.section`
 `
 const Flex = styled.div`
 	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	height: 35px;
+	padding: 20px;
+`
+const SpaceBetween = styled.div`
+	width: 100%;
+	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border-bottom: 1px solid silver;
-	height: 35px;
+	margin-top: 15px;
 `
 const ButtonBack = styled.button`
-	width: 70px;
-	height: 20px;
+	width: 75px;
+	height: 24px;
 	border: none;
-	border-radius: 4px;
-	color: #000;
+	border-radius: 6px;
+	color: #303030;
+	background: #f6f6f6;
 	font-weight: 500;
 	cursor: pointer;
 	&:hover {
 		color: #fff;
 		background: #77a6ca;
 	}
-`
-const Title = styled.h2`
-	font-style: italic;
-	font-weight: 500;
-	font-size: 25px;
-	letter-spacing: 0.02em;
-	color: #000000;
 `
 
 const Form = styled.form`
@@ -267,7 +272,7 @@ const Form = styled.form`
 	justify-content: space-between;
 	border: none;
 	margin: 0;
-	padding: 0;
+	padding: 10px 50px;
 `
 
 const SuccessRegistration = styled.div`
@@ -282,6 +287,7 @@ const Error = styled.span`
 	font-weight: 500;
 	font-size: 13px;
 	color: #ff768e;
+	margin-top: 4px;
 `
 const Input = styled.input`
 	background: #f6f6f6;
@@ -295,7 +301,7 @@ const Input = styled.input`
 	border: none;
 	outline: none;
 	&:focus {
-		box-shadow: 0 0 2px 2px #77a7ca;
+		box-shadow: 0 0 2px 2px #77a6ca;
 	}
 `
 
@@ -308,10 +314,10 @@ const Checkbox = styled.input`
 `
 const CheckMark = styled.span`
 	position: absolute;
-	top: 5px;
+	top: 3.5px;
 	left: 0;
-	height: 12px;
-	width: 12px;
+	height: 15px;
+	width: 15px;
 	background-color: #fff;
 	border: solid 2px #9c9c9c;
 	border-radius: 3px;
@@ -322,6 +328,7 @@ const CheckMark = styled.span`
 `
 const CheckboxContainer = styled.label`
 	position: relative;
+	margin-top: 15px;
 	padding-left: 24px;
 	cursor: pointer;
 	-webkit-user-select: none;
@@ -333,8 +340,8 @@ const CheckboxContainer = styled.label`
 	line-height: 23px;
 	color: #707070;
 	${Checkbox}:checked ~ ${CheckMark} {
-		background-color: #002569;
-		border: solid 2px #002569;
+		background-color: #77a6ca;
+		border: solid 2px #77a6ca;
 	}
 	${Checkbox}:disabled ~ ${CheckMark} {
 		background-color: #f6f6f6;
@@ -345,13 +352,13 @@ const CheckboxContainer = styled.label`
 		border: solid 2px #d1d1d1;
 	}
 	:hover ${Checkbox} ~ ${CheckMark} {
-		border: solid 2px #002569;
+		border: solid 2px #77a6ca;
 	}
 	${CheckMark}:after {
-		left: 2.5px;
-		top: -0.5px;
-		width: 2px;
-		height: 5px;
+		left: 3.4px;
+		top: 0.4px;
+		width: 3px;
+		height: 6px;
 		border: solid white;
 		border-width: 0 2px 2px 0;
 		-webkit-transform: rotate(45deg);
@@ -361,7 +368,7 @@ const CheckboxContainer = styled.label`
 `
 const CheckErrorMessage = styled.span`
 	position: absolute;
-	bottom: -20px;
+	bottom: -25px;
 	left: 0px;
 	font-weight: 500;
 	font-size: 12px;
@@ -369,48 +376,27 @@ const CheckErrorMessage = styled.span`
 `
 
 const ButtonSubmit = styled.button`
-	text-decoration: none;
-	display: inline-block;
+	margin: 35px auto 0 auto;
 	height: 45px;
-	padding: 10px 30px;
-	border: 2px solid #77a7ca;
+	width: 365px;
+	padding: 7px 20px;
 	border-radius: 6px;
-	position: relative;
-	overflow: hidden;
-	font-size: 17px;
-	text-transform: uppercase;
-	font-weight: 300;
-	color: #000000;
+	font-size: 21px;
+	border: none;
+	text-decoration: none;
+	letter-spacing: 2px;
+	font-weight: 500;
+	color: #fff;
 	cursor: pointer;
-	transition: 0.2s ease-in-out;
-	&:before {
-		content: '';
-		background: linear-gradient(
-			90deg,
-			rgba(255, 255, 255, 0.1),
-			rgba(255, 255, 255, 0.5)
-		);
-		height: 60px;
-		width: 50px;
-		position: absolute;
-		top: -8px;
-		left: -75px;
-		transform: skewX(-45deg);
-	}
+	background: #77a6ca;
 	&:hover {
-		background: #77a7ca;
-		color: #fff;
-		border: 2px solid #fff;
-	}
-	&:hover:before {
-		left: 380px;
-		transition: 0.9s ease-in-out;
+		background: #77a6ca;
 	}
 `
-const SpanEmail = styled.span`
-	margin-right: 5px;
-	font-weight: 500;
-	font-size: 13px;
-	color: #707070;
-	cursor: pointer;
+const LinkText = styled.span`
+	color: #000;
+	font-style: italic;
+	&:hover {
+		color: #77a6ca;
+	}
 `

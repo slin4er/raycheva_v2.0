@@ -19,7 +19,6 @@ const HeaderBlock = styled.header`
 	width: 100%;
 	height: 60px;
 	padding-left: 21px;
-	margin-bottom: 50px;
 `
 const Label = styled.span`
 	font-style: italic;

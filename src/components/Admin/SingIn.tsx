@@ -61,9 +61,9 @@ export const SingIn: FC = () => {
 	}
 	return (
 		<Container>
-			<Center>
-				<Title>Админ панель</Title>
+			<Box>
 				<Form onSubmit={handlerSubmit}>
+					<Title>Админ панель</Title>
 					{errorSign ? <Error>Не удалось войти в Админ панель</Error> : null}
 					<Block>
 						<Input
@@ -72,8 +72,8 @@ export const SingIn: FC = () => {
 							value={inputs.login || ''}
 							onChange={handlerChange}
 						/>
-						<Span></Span>
-						<Label>Логин:</Label>
+						<Span>Логин:</Span>
+						<I></I>
 					</Block>
 
 					<Block>
@@ -83,86 +83,84 @@ export const SingIn: FC = () => {
 							value={inputs.password || ''}
 							onChange={handlerChange}
 						/>
-						<Span></Span>
-						<Label>Пароль:</Label>
+						<Span>Пароль:</Span>
+						<I></I>
 					</Block>
 					<Button type={'submit'}>Войти</Button>
 				</Form>
-			</Center>
+			</Box>
 		</Container>
 	)
 }
 
 const Container = styled.section`
-	background: linear-gradient(120deg, #2980b9, #8e44ad);
-	height: 100vh;
-	overflow: hidden;
+	background: #23242a;
+	min-height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 `
-const Center = styled.div`
-	width: 400px;
-	height: 380px;
-	background: white;
-	border-radius: 10px;
-	box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
-`
-const Title = styled.h2`
-	text-align: center;
-	padding: 20px 0;
-	border-bottom: 1px solid silver;
+const Box = styled.div`
+	width: 380px;
+	height: 420px;
+	background: #1c1c1c;
+	border-radius: 8px;
+	position: relative;
 `
 const Form = styled.form`
-	padding: 0 40px;
-`
-const Label = styled.label`
+	background: #222;
+	border-radius: 8px;
+	inset: 4px;
+	z-index: 2;
 	position: absolute;
-	top: 50%;
-	left: 5px;
-	color: #adadad;
-	transform: translateY(-50%);
-	font-size: 16px;
-	pointer-events: none;
-	transition: 0.5s;
+	padding: 50px 40px;
+	display: flex;
+	flex-direction: column;
 `
-const Span = styled.span`
-	&::before {
-		content: '';
-		position: absolute;
-		top: 40px;
-		left: 0;
-		width: 0%;
-		height: 2px;
-		background: #2691d9;
-		transition: 0.5s;
-	}
-`
-const Input = styled.input`
-	width: 100%;
-	padding: 0 5px;
-	height: 40px;
-	font-size: 16px;
-	border: none;
-	background: none;
-	outline: none;
-	/* &:focus ~ ${Label} {
-		top: -5px;
-		color: #2691d9;
-	}
-	&:focus ~ ${Span}::before {
-		width: 100%;
-	} */
+const Title = styled.h2`
+	color: #fff;
+	font-weight: 500;
+	text-align: center;
+	letter-spacing: 0.1em;
 `
 const Block = styled.div`
 	position: relative;
-	border-bottom: 2px solid #adadad;
-	margin: 30px 0;
-	input:focus ~ ${Label}, input:valid ~ ${Label} {
-		top: -5px;
-		color: #2691d9;
+	width: 300px;
+	margin-top: 35px;
+`
+const Span = styled.span`
+	position: absolute;
+	left: 0;
+	padding: 20px 10px 10px;
+	pointer-events: none;
+	font-size: 1em;
+	letter-spacing: 0.05em;
+	transition: 0.5s;
+	color: #8f8f8f;
+`
+const Input = styled.input`
+	position: relative;
+	width: 100%;
+	padding: 20px 10px 10px;
+	background: transparent;
+	box-shadow: none;
+	outline: none;
+	font-size: 1em;
+	letter-spacing: 0.05em;
+	color: #23242a;
+	transition: 0.5s;
+	z-index: 10;
+	border: none;
+	&:valid {
+		background: red;
+	}
+	&:focus ~ ${Span} {
+		color: #fff;
+		font-size: 0.75em;
+		transform: translateY(-34px);
 	}
 `
+const I = styled.i``
 const Error = styled.div``
 const Button = styled.button`
 	width: 100%;

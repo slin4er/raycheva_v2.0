@@ -16,9 +16,8 @@
 }
 
 .today {
-	background: #77a6ca;
 	border-radius: 6px;
-	color: #fff;
+	color: #000;
 }
 
 .today > button {
