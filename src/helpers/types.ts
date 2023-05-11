@@ -65,6 +65,7 @@ export type IItemProps = {
 	time: string
 	_id: string
 	handleDetail: (id: string) => void
+	handleDelete: (id: string) => void
 }
 
 export interface ILayout {

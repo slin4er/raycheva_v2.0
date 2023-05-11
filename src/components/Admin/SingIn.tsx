@@ -61,64 +61,57 @@ export const SingIn: FC = () => {
 	}
 	return (
 		<Container>
-			<Box>
-				<Form onSubmit={handlerSubmit}>
-					<Title>Админ панель</Title>
-					{errorSign ? <Error>Не удалось войти в Админ панель</Error> : null}
-					<Block>
-						<Input
-							name={'login'}
-							type={'text'}
-							value={inputs.login || ''}
-							onChange={handlerChange}
-						/>
-						<Span>Логин:</Span>
-						<I></I>
-					</Block>
+			<Form onSubmit={handlerSubmit}>
+				<Title>Админ панель</Title>
+				{errorSign ? <Error>Не удалось войти в Админ панель</Error> : null}
+				<Block>
+					<Label>Логин:</Label>
+					<Input
+						name={'login'}
+						type={'text'}
+						value={inputs.login || ''}
+						onChange={handlerChange}
+					/>
+				</Block>
 
-					<Block>
-						<Input
-							name={'password'}
-							type={'password'}
-							value={inputs.password || ''}
-							onChange={handlerChange}
-						/>
-						<Span>Пароль:</Span>
-						<I></I>
-					</Block>
-					<Button type={'submit'}>Войти</Button>
-				</Form>
-			</Box>
+				<Block>
+					<Label>Пароль:</Label>
+					<Input
+						name={'password'}
+						type={'password'}
+						value={inputs.password || ''}
+						onChange={handlerChange}
+					/>
+				</Block>
+				<Button type={'submit'}>Войти</Button>
+			</Form>
 		</Container>
 	)
 }
 
 const Container = styled.section`
-	background: #23242a;
+	background: #cfd7dd;
 	min-height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 `
-const Box = styled.div`
+const Form = styled.form`
+	background: #fff;
+	border-radius: 13px;
 	width: 380px;
 	height: 420px;
-	background: #1c1c1c;
-	border-radius: 8px;
-	position: relative;
-`
-const Form = styled.form`
-	background: #222;
-	border-radius: 8px;
-	inset: 4px;
-	z-index: 2;
-	position: absolute;
-	padding: 50px 40px;
+	padding: 50px 40px 80px 40px;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
+	box-shadow: 0 0 0 1px rgba(53, 72, 91, 0.07), 0 2px 2px rgba(0, 0, 0, 0.01),
+		0 4px 4px rgba(0, 0, 0, 0.02), 0 10px 8px rgba(0, 0, 0, 0.03),
+		0 15px 15px rgba(0, 0, 0, 0.03), 0 30px 30px rgba(0, 0, 0, 0.04),
+		0 70px 65px rgba(0, 0, 0, 0.05);
 `
 const Title = styled.h2`
-	color: #fff;
+	color: #000;
 	font-weight: 500;
 	text-align: center;
 	letter-spacing: 0.1em;
@@ -126,55 +119,42 @@ const Title = styled.h2`
 const Block = styled.div`
 	position: relative;
 	width: 300px;
-	margin-top: 35px;
 `
-const Span = styled.span`
-	position: absolute;
-	left: 0;
-	padding: 20px 10px 10px;
-	pointer-events: none;
+const Label = styled.label`
 	font-size: 1em;
 	letter-spacing: 0.05em;
-	transition: 0.5s;
 	color: #8f8f8f;
 `
 const Input = styled.input`
-	position: relative;
+	background: #f6f6f6;
+	border-radius: 4px;
 	width: 100%;
-	padding: 20px 10px 10px;
-	background: transparent;
-	box-shadow: none;
-	outline: none;
-	font-size: 1em;
-	letter-spacing: 0.05em;
-	color: #23242a;
-	transition: 0.5s;
-	z-index: 10;
+	height: 40px;
+	padding: 8px 12px;
+	font-weight: 500;
+	font-size: 14px;
+	color: #303030;
 	border: none;
-	&:valid {
-		background: red;
-	}
-	&:focus ~ ${Span} {
-		color: #fff;
-		font-size: 0.75em;
-		transform: translateY(-34px);
+	outline: none;
+	&:focus {
+		box-shadow: 0 0 2px 2px #77a6ca;
 	}
 `
-const I = styled.i``
 const Error = styled.div``
 const Button = styled.button`
+	height: 45px;
 	width: 100%;
-	height: 50px;
-	border: 1px solid;
-	background: #2691d9;
-	border-radius: 25px;
-	font-size: 18px;
-	color: #e9f4fb;
-	font-weight: 700;
+	padding: 7px 20px;
+	border-radius: 6px;
+	font-size: 21px;
+	border: none;
+	text-decoration: none;
+	letter-spacing: 2px;
+	font-weight: 500;
+	color: #fff;
 	cursor: pointer;
-	outline: none;
+	background: #77a6ca;
 	&:hover {
-		border-color: #2691d9;
-		transition: 0.5s;
+		background: #77a6ca;
 	}
 `

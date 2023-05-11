@@ -169,7 +169,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 					<Label htmlFor={'phone'}>Телефон:</Label>
 					<Input
 						id={'phone'}
-						type={'string'}
+						type={'text'}
 						placeholder={'Ваш телефон'}
 						{...register('phone')}
 					/>
@@ -304,7 +304,6 @@ const Input = styled.input`
 		box-shadow: 0 0 2px 2px #77a6ca;
 	}
 `
-
 const Checkbox = styled.input`
 	position: absolute;
 	opacity: 0;

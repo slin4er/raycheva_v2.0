@@ -18,6 +18,10 @@ export const AdminPanel: FC = () => {
 	const [patientCount, setPatientCount] = useState(0)
 	const [inputSearch, setInputSearch] = useState('')
 
+	const [patientID, setPatientID] = useState<null | string>(null)
+	const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
+	const [deleteYes, setDeleteYes] = useState<boolean>(false)
+
 	const [startDate, setStartDate] = useState<Date | null>(new Date())
 	const [myDate, setMyDate] = useState<string>()
 
@@ -31,6 +35,7 @@ export const AdminPanel: FC = () => {
 	const [logoutStatus, setLogoutStatus] = useState<boolean>(false)
 	const [errorMessage, setErrorMessage] = useState<boolean>(false)
 	const [searchStatus, setSearchStatus] = useState<boolean>(false)
+	const [getStatus, setGetStatus] = useState<boolean>(true)
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
@@ -41,10 +46,7 @@ export const AdminPanel: FC = () => {
 			}
 
 			await axios
-				.get(
-					`http://localhost:3000/api/v1?page=${page}&limit=${itemsPerPage}`,
-					config
-				)
+				.get(`http://localhost:3000/api/v1?page=${page}&limit=${10}`, config)
 				.then(res => {
 					setPatient(res.data.patients)
 					setPatientCount(res.data.patientCount)
@@ -64,7 +66,7 @@ export const AdminPanel: FC = () => {
 				})
 		}
 		getData()
-	}, [page])
+	}, [page, getStatus])
 
 	const handlePageClick = (event: any) => {
 		setPage(event.selected + 1)
@@ -125,6 +127,52 @@ export const AdminPanel: FC = () => {
 		}
 	}, [postDoc])
 
+	useEffect(() => {
+		if (deleteYes) {
+			const deleteCartFromData = async () => {
+				const config = {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				}
+				const result = await axios.delete(
+					`http://localhost:3000/api/v1/${patientID}`,
+					config
+				)
+				return result
+			}
+			deleteCartFromData()
+				.then(res => {
+					console.log('Delete item')
+					setGetStatus(state => !state)
+				})
+				.catch(e => {
+					console.log(e.message)
+					// if (
+					// 	e.response.status === 400 ||
+					// 	e.response.status === 401 ||
+					// 	e.response.status === 404 ||
+					// 	e.response.status === 500
+					// ) {
+					// 	setErrorDelData(true)
+					// } else {
+					// 	setErrorDelData(false)
+					// }
+				})
+			setDeleteYes(false)
+		}
+	}, [deleteYes, patientID])
+
+	const permissionDeletePatient = (): void => {
+		setDeleteYes(true)
+		setConfirmDelete(false)
+	}
+
+	const handlDeletePatient = (id: string): void => {
+		setPatientID(id)
+		setConfirmDelete(true)
+	}
+
 	const handleDetailPatient = (id: string): void => redirect(`${id}`)
 
 	const handleTakenByDoc = (e: React.SyntheticEvent): void => {
@@ -180,11 +228,11 @@ export const AdminPanel: FC = () => {
 	}
 
 	return (
-		<Container>
+		<Panel>
 			{emptyPatient ? (
 				<div>Что-то пошло не так... (список пациентов не пришел)</div>
 			) : (
-				<div>
+				<Container>
 					<Header>
 						<SearchBlock>
 							<form onSubmit={handleSearchBar}>
@@ -227,25 +275,45 @@ export const AdminPanel: FC = () => {
 							<div>Что-то пошло не так...(Не удалось выйти с админ панели)</div>
 						) : null}
 					</Header>
-					{patient?.length === 0 ? (
-						<div>Никто еще не записался</div>
-					) : (
-						<ItemBlock>
-							{patient?.map((item: IItem) => {
-								return (
-									<ItemList
-										handleDetail={handleDetailPatient}
-										key={item._id}
-										{...item}
-									/>
-								)
-							})}
-						</ItemBlock>
-					)}
-					<Paginate>
+
+					<Main>
+						{confirmDelete ? (
+							<>
+								<div>Вы дейсвительно хотите удалить?</div>
+								<button onClick={permissionDeletePatient}>Да</button>
+								<button
+									onClick={() => {
+										setDeleteYes(false)
+										setConfirmDelete(false)
+									}}
+								>
+									Нет
+								</button>
+							</>
+						) : null}
+						{patient?.length === 0 ? (
+							<div>Никто еще не записался</div>
+						) : (
+							<ItemBlock>
+								{patient?.map((item: IItem) => {
+									return (
+										<ItemList
+											handleDetail={handleDetailPatient}
+											handleDelete={handlDeletePatient}
+											key={item._id}
+											{...item}
+										/>
+									)
+								})}
+							</ItemBlock>
+						)}
+					</Main>
+
+					<Footer>
 						<ReactPaginate
-							previousLabel={'← Previous'}
-							nextLabel={'Next →'}
+							previousLabel={'← Назад'}
+							nextLabel={'Вперёд →'}
+							breakLabel={'...'}
 							pageCount={Math.ceil(patientCount / itemsPerPage)}
 							onPageChange={handlePageClick}
 							containerClassName={'pagination'}
@@ -254,35 +322,38 @@ export const AdminPanel: FC = () => {
 							disabledClassName={'pagination__link--disabled'}
 							activeClassName={'pagination__link--active'}
 						/>
-					</Paginate>
-				</div>
+					</Footer>
+				</Container>
 			)}
-		</Container>
+		</Panel>
 	)
 }
 
-const ItemBlock = styled.div`
-	display: grid;
-	grid-template-columns: repeat(5, 200px);
-	grid-template-rows: repeat(2, 200px);
-	grid-auto-rows: 200px;
-	gap: 35px;
-	box-sizing: border-box;
+const Panel = styled.div`
+	width: 100vw;
+	height: 100vh;
+	background: #cfd7dd;
+`
+const Container = styled.div`
+	padding: 10px;
+	margin: 0 auto;
+	display: flex;
+	width: 1140px;
+	height: 100%;
+	background: #fff;
+	border-radius: 13px;
+	flex-direction: column;
+	justify-content: space-between;
+	box-shadow: 0 0 0 1px rgba(53, 72, 91, 0.07), 0 2px 2px rgba(0, 0, 0, 0.01),
+		0 4px 4px rgba(0, 0, 0, 0.02), 0 10px 8px rgba(0, 0, 0, 0.03),
+		0 15px 15px rgba(0, 0, 0, 0.03), 0 30px 30px rgba(0, 0, 0, 0.04),
+		0 70px 65px rgba(0, 0, 0, 0.05);
 `
 const Header = styled.header`
 	display: flex;
 	justify-content: space-between;
 	height: 72px;
 	margin-bottom: 20px;
-`
-const Container = styled.div`
-	width: 1140px;
-	margin: 0 auto;
-`
-const Paginate = styled.div`
-	margin: 20px auto 0 auto;
-	width: 700px;
-	height: 45px;
 `
 const ButtonOut = styled.button`
 	width: 200px;
@@ -294,6 +365,9 @@ const TakenDoc = styled.div`
 `
 const SearchBlock = styled.div`
 	margin-top: 20px;
+`
+const Form = styled.form`
+	padding: 0 10px;
 `
 const Input = styled.input`
 	margin-top: 5px;
@@ -312,6 +386,23 @@ const Input = styled.input`
 		box-shadow: 0 0 2px 2px #77a7ca;
 	}
 `
-const Form = styled.form`
-	padding: 0 10px;
+
+const Main = styled.main``
+const ItemBlock = styled.div`
+	display: grid;
+	grid-template-columns: repeat(5, 200px);
+	grid-template-rows: repeat(2, 200px);
+	grid-auto-rows: 200px;
+	width: 100%;
+	column-gap: 30px;
+	row-gap: 50px;
+	align-content: center;
+	z-index: 10;
+`
+const Footer = styled.footer`
+	width: 100%;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `
