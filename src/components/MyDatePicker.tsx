@@ -4,12 +4,18 @@ import styled from 'styled-components'
 
 import { Calendar } from './Calendar'
 
-export const MyDatePicker: FC<IDatePickerProps> = ({ dateClickHandler }) => {
+export const MyDatePicker: FC<IDatePickerProps> = ({
+	dateClickHandler,
+	disabledDatesMassive,
+}) => {
 	return (
 		<Container>
 			<H2>Выберите дату</H2>
 			<Div>
-				<Calendar dateClickHandler={dateClickHandler} />
+				<Calendar
+					dateClickHandler={dateClickHandler}
+					dates={disabledDatesMassive}
+				/>
 			</Div>
 		</Container>
 	)

@@ -68,8 +68,7 @@ export const FormRegistration: FC<IFormRegistrationProps> = ({
 	useEffect(() => {
 		setFocus('name')
 	}, [setFocus])
-	// нажал на дату и сделать запрос http://localhost:3000/api/v1/date/available
-	// придет массив свободный часов
+
 	useEffect(() => {
 		const getData = async () => {
 			//@ts-ignore

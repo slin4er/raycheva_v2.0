@@ -1,12 +1,12 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { IColumn, IDatePickerProps } from '../helpers/types'
+import { IColumn, ICalendarProps } from '../helpers/types'
 import useCalendar from '../hooks/useCalendar'
 import { ReactComponent as SVGChevronRight } from '../assets/chevron-right.svg'
 import { ReactComponent as SVGChevronLeft } from '../assets/chevron-left.svg'
 import './Calendar.css'
 
-export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
+export const Calendar: FC<ICalendarProps> = ({ dateClickHandler, dates }) => {
 	const {
 		calendarRows,
 		selectedDate,
@@ -16,6 +16,10 @@ export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 		getNextMonth,
 		getPrevMonth,
 	} = useCalendar()
+
+	console.log('я дошел', dates)
+
+	console.log('calendarRows', calendarRows)
 
 	return (
 		<>
@@ -44,6 +48,16 @@ export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 				</THead>
 				<TBody>
 					{Object.values(calendarRows).map((cols: IColumn[]) => {
+						// if (Array.isArray(dates)) {
+						// 	const newAr = cols.map(col =>
+						// 		dates.map(
+						// 			item =>
+						// 				new Date(item.date).toString() ===
+						// 				new Date(col.date).toString()
+						// 		)
+						// 	)
+						// 	console.log(newAr)
+						// }
 						return (
 							<Tr key={cols[0].date}>
 								{cols.map(col =>
@@ -53,7 +67,7 @@ export const Calendar: FC<IDatePickerProps> = ({ dateClickHandler }) => {
 											className={`${col.classes} today`}
 											onClick={() => dateClickHandler(col.date)}
 										>
-											<BtnTd>{col.value}</BtnTd>
+											<BtnTd disabled>{col.value}</BtnTd>
 										</Td>
 									) : (
 										<Td

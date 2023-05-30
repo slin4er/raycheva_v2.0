@@ -36,8 +36,17 @@ export interface IFormRegistrationProps {
 	responseData: (data: IResData) => void
 }
 
+export interface IDisDateMassive {
+	date: string
+}
+
 export interface IDatePickerProps {
 	dateClickHandler: (date: string) => void
+	disabledDatesMassive: IDisDateMassive[] | string
+}
+export interface ICalendarProps {
+	dateClickHandler: (date: string) => void
+	dates: IDisDateMassive[] | string
 }
 
 export interface ISelectProps {
