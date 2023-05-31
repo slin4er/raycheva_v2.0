@@ -277,20 +277,6 @@ export const AdminPanel: FC = () => {
 					</Header>
 
 					<Main>
-						{confirmDelete ? (
-							<>
-								<div>Вы дейсвительно хотите удалить?</div>
-								<button onClick={permissionDeletePatient}>Да</button>
-								<button
-									onClick={() => {
-										setDeleteYes(false)
-										setConfirmDelete(false)
-									}}
-								>
-									Нет
-								</button>
-							</>
-						) : null}
 						{patient?.length === 0 ? (
 							<div>Никто еще не записался</div>
 						) : (
@@ -323,6 +309,24 @@ export const AdminPanel: FC = () => {
 							activeClassName={'pagination__link--active'}
 						/>
 					</Footer>
+					{confirmDelete ? (
+						<ModalDel>
+							<ModalContent>
+								<ModalTitle>Вы дейсвительно хотите удалить?</ModalTitle>
+								<ModalBTNBlock>
+									<ModalBTN onClick={permissionDeletePatient}>Да</ModalBTN>
+									<ModalBTN
+										onClick={() => {
+											setDeleteYes(false)
+											setConfirmDelete(false)
+										}}
+									>
+										Нет
+									</ModalBTN>
+								</ModalBTNBlock>
+							</ModalContent>
+						</ModalDel>
+					) : null}
 				</Container>
 			)}
 		</Panel>
@@ -397,7 +401,6 @@ const ItemBlock = styled.div`
 	column-gap: 30px;
 	row-gap: 50px;
 	align-content: center;
-	z-index: 10;
 `
 const Footer = styled.footer`
 	width: 100%;
@@ -405,4 +408,56 @@ const Footer = styled.footer`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+`
+
+const ModalDel = styled.div`
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.4);
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: 0.5s;
+`
+const ModalContent = styled.div`
+	width: 400px;
+	height: 100px;
+	background: #fff;
+	border-radius: 13px;
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0 0 0 1px rgba(53, 72, 91, 0.07), 0 2px 2px rgba(0, 0, 0, 0.01),
+		0 4px 4px rgba(0, 0, 0, 0.02), 0 10px 8px rgba(0, 0, 0, 0.03),
+		0 15px 15px rgba(0, 0, 0, 0.03), 0 30px 30px rgba(0, 0, 0, 0.04),
+		0 70px 65px rgba(0, 0, 0, 0.05);
+`
+const ModalTitle = styled.div`
+	font-size: 20px;
+	font-weight: 500;
+`
+const ModalBTNBlock = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 60px;
+`
+
+const ModalBTN = styled.button`
+	font-size: 13px;
+	width: 70px;
+	height: 25px;
+	border: none;
+	padding: 0;
+	outline: none;
+	border-radius: 6px;
+	font-weight: 500;
+	color: #fff;
+	cursor: pointer;
+	background: #77a6ca;
 `

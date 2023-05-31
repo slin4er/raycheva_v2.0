@@ -15,7 +15,7 @@ export const ItemList: FC<IItemProps> = ({
 			<Name>{name}</Name>
 			<div>{appointment}</div>
 			<div> {time}</div>
-			<ButtonDel onClick={() => handleDetail(_id)}>det</ButtonDel>
+			<ButtonDel onClick={() => handleDetail(_id)}>Детально</ButtonDel>
 			<ButtonDel onClick={() => handleDelete(_id)}>Удалить</ButtonDel>
 		</Patients>
 	)
@@ -46,7 +46,6 @@ const ButtonDel = styled.button`
 	border: none;
 	padding: 0;
 	outline: none;
-	z-index: 30;
 	border-radius: 6px;
 	font-weight: 500;
 	color: #fff;

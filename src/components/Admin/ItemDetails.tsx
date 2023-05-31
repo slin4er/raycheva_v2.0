@@ -8,7 +8,7 @@ export const ItemDetails: FC = () => {
 
 	const [patchStatus, setPatchStatus] = useState<boolean>(false)
 	const [deleteStatus, setDeleteStatus] = useState<boolean>(false)
-	const [editStatus, setEditStatus] = useState<boolean>(false)
+	const [editStatus, setEditStatus] = useState<boolean>(true)
 	const [errorUpData, setErrorUpData] = useState<boolean>(false)
 	const [errorDelData, setErrorDelData] = useState<boolean>(false)
 	const [errorGetData, setErrorGetData] = useState<boolean>(false)
@@ -166,10 +166,24 @@ export const ItemDetails: FC = () => {
 		setPatchStatus(state => !state)
 	}
 	return (
-		<div>
+		<ItemPage>
 			{errorGetData ? <div>Не удалось получить данные пациента</div> : null}
 			{errorDelData ? <div>Не удалось удалить пациента</div> : null}
 			{errorUpData ? <div>Не удалось изменить пациента</div> : null}
+
+			<Patients>
+				<ButtonBlock>
+					<Button onClick={() => redirect('/admin')}>назад</Button>
+					<Button onClick={handlerEdit}>редактировать</Button>
+					<Button onClick={handlerDelete}>удалить</Button>
+				</ButtonBlock>
+				<div> Имя и Фамилия пациента: {inputs.name}</div>
+				<div>Номер пациента: {inputs.phone}</div>
+				<div>Адрес почты пациента: {inputs.email}</div>
+				<div>Дата, на которую записался пациент: {inputs.appointment}</div>
+				<div>Время, на кторое записался пациент: {inputs.time}</div>
+			</Patients>
+
 			{editStatus ? (
 				<form onSubmit={handlerSubmit}>
 					<input
@@ -204,34 +218,40 @@ export const ItemDetails: FC = () => {
 					/>
 					<button type={'submit'}>Подтвердить</button>
 				</form>
-			) : (
-				<Patients>
-					<div>{inputs.name}</div>
-					<div>{inputs.phone}</div>
-					<div>{inputs.email}</div>
-					<div>{inputs.appointment}</div>
-					<div>{inputs.time}</div>
-					<ButtonBlock>
-						<button onClick={handlerEdit}>редактировать</button>
-						<button onClick={handlerDelete}>удалить</button>
-						<button onClick={() => redirect('/admin')}>назад</button>
-					</ButtonBlock>
-				</Patients>
-			)}
-		</div>
+			) : null}
+		</ItemPage>
 	)
 }
+
+const ItemPage = styled.div`
+	width: 100vw;
+	height: 100vh;
+	background: #cfd7dd;
+`
 
 const Patients = styled.div`
 	border: 2px solid black;
 	padding: 10px;
-	height: 200px;
-	width: 300px;
+	height: 700px;
+	width: 700px;
 `
 const ButtonBlock = styled.div`
-	width: 100px;
+	width: 100%;
 	height: 80px;
 	display: flex;
-	flex-direction: column;
 	justify-content: space-between;
+	align-items: center;
+`
+const Button = styled.button`
+	font-size: 13px;
+	width: 110px;
+	height: 30px;
+	border: none;
+	padding: 0;
+	outline: none;
+	border-radius: 6px;
+	font-weight: 500;
+	color: #fff;
+	cursor: pointer;
+	background: #77a6ca;
 `
